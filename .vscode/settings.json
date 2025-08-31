@@ -15,7 +15,7 @@
   "javascript.preferences.importModuleSpecifierEnding": "auto",
 
   "editor.tabSize": 2,
-  "editor.rulers": [100],
+  "editor.rulers": [],
   "files.eol": "\n",
 
   "prettier.requireConfig": true
