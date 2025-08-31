@@ -1,5 +1,5 @@
 import js from "@eslint/js";
-import prettierConfig from "eslint-config-prettier";
+import prettier from "eslint-config-prettier";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
@@ -10,7 +10,6 @@ import { globalIgnores } from "eslint/config";
 
 export default tseslint.config([
   globalIgnores(["dist"]),
-
   {
     files: ["**/*.{ts,tsx}"],
     extends: [
@@ -18,8 +17,7 @@ export default tseslint.config([
       ...tseslint.configs.recommended,
       reactHooks.configs["recommended-latest"],
       reactRefresh.configs.vite,
-
-      prettierConfig,
+      prettier,
     ],
     languageOptions: {
       ecmaVersion: 2020,
@@ -31,7 +29,6 @@ export default tseslint.config([
     rules: {
       "simple-import-sort/imports": "warn",
       "simple-import-sort/exports": "warn",
-
       "react-refresh/only-export-components": "off",
     },
   },
