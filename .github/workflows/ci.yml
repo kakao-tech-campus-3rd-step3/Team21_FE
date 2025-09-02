@@ -92,3 +92,14 @@ jobs:
         env:
           CI: true
         run: npm test --if-present
+
+  deploy:
+    name: Deploy (Vercel – Deploy Hook)
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    steps:
+      - name: Trigger Vercel Deploy Hook
+        run: curl -X POST "$VERCEL_DEPLOY_HOOK"
+        env:
+          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
