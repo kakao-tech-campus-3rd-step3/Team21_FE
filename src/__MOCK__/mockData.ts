@@ -431,5 +431,3 @@ export const profReviews = [
     deltYn: "N",
   },
 ];
-
-//
