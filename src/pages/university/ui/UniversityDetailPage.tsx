@@ -1,5 +1,10 @@
 import { CollegeGrid } from "@/entities/college";
-import { UniversityHero } from "@/entities/university";
+import {
+  UniversityContactSide,
+  UniversityHero,
+  UniversityMainInfoSide,
+  UniversityReviewList,
+} from "@/entities/university";
 import { WriteReviewButton } from "@/features/review-submit";
 
 export function UniversityDetailPage() {
@@ -8,6 +13,9 @@ export function UniversityDetailPage() {
       <UniversityHero />
       <CollegeGrid />
       <WriteReviewButton />
+      <UniversityMainInfoSide />
+      <UniversityContactSide />
+      <UniversityReviewList />
     </main>
   );
 }
