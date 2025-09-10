@@ -51,7 +51,7 @@ export default function PolicyDialog({ type, open, onOpenChange }: Props) {
           <div
             className={cn(
               "prose prose-sm max-w-none prose-invert",
-              // 세부 톤 조정
+              // 세부 톤 조정 - 마크다운 문법에 따라 색상 / 크기 매치해서 사용
               "prose-headings:text-white prose-strong:text-white prose-a:text-sky-300",
               "prose-li:marker:text-white prose-p:text-zinc-100",
             )}
