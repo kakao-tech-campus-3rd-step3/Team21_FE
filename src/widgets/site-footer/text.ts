@@ -24,9 +24,9 @@ export const FOOTER_TEXT = {
     copyright: "© 2025 UniScope. All rights reserved.",
     disclaimer: "이 프로젝트는 교육 및 학습 목적으로 제작되었습니다.",
     links: [
-      { label: "개인정보처리방침", href: "/privacy" },
-      { label: "이용약관", href: "/terms" },
-      { label: "문의", href: "/contact" },
+      { label: "개인정보처리방침", dialog: "privacy" as const },
+      { label: "이용약관", dialog: "terms" as const },
+      { label: "문의", href: "https://github.com/kakao-tech-campus-3rd-step3/Team21_FE/issues" },
     ],
   },
 } as const;
