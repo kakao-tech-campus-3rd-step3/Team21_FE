@@ -66,8 +66,18 @@ export function ChartTooltip(props: TooltipProps<number, string>) {
     />
   );
 }
+type TooltipContentProps = {
+  active?: boolean;
+  label?: string;
+  payload?: {
+    dataKey?: string | number;
+    value?: string | number;
+    name?: string | number;
+    color?: string;
+  }[];
+};
 
-export function ChartTooltipContent({ active, payload, label }: TooltipProps<number, string>) {
+export function ChartTooltipContent({ active, payload, label }: TooltipContentProps) {
   const { config } = useChartContext();
   if (!active || !payload?.length) return null;
 
