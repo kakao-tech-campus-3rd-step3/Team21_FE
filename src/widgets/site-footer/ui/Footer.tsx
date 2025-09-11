@@ -11,7 +11,7 @@ export function Footer() {
       <Separator className="bg-zinc-800/60" />
 
       <div className="mx-auto max-w-screen-2xl px-4 md:px-6">
-        <div className="grid gap-10 py-10 md:grid-cols-3">
+        <div className="grid gap-8 md:gap-12 py-10 sm:grid-cols-2 md:grid-cols-3 items-start">
           <FooterBrand />
           <FooterFeatures />
           <FooterCommunity />
