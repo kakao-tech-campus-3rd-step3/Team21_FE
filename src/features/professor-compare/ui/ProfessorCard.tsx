@@ -59,7 +59,11 @@ export const ProfessorCard = ({ professor, onRemove }: ProfessorCardProps) => (
     <div className="flex flex-col items-center text-center -mt-6">
       <GlassCardHeader className="w-full text-center pb-0">
         <GlassCardTitle>{professor.name}</GlassCardTitle>
-        <GlassCardDescription>{professor.department}</GlassCardDescription>
+        <GlassCardDescription>
+          {professor.university}
+          <br />
+          {professor.department}
+        </GlassCardDescription>
       </GlassCardHeader>
 
       <GlassCardContent className="w-full flex flex-col items-center">
