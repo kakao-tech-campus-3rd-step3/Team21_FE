@@ -1,1 +1,1 @@
-export { default as AuthGate } from "./ui/AuthGate";
+export { default as AuthGate } from "@/features/auth-login/ui/AuthGate";

@@ -1,1 +1,1 @@
-export { useSearchControl } from "./useSearchControl";
+export { useSearchControl } from "@/features/search-control/model/useSearchControl";
