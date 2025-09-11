@@ -1,1 +1,1 @@
-export { NavigationBar } from "@/widgets/navigation-bar/ui/NavigationBar";
+export { default as NavigationBar } from "./ui/NavigationBar";
