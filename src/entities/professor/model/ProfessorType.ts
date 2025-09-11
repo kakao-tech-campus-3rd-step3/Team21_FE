@@ -14,6 +14,11 @@ export type Professor = {
   researchPerf?: number;
 };
 
+const getAverage = (arr: number[]): number => {
+  if (!arr.length) return 0;
+  const sum = arr.reduce((acc, val) => acc + val, 0);
+  return parseFloat((sum / arr.length).toFixed(1));
+};
 export const mapProfToProfessor = (profSeq: number): Professor | null => {
   const prof = profs.find((p) => p.profSeq === profSeq);
   if (!prof) return null;
@@ -21,10 +26,7 @@ export const mapProfToProfessor = (profSeq: number): Professor | null => {
   const dept = depts.find((d) => d.deptSeq === prof.deptSeq);
 
   const reviews = profReviews.filter((r) => r.profSeq === profSeq);
-  const rating =
-    reviews.length > 0
-      ? reviews.reduce((acc, r) => acc + (r.thesisPerf + r.researchPerf) / 2, 0) / reviews.length
-      : 0;
+  const rating = getAverage(reviews.map((r) => (r.thesisPerf + r.researchPerf) / 2));
 
   //교수 강의 목록
   const profLectures = lectures.filter((l) => l.profSeq === profSeq);
@@ -34,25 +36,11 @@ export const mapProfToProfessor = (profSeq: number): Professor | null => {
   const profLecReviews = lectureReviews.filter((r) => profLecSeqs.includes(r.lecSeq));
 
   //각 항목의 평균
-  const avgHomework =
-    profLecReviews.length > 0
-      ? profLecReviews.reduce((acc, r) => acc + r.homework, 0) / profLecReviews.length
-      : 0;
-  const avgLecDifficulty =
-    profLecReviews.length > 0
-      ? profLecReviews.reduce((acc, r) => acc + r.lecDifficulty, 0) / profLecReviews.length
-      : 0;
-  const avgExamDifficulty =
-    profLecReviews.length > 0
-      ? profLecReviews.reduce((acc, r) => acc + r.examDifficulty, 0) / profLecReviews.length
-      : 0;
-  const avgGradeDistribution =
-    profLecReviews.length > 0
-      ? profLecReviews.reduce((acc, r) => acc + r.gradeDistribution, 0) / profLecReviews.length
-      : 0;
-
-  const avgResearchPerf =
-    reviews.length > 0 ? reviews.reduce((acc, r) => acc + r.researchPerf, 0) / reviews.length : 0;
+  const avgHomework = getAverage(profLecReviews.map((r) => r.homework));
+  const avgLecDifficulty = getAverage(profLecReviews.map((r) => r.lecDifficulty));
+  const avgExamDifficulty = getAverage(profLecReviews.map((r) => r.examDifficulty));
+  const avgGradeDistribution = getAverage(profLecReviews.map((r) => r.gradeDistribution));
+  const avgResearchPerf = getAverage(reviews.map((r) => r.researchPerf));
 
   //목데이터에 태그가 없어서 우선은 UI 확인 위해 하드코딩, 추후 목데이터에 태그 추가 예정
   let tags: string[] = [];
