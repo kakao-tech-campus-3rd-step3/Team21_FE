@@ -7,9 +7,9 @@ import { Header } from "@/widgets/site-header";
 
 export function GlobalLayout() {
   return (
-    <div className="flex flex-col relative min-h-screen text-foreground">
+    <div className="flex flex-col min-h-screen relative text-foreground">
       <BackgroundDecor />
-      <div className="relative z-10">
+      <div className="relative z-10 flex flex-col min-h-screen">
         <Header />
         <NavigationBar />
         <main className="flex-1">
