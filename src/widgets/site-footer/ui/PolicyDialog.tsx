@@ -24,6 +24,9 @@ export default function PolicyDialog({ type, open, onOpenChange }: Props) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
+        onOpenAutoFocus={(e) => {
+          e.preventDefault();
+        }}
         className={cn(
           "sm:max-w-3xl rounded-2xl bg-zinc-900/95 border border-zinc-700 shadow-2xl backdrop-blur-md ring-1 ring-white/5",
           "[&_button]:opacity-100 [&_button_svg]:text-white [&_button_svg]:h-6 [&_button_svg]:w-6",
@@ -51,7 +54,6 @@ export default function PolicyDialog({ type, open, onOpenChange }: Props) {
           <div
             className={cn(
               "prose prose-sm max-w-none prose-invert",
-              // 세부 톤 조정 - 마크다운 문법에 따라 색상 / 크기 매치해서 사용
               "prose-headings:text-white prose-strong:text-white prose-a:text-sky-300",
               "prose-li:marker:text-white prose-p:text-zinc-100",
             )}
