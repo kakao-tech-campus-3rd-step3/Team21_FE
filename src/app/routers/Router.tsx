@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { GlobalLayout } from "@/app/layout/GlobalLayout";
 import { CollegeDetailPage } from "@/pages/college";
+import { CompareProfessorPage } from "@/pages/compare/ui/CompareProfessorPage";
 import { DepartmentDetailPage } from "@/pages/department";
 import HomePage from "@/pages/home";
 import { ProfessorDetailPage } from "@/pages/professor";
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       { path: ROUTES.UNIVERSITY_DETAIL(), element: <UniversityDetailPage /> },
       { path: ROUTES.COLLEGE_DETAIL(), element: <CollegeDetailPage /> },
       { path: ROUTES.DEPARTMENT_DETAIL(), element: <DepartmentDetailPage /> },
+      { path: ROUTES.COMPARE_PROFESSOR(), element: <CompareProfessorPage /> },
     ],
   },
 ]);
