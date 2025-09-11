@@ -1,6 +1,15 @@
-import { depts, lectureReviews, lectures, profReviews, profs } from "@/__MOCK__/mockData";
+import {
+  colleges,
+  depts,
+  lectureReviews,
+  lectures,
+  profReviews,
+  profs,
+  univs,
+} from "@/__MOCK__/mockData";
 
 export type Professor = {
+  university?: string;
   id: number;
   name: string;
   department: string;
@@ -24,7 +33,8 @@ export const mapProfToProfessor = (profSeq: number): Professor | null => {
   if (!prof) return null;
 
   const dept = depts.find((d) => d.deptSeq === prof.deptSeq);
-
+  const college = dept ? colleges.find((c) => c.collegeSeq === dept.collegeSeq) : null;
+  const univ = college ? univs.find((u) => u.univSeq === college.univSeq) : null;
   const reviews = profReviews.filter((r) => r.profSeq === profSeq);
   const rating = getAverage(reviews.map((r) => (r.thesisPerf + r.researchPerf) / 2));
 
@@ -56,6 +66,7 @@ export const mapProfToProfessor = (profSeq: number): Professor | null => {
   }
 
   return {
+    university: univ?.name ?? "정보 없음",
     id: prof.profSeq,
     name: prof.profName,
     department: dept?.deptName ?? "정보 없음",
