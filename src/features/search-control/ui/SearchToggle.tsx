@@ -14,8 +14,8 @@ export default function SearchToggle({ className, onSearch }: Props) {
       <form
         onSubmit={submit}
         className={cn(
-          "relative transition-all duration-200",
-          open ? "w-72 sm:w-96 opacity-100" : "w-0 opacity-0 pointer-events-none",
+          "absolute top-full left-0 right-0 mt-2 transition-all duration-200",
+          open ? "opacity-100" : "opacity-0 pointer-events-none",
         )}
         aria-hidden={!open}
       >
