@@ -1,11 +1,4 @@
-export type Crumb = { label: string; href?: string };
-
-type BuildArgs = {
-  univ?: { id: string; name: string };
-  college?: { id: string; name: string };
-  dept?: { id: string; name: string };
-  prof?: { id: string; name: string };
-};
+import type { BuildArgs, Crumb } from "@/features/nav-trail/model/crumb";
 
 export function buildCrumbs(a: BuildArgs): Crumb[] {
   const items: Crumb[] = [];

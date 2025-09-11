@@ -1,6 +1,7 @@
 import { IoClose, IoSearch } from "react-icons/io5";
 
 import { useSearchControl } from "@/features/search-control";
+import { SEARCH_CONTROL_TEXT } from "@/features/search-control/text";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 
@@ -14,7 +15,7 @@ export default function SearchToggle({ className, onSearch }: Props) {
       <form
         onSubmit={submit}
         className={cn(
-          "absolute top-full left-0 right-0 mt-2 transition-all duration-200",
+          "absolute top-full left-10 right-10 mt-2 transition-all duration-200",
           open ? "opacity-100" : "opacity-0 pointer-events-none",
         )}
         aria-hidden={!open}
@@ -23,7 +24,7 @@ export default function SearchToggle({ className, onSearch }: Props) {
           ref={inputRef}
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="대학·학과·교수·강의 검색…"
+          placeholder={SEARCH_CONTROL_TEXT.placeholder}
           className={cn(
             "w-full h-10 rounded-xl px-4 pr-10",
             "bg-white/10 placeholder:zinc-300",
