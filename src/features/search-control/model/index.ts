@@ -1,0 +1,1 @@
+export { useSearchControl } from "./useSearchControl";
