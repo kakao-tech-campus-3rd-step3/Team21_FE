@@ -18,8 +18,8 @@ type Props = {
 
 export default function PolicyDialog({ type, open, onOpenChange }: Props) {
   const isPrivacy = type === "privacy";
-  const title = isPrivacy ? "개인정보처리방침" : type === "terms" ? "이용약관" : "";
-  const body = isPrivacy ? privacyMD : termsMD;
+  const title = type === "privacy" ? "개인정보처리방침" : type === "terms" ? "이용약관" : "";
+  const body = type === "privacy" ? privacyMD : type === "terms" ? termsMD : "";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -37,11 +37,19 @@ export default function PolicyDialog({ type, open, onOpenChange }: Props) {
             <span
               className={cn(
                 "inline-flex h-8 w-8 items-center justify-center rounded-xl ring-1 ring-inset ring-white/10",
-                isPrivacy ? "bg-sky-500/15 text-sky-300" : "bg-emerald-500/15 text-emerald-300",
+                isPrivacy
+                  ? "bg-sky-500/15 text-sky-300"
+                  : type === "terms"
+                    ? "bg-emerald-500/15 text-emerald-300"
+                    : "",
               )}
               aria-hidden
             >
-              {isPrivacy ? <Shield className="h-4 w-4" /> : <ScrollText className="h-4 w-4" />}
+              {type === "privacy" ? (
+                <Shield className="h-4 w-4" />
+              ) : type === "terms" ? (
+                <ScrollText className="h-4 w-4" />
+              ) : null}
             </span>
             <DialogTitle className="text-base font-semibold tracking-tight text-white">
               {title}
