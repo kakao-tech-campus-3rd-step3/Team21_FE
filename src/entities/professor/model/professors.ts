@@ -7,6 +7,7 @@ import {
   profs,
   univs,
 } from "@/__MOCK__/mockData";
+import { getAverage } from "@/entities/professor/lib/getAverage";
 
 export type Professor = {
   university?: string;
@@ -23,11 +24,6 @@ export type Professor = {
   researchPerf?: number;
 };
 
-const getAverage = (arr: number[]): number => {
-  if (!arr.length) return 0;
-  const sum = arr.reduce((acc, val) => acc + val, 0);
-  return parseFloat((sum / arr.length).toFixed(1));
-};
 export const mapProfToProfessor = (profSeq: number): Professor | null => {
   const prof = profs.find((p) => p.profSeq === profSeq);
   if (!prof) return null;
