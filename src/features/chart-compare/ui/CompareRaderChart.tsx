@@ -90,7 +90,9 @@ export const CompareRaderChart = ({ professors }: CompareRaderChartProps) => {
             <div key={prof.id} className="flex items-center gap-1.5">
               <div
                 className="h-2.5 w-2.5 shrink-0 rounded-full"
-                style={{ backgroundColor: `var(--chart-${index + 1})` }}
+                style={{
+                  backgroundColor: index === 0 ? "var(--chart-2)" : "oklch(0.627 0.265 303.9)",
+                }}
               />
               <span>{prof.name}</span>
             </div>
