@@ -1,10 +1,12 @@
 import * as React from "react";
+
 import { cn } from "@/shared/lib/utils";
 
 type GlassCardProps = React.ComponentProps<"div"> & {
   shine?: boolean;
   elevated?: boolean;
   transparent?: boolean;
+  contentClassName?: string;
 };
 
 function GlassCard({
@@ -78,9 +80,9 @@ function GlassCardFooter({ className, ...props }: React.ComponentProps<"div">) {
 
 export {
   GlassCard,
+  GlassCardContent,
+  GlassCardDescription,
+  GlassCardFooter,
   GlassCardHeader,
   GlassCardTitle,
-  GlassCardDescription,
-  GlassCardContent,
-  GlassCardFooter,
 };
