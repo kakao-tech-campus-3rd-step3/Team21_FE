@@ -1,6 +1,6 @@
 import { FaBook, FaChalkboardTeacher, FaUniversity } from "react-icons/fa";
 
-import { homeText } from "@/pages/home/text";
+import { HOME_TEXT } from "@/pages/home/text";
 import { GlassCard } from "@/shared/ui/GlassCard";
 
 const ICONS = {
@@ -11,9 +11,9 @@ const ICONS = {
 
 export function HomeFeatureCards() {
   const items = [
-    { key: "univ", ...homeText.features.univ },
-    { key: "prof", ...homeText.features.prof },
-    { key: "major", ...homeText.features.major },
+    { key: "univ", ...HOME_TEXT.features.univ },
+    { key: "prof", ...HOME_TEXT.features.prof },
+    { key: "major", ...HOME_TEXT.features.major },
   ] as const;
 
   return (
