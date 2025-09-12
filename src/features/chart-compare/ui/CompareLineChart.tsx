@@ -1,4 +1,4 @@
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis } from "recharts";
+import { Legend, Line, LineChart, ResponsiveContainer, XAxis } from "recharts";
 
 import type { Professor } from "@/entities/professor/model/professors";
 import { COMPARE_LINE_CHART_TEXTS } from "@/features/chart-compare/ui/text";
@@ -33,10 +33,9 @@ export const CompareLineChart = ({ professors }: CompareLineChartProps) => (
     </GlassCardHeader>
 
     <GlassCardContent className="h-80">
-      <ChartContainer config={{}} className="h-full">
+      <ChartContainer config={{}} className="h-full bg-transparent">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData} margin={{ left: 12, right: 12 }}>
-            <CartesianGrid vertical={false} />
             <XAxis
               dataKey="year"
               allowDecimals={false}
@@ -52,7 +51,7 @@ export const CompareLineChart = ({ professors }: CompareLineChartProps) => (
                 dataKey={index === 0 ? "p1" : "p2"}
                 name={prof.name}
                 type="monotone"
-                stroke={`var(--chart-${index + 1})`}
+                stroke={index === 0 ? "var(--chart-2)" : "oklch(0.627 0.265 303.9)"}
                 strokeWidth={2}
                 dot={false}
               />

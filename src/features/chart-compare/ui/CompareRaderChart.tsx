@@ -53,7 +53,10 @@ export const CompareRaderChart = ({ professors }: CompareRaderChartProps) => {
       </GlassCardHeader>
 
       <GlassCardContent className="pb-0">
-        <ChartContainer className="mx-auto aspect-square max-h-[400px] w-full" config={{}}>
+        <ChartContainer
+          className="mx-auto aspect-square max-h-[400px] w-full bg-transparent"
+          config={{}}
+        >
           <ResponsiveContainer width="100%" height="80%">
             <RadarChart
               data={chartData}
@@ -71,7 +74,7 @@ export const CompareRaderChart = ({ professors }: CompareRaderChartProps) => {
                   key={prof.id}
                   dataKey={`p${index + 1}`}
                   name={prof.name}
-                  stroke={`var(--chart-${index + 1})`}
+                  stroke={index === 0 ? "var(--chart-2)" : "oklch(0.627 0.265 303.9)"}
                   fill={`var(--chart-${index + 1})`}
                   fillOpacity={0.3}
                 />
