@@ -1,7 +1,7 @@
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer } from "recharts";
 
-import type { Professor } from "@/entities/professor/model/getAverage";
-import { compareRaderChartTexts } from "@/features/chart-compare/texts";
+import type { Professor } from "@/entities/professor/model/professors";
+import { COMPARE_RADER_CHART_TEXTS } from "@/features/chart-compare/ui/text";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/shared/ui/chart";
 import {
   GlassCard,
@@ -19,27 +19,27 @@ type CompareRaderChartProps = {
 export const CompareRaderChart = ({ professors }: CompareRaderChartProps) => {
   const chartData = [
     {
-      category: compareRaderChartTexts.categories.homework,
+      category: COMPARE_RADER_CHART_TEXTS.categories.homework,
       p1: professors[0]?.homework ?? 0,
       p2: professors[1]?.homework ?? 0,
     },
     {
-      category: compareRaderChartTexts.categories.lecDifficulty,
+      category: COMPARE_RADER_CHART_TEXTS.categories.lecDifficulty,
       p1: professors[0]?.lecDifficulty ?? 0,
       p2: professors[1]?.lecDifficulty ?? 0,
     },
     {
-      category: compareRaderChartTexts.categories.examDifficulty,
+      category: COMPARE_RADER_CHART_TEXTS.categories.examDifficulty,
       p1: professors[0]?.examDifficulty ?? 0,
       p2: professors[1]?.examDifficulty ?? 0,
     },
     {
-      category: compareRaderChartTexts.categories.gradeDistribution,
+      category: COMPARE_RADER_CHART_TEXTS.categories.gradeDistribution,
       p1: professors[0]?.gradeDistribution ?? 0,
       p2: professors[1]?.gradeDistribution ?? 0,
     },
     {
-      category: compareRaderChartTexts.categories.researchPerf,
+      category: COMPARE_RADER_CHART_TEXTS.categories.researchPerf,
       p1: professors[0]?.researchPerf ?? 0,
       p2: professors[1]?.researchPerf ?? 0,
     },
@@ -48,8 +48,8 @@ export const CompareRaderChart = ({ professors }: CompareRaderChartProps) => {
   return (
     <GlassCard>
       <GlassCardHeader className="items-center pb-4">
-        <GlassCardTitle>{compareRaderChartTexts.title}</GlassCardTitle>
-        <GlassCardDescription>{compareRaderChartTexts.description}</GlassCardDescription>
+        <GlassCardTitle>{COMPARE_RADER_CHART_TEXTS.title}</GlassCardTitle>
+        <GlassCardDescription>{COMPARE_RADER_CHART_TEXTS.description}</GlassCardDescription>
       </GlassCardHeader>
 
       <GlassCardContent className="pb-0">

@@ -1,7 +1,7 @@
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis } from "recharts";
 
-import type { Professor } from "@/entities/professor/model/getAverage";
-import { compareLineChartTexts } from "@/features/chart-compare/texts";
+import type { Professor } from "@/entities/professor/model/professors";
+import { COMPARE_LINE_CHART_TEXTS } from "@/features/chart-compare/ui/text";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/shared/ui/chart";
 import {
   GlassCard,
@@ -26,9 +26,9 @@ const chartData = [
 export const CompareLineChart = ({ professors }: CompareLineChartProps) => (
   <GlassCard>
     <GlassCardHeader>
-      <GlassCardTitle className="text-center">{compareLineChartTexts.title}</GlassCardTitle>
+      <GlassCardTitle className="text-center">{COMPARE_LINE_CHART_TEXTS.title}</GlassCardTitle>
       <GlassCardDescription className="text-center">
-        {compareLineChartTexts.description}
+        {COMPARE_LINE_CHART_TEXTS.description}
       </GlassCardDescription>
     </GlassCardHeader>
 
