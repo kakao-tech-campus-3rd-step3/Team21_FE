@@ -1,4 +1,4 @@
-export const homeText = {
+export const HOME_TEXT = {
   title: "대한민국 모든 대학 정보를",
   highlight: "한 눈에 보세요",
   subtitle: "대학, 교수, 전공 정보를 쉽고 빠르게 검색하고 비교해보세요",
