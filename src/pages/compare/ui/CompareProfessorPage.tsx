@@ -1,12 +1,12 @@
 import { useState } from "react";
 
 import { depts, profs } from "@/__MOCK__/mockData";
-import { mapProfToProfessor, type Professor } from "@/entities/professor/model/getAverage";
+import { mapProfToProfessor, type Professor } from "@/entities/professor/model/professors";
 import { CompareLineChart } from "@/features/chart-compare/ui/CompareLineChart";
 import { CompareRaderChart } from "@/features/chart-compare/ui/CompareRaderChart";
 import { ProfessorCard } from "@/features/professor-compare/ui/ProfessorCard";
 import { SearchProfessorToCompare } from "@/features/professor-search/ui/SearchProfessorToCompare";
-import { compareProfessorTexts } from "@/pages/compare/texts";
+import { COMPARE_PROFESSOR_TEXTS } from "@/pages/compare/text";
 import { Card, CardDescription } from "@/shared/ui/card";
 
 type ProfessorSearch = {
@@ -75,8 +75,8 @@ export const CompareProfessorPage = () => {
   return (
     <div className="mx-auto max-w-4xl p-4 sm:p-8">
       <header className="mb-8 text-center">
-        <h1 className="text-3xl font-bold text-slate-50">{compareProfessorTexts.pageTitle}</h1>
-        <p className="mt-2 text-slate-60">{compareProfessorTexts.pageSubtitle}</p>
+        <h1 className="text-3xl font-bold text-slate-50">{COMPARE_PROFESSOR_TEXTS.pageTitle}</h1>
+        <p className="mt-2 text-slate-60">{COMPARE_PROFESSOR_TEXTS.pageSubtitle}</p>
       </header>
 
       <div className="mt-16 space-y-8">
@@ -92,7 +92,7 @@ export const CompareProfessorPage = () => {
 
         {comparedProfessors.length < 2 ? (
           <Card className="flex h-60 items-center justify-center">
-            <CardDescription>{compareProfessorTexts.emptyCardDescription}</CardDescription>
+            <CardDescription>{COMPARE_PROFESSOR_TEXTS.emptyCardDescription}</CardDescription>
           </Card>
         ) : (
           <>
