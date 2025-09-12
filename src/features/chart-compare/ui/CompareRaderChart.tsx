@@ -1,6 +1,6 @@
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer } from "recharts";
 
-import type { Professor } from "@/entities/professor/model/professors";
+import type { Professor } from "@/entities/professor/model/getAverage";
 import { compareRaderChartTexts } from "@/features/chart-compare/texts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/shared/ui/chart";
 import {
