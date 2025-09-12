@@ -1,24 +1,28 @@
 import * as React from "react";
 
 import { cn } from "@/shared/lib/utils";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/ui/card";
 
-type GlassCardProps = React.ComponentProps<"div"> & {
-  shine?: boolean;
-  elevated?: boolean;
-  transparent?: boolean;
-  contentClassName?: string;
+type GlassCardProps = {
+  children: React.ReactNode;
+  className?: string; // 카드 컨테이너 추가 클래스
+  contentClassName?: string; // CardContent 추가 클래스
+  shine?: boolean; // 사선 반짝임 on/off
+  elevated?: boolean; // 그림자 강도 선택
+  transparent?: boolean; // 더 투명하게
 };
 
-function GlassCard({
+export function GlassCard({
+  children,
   className,
+  contentClassName,
   shine = true,
   elevated = true,
   transparent = true,
-  ...props
 }: GlassCardProps) {
   const base =
-    "relative overflow-hidden rounded-2xl border backdrop-blur-3xl backdrop-saturate-200 flex flex-col gap-6 py-6 px-6";
-  const surface = transparent ? "bg-white/5 border-white/40" : "bg-white/10 border-white/30";
+    "relative overflow-hidden rounded-2xl border backdrop-blur-3xl backdrop-saturate-200";
+  const surface = transparent ? "bg-white/2 border-white/40" : "bg-white/10 border-white/30";
   const shadow = elevated
     ? "shadow-[0_15px_50px_rgba(0,0,0,0.55)]"
     : "shadow-[0_8px_24px_rgba(0,0,0,0.35)]";
@@ -29,60 +33,33 @@ function GlassCard({
     : "";
 
   return (
-    <div
-      data-slot="glass-card"
-      className={cn(base, surface, shadow, topHighlight, shineLayer, className)}
-      {...props}
-    >
+    <Card className={cn(base, surface, shadow, topHighlight, shineLayer, className)}>
       <div className="pointer-events-none absolute inset-0 opacity-[0.12] [background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%224%22 height=%224%22 viewBox=%220 0 4 4%22><path fill=%22%23fff%22 fill-opacity=%220.8%22 d=%22M0 0h1v1H0zM2 2h1v1H2z%22/></svg>']" />
-      {props.children}
-    </div>
+      <CardContent className={cn("relative p-6", contentClassName)}>{children}</CardContent>
+    </Card>
   );
 }
-
-function GlassCardHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="glass-card-header" className={cn("px-6 pb-4", className)} {...props} />;
+export function GlassCardHeader({ className, ...props }: React.ComponentProps<"div">) {
+  return <CardHeader className={cn("px-6 pb-4", className)} {...props} />;
 }
 
-function GlassCardTitle({ className, ...props }: React.ComponentProps<"h2">) {
+export function GlassCardTitle({ className, ...props }: React.ComponentProps<"h2">) {
   return (
-    <h2
-      data-slot="glass-card-title"
+    <CardTitle
       className={cn("text-lg font-semibold text-white leading-none", className)}
       {...props}
     />
   );
 }
 
-function GlassCardDescription({ className, ...props }: React.ComponentProps<"p">) {
-  return (
-    <p
-      data-slot="glass-card-description"
-      className={cn("text-sm text-slate-200", className)}
-      {...props}
-    />
-  );
+export function GlassCardDescription({ className, ...props }: React.ComponentProps<"p">) {
+  return <p className={cn("text-sm text-slate-200", className)} {...props} />;
 }
 
-function GlassCardContent({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="glass-card-content" className={cn("px-6", className)} {...props} />;
+export function GlassCardContent({ className, ...props }: React.ComponentProps<"div">) {
+  return <CardContent className={cn("px-6", className)} {...props} />;
 }
 
-function GlassCardFooter({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="glass-card-footer"
-      className={cn("px-6 pt-4 border-t border-white/20", className)}
-      {...props}
-    />
-  );
+export function GlassCardFooter({ className, ...props }: React.ComponentProps<"div">) {
+  return <CardFooter className={cn("px-6 pt-4 border-t border-white/20", className)} {...props} />;
 }
-
-export {
-  GlassCard,
-  GlassCardContent,
-  GlassCardDescription,
-  GlassCardFooter,
-  GlassCardHeader,
-  GlassCardTitle,
-};
