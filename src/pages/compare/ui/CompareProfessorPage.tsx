@@ -7,7 +7,6 @@ import { CompareRaderChart } from "@/features/chart-compare/ui/CompareRaderChart
 import { ProfessorCard } from "@/features/professor-compare/ui/ProfessorCard";
 import { SearchProfessorToCompare } from "@/features/professor-search/ui/SearchProfessorToCompare";
 import { COMPARE_PROFESSOR_TEXTS } from "@/pages/compare/text";
-import { Card, CardDescription } from "@/shared/ui/card";
 
 type ProfessorSearch = {
   id: string;
@@ -75,7 +74,9 @@ export const CompareProfessorPage = () => {
   return (
     <div className="mx-auto max-w-4xl p-4 sm:p-8">
       <header className="mb-8 text-center">
-        <h1 className="text-3xl font-bold text-slate-50">{COMPARE_PROFESSOR_TEXTS.pageTitle}</h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+          {COMPARE_PROFESSOR_TEXTS.pageTitle}
+        </h1>
         <p className="mt-2 text-slate-60">{COMPARE_PROFESSOR_TEXTS.pageSubtitle}</p>
       </header>
 
@@ -90,11 +91,7 @@ export const CompareProfessorPage = () => {
           onPick={handlePick}
         />
 
-        {comparedProfessors.length < 2 ? (
-          <Card className="flex h-60 items-center justify-center">
-            <CardDescription>{COMPARE_PROFESSOR_TEXTS.emptyCardDescription}</CardDescription>
-          </Card>
-        ) : (
+        {comparedProfessors.length <= 2 && (
           <>
             {/* 교수 카드 */}
             <div className="relative grid grid-cols-1 items-start gap-8 md:grid-cols-2">
@@ -107,11 +104,11 @@ export const CompareProfessorPage = () => {
               ))}
             </div>
 
-            {/* 직선 비교 차트 */}
-            <CompareLineChart professors={comparedProfessors} />
-
             {/* 오각형 비교 차트 */}
             <CompareRaderChart professors={comparedProfessors} />
+
+            {/* 직선 비교 차트 */}
+            <CompareLineChart professors={comparedProfessors} />
           </>
         )}
       </div>
