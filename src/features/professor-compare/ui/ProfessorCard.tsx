@@ -1,6 +1,6 @@
 import { Star, StarHalf } from "lucide-react";
 
-import type { Professor } from "@/entities/professor/model/Professor";
+import type { Professor } from "@/entities/professor/model/professor";
 import { Button } from "@/shared/ui/button";
 import {
   GlassCard,

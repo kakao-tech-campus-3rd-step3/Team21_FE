@@ -1,6 +1,6 @@
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis } from "recharts";
 
-import type { Professor } from "@/entities/professor/model/Professor";
+import type { Professor } from "@/entities/professor/model/professor";
 import { compareLineChartTexts } from "@/features/chart-compare/texts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/shared/ui/chart";
 import {

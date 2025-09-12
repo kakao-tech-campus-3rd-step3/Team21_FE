@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { depts, profs } from "@/__MOCK__/mockData";
-import { mapProfToProfessor, type Professor } from "@/entities/professor/model/Professor";
+import { mapProfToProfessor, type Professor } from "@/entities/professor/model/professor";
 import { CompareLineChart } from "@/features/chart-compare/ui/CompareLineChart";
 import { CompareRaderChart } from "@/features/chart-compare/ui/CompareRaderChart";
 import { ProfessorCard } from "@/features/professor-compare/ui/ProfessorCard";
