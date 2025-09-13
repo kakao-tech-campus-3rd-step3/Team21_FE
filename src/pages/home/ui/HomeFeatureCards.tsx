@@ -1,4 +1,4 @@
-import { FEATURE_ICONS, FEATURE_ITEMS } from "@/pages/home/model";
+import { FEATURE_ICONS, FEATURE_ITEMS } from "@/pages/home/model/featureCards";
 import { GlassCard } from "@/shared/ui/GlassCard";
 
 export function HomeFeatureCards() {
