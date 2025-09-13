@@ -1,4 +1,4 @@
-import { Providers } from "@/app/providers";
+import { Providers } from "@/app/providers/providers";
 import { Router } from "@/app/routers/Router";
 
 export default function App() {
