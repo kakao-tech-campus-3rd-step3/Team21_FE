@@ -15,12 +15,14 @@ type CompareLineChartProps = {
 };
 
 const chartData = [
-  { year: 2020, p1: 186, p2: 80 },
-  { year: 2021, p1: 305, p2: 200 },
-  { year: 2022, p1: 237, p2: 120 },
-  { year: 2023, p1: 73, p2: 190 },
-  { year: 2024, p1: 209, p2: 130 },
-  { year: 2025, p1: 214, p2: 140 },
+  { year: "1학년 1학기", p1: 186, p2: 80 },
+  { year: "1학년 2학기", p1: 305, p2: 200 },
+  { year: "2학년 1학기", p1: 237, p2: 120 },
+  { year: "2학년 2학기", p1: 73, p2: 190 },
+  { year: "3학년 1학기", p1: 209, p2: 130 },
+  { year: "3학년 2학기", p1: 214, p2: 140 },
+  { year: "4학년 1학기", p1: 29, p2: 130 },
+  { year: "4학년 2학기", p1: 214, p2: 14 },
 ];
 
 export const CompareLineChart = ({ professors }: CompareLineChartProps) => (
@@ -39,9 +41,12 @@ export const CompareLineChart = ({ professors }: CompareLineChartProps) => (
             <XAxis
               dataKey="year"
               allowDecimals={false}
+              scale="point"
               tickLine={false}
               axisLine={false}
+              interval={0}
               tick={{ fill: "var(--foreground)", fontSize: 12 }}
+              padding={{ left: 20, right: 20 }}
             />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
 
@@ -50,7 +55,7 @@ export const CompareLineChart = ({ professors }: CompareLineChartProps) => (
                 key={prof.id}
                 dataKey={index === 0 ? "p1" : "p2"}
                 name={prof.name}
-                type="monotone"
+                type="linear"
                 stroke={index === 0 ? "var(--chart-2)" : "oklch(0.627 0.265 303.9)"}
                 strokeWidth={2}
                 dot={false}
