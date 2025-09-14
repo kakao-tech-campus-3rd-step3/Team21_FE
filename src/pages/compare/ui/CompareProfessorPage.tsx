@@ -74,7 +74,10 @@ export const CompareProfessorPage = () => {
   return (
     <div className="mx-auto max-w-4xl p-4 sm:p-8">
       <header className="mb-8 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+        <h1
+          className="text-4xl md:text-5xl font-semibold tracking-tight text-white 
+          drop-shadow-[0_0_6px_#2b049f] drop-shadow-[0_0_12px_#6711e7]"
+        >
           {COMPARE_PROFESSOR_TEXTS.pageTitle}
         </h1>
         <p className="mt-2 text-slate-60">{COMPARE_PROFESSOR_TEXTS.pageSubtitle}</p>
