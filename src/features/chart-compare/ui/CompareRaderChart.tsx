@@ -57,16 +57,15 @@ export const CompareRaderChart = ({ professors }: CompareRaderChartProps) => {
           className="mx-auto aspect-square max-h-[400px] w-full bg-transparent"
           config={{}}
         >
-          <ResponsiveContainer width="100%" height="80%">
+          <ResponsiveContainer width="100%" height="100%">
             <RadarChart
               data={chartData}
               outerRadius="70%"
               margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
             >
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-
               <PolarAngleAxis dataKey="category" />
-              <PolarGrid />
+              <PolarGrid radialLines={false} />
 
               {/* 교수별 Radar */}
               {professors.map((prof, index) => (
