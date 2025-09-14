@@ -46,7 +46,7 @@ export const CompareRaderChart = ({ professors }: CompareRaderChartProps) => {
   ];
 
   return (
-    <GlassCard>
+    <GlassCard shine={false}>
       <GlassCardHeader className="items-center pb-4">
         <GlassCardTitle>{COMPARE_RADER_CHART_TEXTS.title}</GlassCardTitle>
         <GlassCardDescription>{COMPARE_RADER_CHART_TEXTS.description}</GlassCardDescription>

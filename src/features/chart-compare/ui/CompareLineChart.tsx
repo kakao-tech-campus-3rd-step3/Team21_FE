@@ -24,7 +24,7 @@ const chartData = [
 ];
 
 export const CompareLineChart = ({ professors }: CompareLineChartProps) => (
-  <GlassCard>
+  <GlassCard shine={false}>
     <GlassCardHeader>
       <GlassCardTitle className="text-center">{COMPARE_LINE_CHART_TEXTS.title}</GlassCardTitle>
       <GlassCardDescription className="text-center">
