@@ -9,6 +9,7 @@ export const AUTH_SIGNUP_TEXT = {
     verify: "코드 확인",
     id: "아이디(별도)",
     idPlaceholder: "로그인에 사용할 아이디",
+    duplicateCheck: "중복 확인",
     password: "비밀번호",
     passwordPlaceholder: "영문/숫자/특수문자 조합",
     passwordConfirm: "비밀번호 확인",

@@ -1,19 +1,33 @@
 import { AUTH_LOGIN_TEXT } from "@/features/login-form/text";
+import { Field } from "@/shared/ui/Field";
 
 export function LoginForm({ onGoSignup }: { onGoSignup: () => void }) {
   return (
     <form className="space-y-4">
-      <Field
-        label={AUTH_LOGIN_TEXT.login.id}
-        name="id"
-        placeholder={AUTH_LOGIN_TEXT.login.idPlaceholder}
-      />
-      <Field
-        label={AUTH_LOGIN_TEXT.login.password}
-        name="password"
-        type="password"
-        placeholder={AUTH_LOGIN_TEXT.login.passwordPlaceholder}
-      />
+      <Field label={AUTH_LOGIN_TEXT.login.id}>
+        <input
+          name="id"
+          placeholder={AUTH_LOGIN_TEXT.login.idPlaceholder}
+          disabled
+          className="w-full rounded-lg border border-white/30 bg-white/10 px-3 py-3
+                     text-white placeholder-white/60 outline-none
+                     focus:border-white/60 focus:bg-white/15 transition
+                     shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]"
+        />
+      </Field>
+
+      <Field label={AUTH_LOGIN_TEXT.login.password}>
+        <input
+          name="password"
+          type="password"
+          placeholder={AUTH_LOGIN_TEXT.login.passwordPlaceholder}
+          disabled
+          className="w-full rounded-lg border border-white/30 bg-white/10 px-3 py-3
+                     text-white placeholder-white/60 outline-none
+                     focus:border-white/60 focus:bg-white/15 transition
+                     shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]"
+        />
+      </Field>
 
       <button
         type="button"
@@ -32,30 +46,5 @@ export function LoginForm({ onGoSignup }: { onGoSignup: () => void }) {
         </button>
       </div>
     </form>
-  );
-}
-
-function Field({
-  label,
-  name,
-  type = "text",
-  placeholder,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  placeholder?: string;
-}) {
-  return (
-    <label className="block text-left">
-      <span className="mb-1 block text-xs font-medium text-white/80">{label}</span>
-      <input
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        disabled
-        className="w-full rounded-lg border border-white/30 bg-white/10 px-3 py-3 text-white placeholder-white/60 outline-none focus:border-white/60 focus:bg-white/15 transition shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]"
-      />
-    </label>
   );
 }
