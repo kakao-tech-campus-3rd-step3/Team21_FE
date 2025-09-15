@@ -65,7 +65,7 @@ export const CompareRaderChart = ({ professors }: CompareRaderChartProps) => {
             >
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
               <PolarAngleAxis dataKey="category" />
-              <PolarGrid radialLines={false} polarRadius={[150]} strokeWidth={1} />
+              <PolarGrid radialLines={false} polarRadius={[140]} strokeWidth={1} />
 
               {/* 교수별 Radar */}
               {professors.map((prof, index) => (
