@@ -1,4 +1,4 @@
-import { Star, StarHalf } from "lucide-react";
+import { X } from "lucide-react";
 
 import type { Professor } from "@/entities/professor/model/professors";
 import { Button } from "@/shared/ui/button";
@@ -9,27 +9,11 @@ import {
   GlassCardHeader,
   GlassCardTitle,
 } from "@/shared/ui/GlassCard";
+import { StarRating } from "@/shared/ui/StarRating";
 
 export type ProfessorCardProps = {
   professor: Professor;
   onRemove: () => void;
-};
-
-const StarRating = ({ rating, size = 20 }: { rating: number; size?: number }) => {
-  const fullStars = Math.floor(rating);
-  const hasHalfStar = rating % 1 >= 0.5;
-  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-  return (
-    <div className="flex items-center text-yellow-400">
-      {[...Array(fullStars)].map((_, i) => (
-        <Star key={`full-${i}`} size={size} fill="currentColor" />
-      ))}
-      {hasHalfStar && <StarHalf key="half" size={size} fill="currentColor" />}
-      {[...Array(emptyStars)].map((_, i) => (
-        <Star key={`empty-${i}`} size={size} className="text-gray-300" fill="currentColor" />
-      ))}
-    </div>
-  );
 };
 
 export const ProfessorCard = ({ professor, onRemove }: ProfessorCardProps) => (
@@ -39,21 +23,9 @@ export const ProfessorCard = ({ professor, onRemove }: ProfessorCardProps) => (
       variant="ghost"
       size="icon"
       onClick={onRemove}
-      className="absolute top-0 right-6 text-slate-200 hover:text-slate-400 z-10 w-8 h-8 rounded-full"
+      className="absolute -top-2 right-2 text-slate-200 hover:text-slate-400 z-10 w-8 h-8 rounded-full"
     >
-      <svg
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
+      <X size={18} />
     </Button>
 
     <div className="flex flex-col items-center text-center -mt-6">
