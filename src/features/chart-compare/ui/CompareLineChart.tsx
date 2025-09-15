@@ -1,5 +1,6 @@
 import { Legend, Line, LineChart, ResponsiveContainer, XAxis } from "recharts";
 
+import { chartData } from "@/__MOCK__/mockData";
 import type { Professor } from "@/entities/professor/model/professors";
 import { COMPARE_LINE_CHART_TEXTS } from "@/features/chart-compare/ui/text";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/shared/ui/chart";
@@ -13,17 +14,6 @@ import {
 type CompareLineChartProps = {
   professors: Professor[];
 };
-
-const chartData = [
-  { year: "1학년 1학기", p1: 186, p2: 80 },
-  { year: "1학년 2학기", p1: 305, p2: 200 },
-  { year: "2학년 1학기", p1: 237, p2: 120 },
-  { year: "2학년 2학기", p1: 73, p2: 190 },
-  { year: "3학년 1학기", p1: 209, p2: 130 },
-  { year: "3학년 2학기", p1: 214, p2: 140 },
-  { year: "4학년 1학기", p1: 29, p2: 130 },
-  { year: "4학년 2학기", p1: 214, p2: 14 },
-];
 
 export const CompareLineChart = ({ professors }: CompareLineChartProps) => (
   <GlassCard shine={false}>
