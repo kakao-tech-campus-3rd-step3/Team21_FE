@@ -33,7 +33,7 @@ const StarRating = ({ rating, size = 20 }: { rating: number; size?: number }) =>
 };
 
 export const ProfessorCard = ({ professor, onRemove }: ProfessorCardProps) => (
-  <GlassCard className="w-full max-w-sm relative pt-10" shine={false}>
+  <GlassCard className="w-full relative pt-10 h-full" shine={false}>
     {/* 삭제 버튼 */}
     <Button
       variant="ghost"
