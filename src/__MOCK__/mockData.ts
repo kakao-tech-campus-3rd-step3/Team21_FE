@@ -443,3 +443,10 @@ export const profReviews = [
     deltYn: "N",
   },
 ];
+
+//임시 교수 태그 추가
+export const profTags: Record<number, string[]> = {
+  9001: ["열정적", "강의력 우수"],
+  9002: ["연구 성실", "논문 지도"],
+  9003: ["차분함", "피드백 빠름"],
+};
