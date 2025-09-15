@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { GlobalLayout } from "@/app/layout/GlobalLayout";
 import { CollegeDetailPage } from "@/pages/college";
 import { DepartmentDetailPage } from "@/pages/department";
-import HomePage from "@/pages/home";
+import { HomePage } from "@/pages/home";
 import { ProfessorDetailPage } from "@/pages/professor";
 import { UniversityDetailPage } from "@/pages/university";
 import { ROUTES } from "@/shared/config/routes";

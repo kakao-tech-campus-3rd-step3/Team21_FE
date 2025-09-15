@@ -1,18 +1,22 @@
 import { Outlet } from "react-router-dom";
 
+import { BackgroundDecor } from "@/shared/ui/BackgroundDecor";
 import { NavigationBar } from "@/widgets/navigation-bar";
 import { Footer } from "@/widgets/site-footer";
 import { Header } from "@/widgets/site-header";
 
 export function GlobalLayout() {
   return (
-    <>
-      <Header />
-      <NavigationBar />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-    </>
+    <div className="flex flex-col min-h-screen relative text-foreground">
+      <BackgroundDecor />
+      <div className="relative z-10 flex flex-col min-h-screen">
+        <Header />
+        <NavigationBar />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
+    </div>
   );
 }
