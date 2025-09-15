@@ -23,7 +23,7 @@ export const ProfessorCard = ({ professor, onRemove }: ProfessorCardProps) => (
       variant="ghost"
       size="icon"
       onClick={onRemove}
-      className="absolute -top-2 right-2 text-slate-200 hover:text-slate-400 z-10 w-8 h-8 rounded-full"
+      className="absolute -top-4 right-2 text-slate-200 hover:text-slate-400 z-10 w-8 h-8 rounded-full"
     >
       <X size={18} />
     </Button>
