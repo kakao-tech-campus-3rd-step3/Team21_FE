@@ -1,4 +1,12 @@
-import { Legend, Line, LineChart, ResponsiveContainer, XAxis } from "recharts";
+import {
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import { chartData } from "@/__MOCK__/mockData";
 import type { Professor } from "@/entities/professor/model/professors";
@@ -38,6 +46,15 @@ export const CompareLineChart = ({ professors }: CompareLineChartProps) => (
               tick={{ fill: "var(--foreground)", fontSize: 12 }}
               padding={{ left: 20, right: 20 }}
             />
+            <YAxis
+              tickCount={6}
+              tickFormatter={(_, index) => String(index)}
+              tick={{ fill: "var(--foreground)", fontSize: 12 }}
+              axisLine={false}
+              tickLine={false}
+            />
+            <CartesianGrid stroke="rgb(233, 230, 230)" strokeDasharray="0" vertical={false} />
+
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
 
             {professors.map((prof, index) => (
