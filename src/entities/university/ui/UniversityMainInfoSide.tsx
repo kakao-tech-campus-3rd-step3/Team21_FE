@@ -12,7 +12,7 @@ export function UniversityMainInfoSide({ data }: { data: UniversityMainInfo }) {
   return (
     <Card className="bg-zinc-900/60 border-zinc-800 backdrop-blur">
       <CardHeader>
-        <CardTitle className="text-base">주요 정보</CardTitle>
+        <CardTitle className="text-xl">주요 정보</CardTitle>
       </CardHeader>
       <CardContent className="grid grid-cols-2 gap-4">
         {items.map((it) => (

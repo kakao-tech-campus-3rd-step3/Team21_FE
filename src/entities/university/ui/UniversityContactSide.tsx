@@ -11,7 +11,7 @@ export function UniversityContactSide({ data }: { data: UniversitySideContact })
   return (
     <Card className="bg-zinc-900/60 border-zinc-800 backdrop-blur">
       <CardHeader>
-        <CardTitle className="text-base">연락처</CardTitle>
+        <CardTitle className="text-xl">연락처</CardTitle>
       </CardHeader>
       <CardContent className="grid grid-cols-1 gap-3 text-sm">
         {rows.map((r) => (

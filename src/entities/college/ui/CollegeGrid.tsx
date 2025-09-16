@@ -18,8 +18,6 @@ export function CollegeGrid({ colleges }: Props) {
 
   return (
     <section>
-      <h2 className="text-lg font-semibold mb-2">단과대학</h2>
-
       <div className="grid gap-4 grid-cols-2">
         {colleges.map((c) => (
           <Card

@@ -33,7 +33,7 @@ export function UniversityReviewList({ univSeq }: Props) {
     <Card className="bg-zinc-900/60 border-zinc-800 backdrop-blur">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base">학생 평가</CardTitle>
+          <CardTitle className="text-xl">학생 평가</CardTitle>
           <span className="text-sm text-muted-foreground">총 {total.toLocaleString()}개</span>
         </div>
       </CardHeader>
