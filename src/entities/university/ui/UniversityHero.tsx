@@ -5,29 +5,22 @@ import { HiArrowsRightLeft } from "react-icons/hi2";
 import type { UniversityHeroData } from "@/entities/university/model/hero.vm";
 import { UNIVERSITY_TEXT } from "@/entities/university/text";
 import { formatNumber } from "@/shared/lib/\bformat";
-import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
+import { Card } from "@/shared/ui/card";
 import { RatingStars } from "@/shared/ui/RatingStars";
 
 type Props = {
   data: UniversityHeroData;
-  className?: string;
 };
 
-export function UniversityHero({ data, className }: Props) {
+export function UniversityHero({ data }: Props) {
   const { name, logoUrl, address, foundedYear, rating, ratingCount, students } = data;
 
   const formattedStudents = formatNumber(students);
   const hasFoundedYear = typeof foundedYear === "number";
 
   return (
-    <section
-      className={cn(
-        "bg-zinc-900/60 border border-zinc-800 backdrop-blur rounded-xl shadow-md",
-        "p-6 md:p-8 space-y-4",
-        className,
-      )}
-    >
+    <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur shadow-md p-6 md:p-8 space-y-4">
       <div className="flex items-start gap-6">
         <div className="h-24 w-24 shrink-0 rounded-xl bg-zinc-800/60 overflow-hidden grid place-items-center">
           {logoUrl ? (
@@ -84,6 +77,6 @@ export function UniversityHero({ data, className }: Props) {
           </div>
         </div>
       </div>
-    </section>
+    </Card>
   );
 }

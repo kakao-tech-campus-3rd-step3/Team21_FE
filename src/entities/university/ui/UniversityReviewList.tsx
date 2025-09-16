@@ -30,7 +30,7 @@ export function UniversityReviewList({ univSeq }: Props) {
   const visibleReviews = reviews.slice(0, visibleCount);
 
   return (
-    <Card className="bg-zinc-900/60 border-zinc-800 backdrop-blur">
+    <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl">학생 평가</CardTitle>

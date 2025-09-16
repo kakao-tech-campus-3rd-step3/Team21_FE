@@ -9,7 +9,7 @@ export function UniversityContactSide({ data }: { data: UniversitySideContact })
   ].filter((r) => r.value);
 
   return (
-    <Card className="bg-zinc-900/60 border-zinc-800 backdrop-blur">
+    <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur">
       <CardHeader>
         <CardTitle className="text-xl">연락처</CardTitle>
       </CardHeader>
