@@ -2,7 +2,7 @@ import { Calendar, Users } from "lucide-react";
 import { FiEdit3 } from "react-icons/fi";
 import { HiArrowsRightLeft } from "react-icons/hi2";
 
-import type { UniversityHeroData } from "@/entities/university/model/\bhero.type";
+import type { UniversityHeroData } from "@/entities/university/model/hero.vm";
 import { UNIVERSITY_TEXT } from "@/entities/university/text";
 import { formatNumber } from "@/shared/lib/\bformat";
 import { cn } from "@/shared/lib/utils";
