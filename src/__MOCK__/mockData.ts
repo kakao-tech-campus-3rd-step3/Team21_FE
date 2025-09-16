@@ -1,14 +1,19 @@
 const now = (): string => new Date().toISOString();
 
-// 대학 상세 사이드바
-export const sideBar = [
-  {
-    campuses: 1,
-    colleges: 21,
-    departments: 123,
-    students: 21000,
-  },
-];
+// 대학 상세 사이드바 - contact
+export const contact = {
+  tel: "042-132-1234",
+  web: "https://plus.cnu.ac.kr/",
+  email: "qwer@cnu.ac.kr",
+};
+
+// 대학 상세 사이드바 - main
+export const sideBar = {
+  campuses: 1,
+  colleges: 21,
+  departments: 123,
+  students: 21000,
+};
 
 // 단과대학
 export const colleges = [
