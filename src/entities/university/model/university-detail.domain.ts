@@ -1,4 +1,5 @@
 /**
+ * TODO: 나중에 주석 삭제
  * NOTE:
  * 도메인 모델을 정의합니다.
  * api 요청에 대한 응답은 ~~Response 로 따로 정의합니다.
@@ -7,6 +8,8 @@
  * 서버 스키마를 그대로 받는건 ~~Response
  * 프론트엔드의 도메인 스키마는 university-detail
  * 특정 섹션에서만 사용하는 데이터는 뷰 모델
+ *
+ * 객체간 변환은 map 함수를 사용하는게 좋다고 생각
  */
 
 export type UniversityKeyStats = {
