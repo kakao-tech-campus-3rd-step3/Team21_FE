@@ -165,8 +165,26 @@ export const users = [
   },
 ];
 
-// 교수
-export const profs = [
+// 교수 레이더 차트용 mock
+export const profEvals = {
+  profId: 100,
+  lecture: 7.0,
+  studentAvg: 9.0,
+  labPerf: 3.5,
+  homework: 2.0,
+  paperWork: 5.8,
+} as const satisfies Record<string, number>;
+
+export const profEvalAvg = {
+  lecture: 2.5,
+  studentAvg: 3.9,
+  labPerf: 4.8,
+  homework: 5.8,
+  paperWork: 8.2,
+} as const satisfies Record<string, number>;
+
+// 교수상세
+export const profDetail = [
   {
     id: 100,
     name: "이영석",
@@ -179,6 +197,10 @@ export const profs = [
     ratingCount: 24,
     reviewCount: 123,
   },
+];
+
+// 교수
+export const profs = [
   {
     profSeq: 9001,
     deptSeq: 100101,
