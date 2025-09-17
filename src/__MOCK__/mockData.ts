@@ -168,6 +168,18 @@ export const users = [
 // 교수
 export const profs = [
   {
+    id: 100,
+    name: "이영석",
+    email: "lee@cnu.ac.kr",
+    department: "컴퓨터융합학부",
+    university: "충남대학교",
+    office: "공5601",
+    avatarUrl: "",
+    rating: "4.9",
+    ratingCount: 24,
+    reviewCount: 123,
+  },
+  {
     profSeq: 9001,
     deptSeq: 100101,
     profName: "김개발",
