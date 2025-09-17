@@ -31,10 +31,10 @@ export function ProfessorEvalCard({ profId }: Props) {
   }));
 
   return (
-    <Card className="relative overflow-hidden bg-zinc-900/60 border-zinc-800 backdrop-blur">
+    <Card className="relative overflow-hidden bg-zinc-900/60 border-zinc-600/80 backdrop-blur">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_80%_at_70%_50%,rgba(99,102,241,0.08),transparent_60%)]" />
       <CardHeader>
-        <CardTitle className="text-base">{PROFESSOR_EVAL_TEXT.title}</CardTitle>
+        <CardTitle className="text-xl">{PROFESSOR_EVAL_TEXT.title}</CardTitle>
       </CardHeader>
 
       <CardContent className="pt-0">

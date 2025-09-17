@@ -183,6 +183,15 @@ export const profEvalAvg = {
   paperWork: 8.2,
 } as const satisfies Record<string, number>;
 
+// 교수상세 - 연구분야
+export const profResearch = [
+  {
+    id: 100,
+    education: "서울대학교 컴퓨터공학과 박사",
+    researchAreas: ["네트워크", "llm", "sllm"],
+  },
+];
+
 // 교수상세
 export const profDetail = [
   {
