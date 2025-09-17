@@ -16,9 +16,10 @@ function toSemesterText(sem: string) {
   return semester ? `${year}-${semester}학기` : sem;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function ProfessorLectureReviewList({ profId }: Props) {
   const [visibleCount, setVisibleCount] = useState(3);
+  // 빌드 오류 우회.. TODO: 추후 삭제
+  console.log(profId);
 
   // TODO: api hook
   const rows: LectureReview[] = lectureReviews.map((r) => ({
