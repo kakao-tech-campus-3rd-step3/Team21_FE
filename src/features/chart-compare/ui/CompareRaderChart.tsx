@@ -12,11 +12,11 @@ import {
   GlassCardTitle,
 } from "@/shared/ui/GlassCard";
 
-type CompareRaderChartProps = {
+type props = {
   professors: Professor[];
 };
 
-export const CompareRaderChart = ({ professors }: CompareRaderChartProps) => {
+export const CompareRaderChart = ({ professors }: props) => {
   const chartData = [
     {
       category: COMPARE_RADER_CHART_TEXTS.categories.homework,

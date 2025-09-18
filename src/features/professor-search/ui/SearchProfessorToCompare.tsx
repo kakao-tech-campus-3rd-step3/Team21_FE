@@ -18,19 +18,16 @@ type ProfessorSearch = {
   initials?: string;
 };
 
-interface SearchProfessorToCompareProps {
+type props = {
   query: string;
   setQuery: (v: string) => void;
   results: ProfessorSearch[];
   resultsOpen: boolean;
   setResultsOpen: (v: boolean) => void;
   onPick: (p: ProfessorSearch) => void;
-}
+};
 
-function ResultList({
-  results,
-  onPick,
-}: Pick<SearchProfessorToCompareProps, "results" | "onPick">) {
+function ResultList({ results, onPick }: Pick<props, "results" | "onPick">) {
   return (
     <div
       className="absolute z-20 mt-2 w-full overflow-hidden rounded-lg border border-white bg-black backdrop-blur-md shadow-lg"
@@ -65,7 +62,7 @@ export function SearchProfessorToCompare({
   resultsOpen,
   setResultsOpen,
   onPick,
-}: SearchProfessorToCompareProps) {
+}: props) {
   return (
     <GlassCard>
       <GlassCardHeader>

@@ -11,12 +11,12 @@ import {
 } from "@/shared/ui/GlassCard";
 import { StarRating } from "@/shared/ui/StarRating";
 
-export type ProfessorCardProps = {
+export type props = {
   professor: Professor;
   onRemove: () => void;
 };
 
-export const ProfessorCard = ({ professor, onRemove }: ProfessorCardProps) => (
+export const ProfessorCard = ({ professor, onRemove }: props) => (
   <GlassCard className="w-full relative pt-10 h-full" shine={false}>
     {/* 삭제 버튼 */}
     <Button
