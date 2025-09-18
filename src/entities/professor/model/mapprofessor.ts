@@ -5,6 +5,7 @@ import {
   lectures,
   profReviews,
   profs,
+  profTags,
   univs,
 } from "@/__MOCK__/mockData";
 import type { Professor } from "@/entities/professor/model/professors";
@@ -34,19 +35,7 @@ export const mapProfToProfessor = (profSeq: number): Professor | null => {
   const avgGradeDistribution = getAverage(profLecReviews.map((r) => r.gradeDistribution));
   const avgResearchPerf = getAverage(reviews.map((r) => r.researchPerf));
 
-  //목데이터에 태그가 없어서 우선은 UI 확인 위해 하드코딩, 추후 목데이터에 태그 추가 예정
-  let tags: string[] = [];
-  switch (profSeq) {
-    case 9001:
-      tags = ["열정적", "강의력 우수"];
-      break;
-    case 9002:
-      tags = ["연구 성실", "논문 지도 잘함"];
-      break;
-    default:
-      tags = ["차분함", "피드백 빠름"];
-  }
-
+  const tags = profTags[profSeq] ?? [];
   return {
     university: univ?.name ?? "정보 없음",
     id: prof.profSeq,
