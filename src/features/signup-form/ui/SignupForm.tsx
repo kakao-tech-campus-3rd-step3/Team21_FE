@@ -1,28 +1,47 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+import { type SignupInput, SignupSchema } from "@/features/signup-form/model/validation";
 import { Field } from "@/shared/ui/Field";
 
+import { useSignup } from "../model/useSignup";
 import { AUTH_SIGNUP_TEXT } from "../text";
 
+const actionBtn =
+  "min-w-[100px] rounded-lg py-3 text-sm font-semibold text-white " +
+  "bg-indigo-500 hover:bg-indigo-500/90 " +
+  "shadow-[0_6px_18px_rgba(79,70,229,0.45)] disabled:opacity-50 disabled:cursor-not-allowed";
+
 export function SignupForm({ onGoLogin }: { onGoLogin: () => void }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid, isSubmitting },
+  } = useForm<SignupInput>({
+    mode: "onChange",
+    resolver: zodResolver(SignupSchema),
+    defaultValues: { email: "", userId: "", password: "", passwordConfirm: "" },
+  });
+
+  const { mutate, isPending } = useSignup(onGoLogin);
+  const onSubmit = (v: SignupInput) => {
+    const { email, userId, password } = v;
+    mutate({ email, userId, password });
+  };
+
   return (
-    <form className="space-y-4">
-      <Field label={AUTH_SIGNUP_TEXT.signup.email}>
+    <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <Field label={AUTH_SIGNUP_TEXT.signup.email} error={errors.email?.message}>
         <div className="flex gap-2">
           <input
-            name="email"
+            {...register("email")}
             type="email"
             placeholder={AUTH_SIGNUP_TEXT.signup.emailPlaceholder}
-            disabled
             className="flex-1 rounded-lg border border-white/30 bg-white/10 px-3 py-3
                        text-white placeholder-white/60 outline-none
                        focus:border-white/60 focus:bg-white/15 transition"
           />
-          <button
-            type="button"
-            disabled
-            className="min-w-[100px] rounded-lg py-3 text-sm font-semibold text-white
-                   bg-indigo-500 hover:bg-indigo-500/90
-                   shadow-[0_6px_18px_rgba(79,70,229,0.45)]"
-          >
+          <button type="button" disabled className={actionBtn}>
             {AUTH_SIGNUP_TEXT.signup.sendCode}
           </button>
         </div>
@@ -33,79 +52,65 @@ export function SignupForm({ onGoLogin }: { onGoLogin: () => void }) {
         <div className="flex gap-2">
           <input
             name="code"
-            type="text"
             placeholder={AUTH_SIGNUP_TEXT.signup.codePlaceholder}
             disabled
             className="flex-1 rounded-lg border border-white/30 bg-white/10 px-3 py-3
                        text-white placeholder-white/60 outline-none
                        focus:border-white/60 focus:bg-white/15 transition"
           />
-          <button
-            type="button"
-            disabled
-            className="min-w-[100px] rounded-lg py-3 text-sm font-semibold text-white
-                   bg-indigo-500 hover:bg-indigo-500/90
-                   shadow-[0_6px_18px_rgba(79,70,229,0.45)]"
-          >
+          <button type="button" disabled className={actionBtn}>
             {AUTH_SIGNUP_TEXT.signup.verify}
           </button>
         </div>
       </Field>
 
-      <Field label={AUTH_SIGNUP_TEXT.signup.id}>
+      <Field label={AUTH_SIGNUP_TEXT.signup.id} error={errors.userId?.message}>
         <div className="flex gap-2">
           <input
-            name="userId"
+            {...register("userId")}
             placeholder={AUTH_SIGNUP_TEXT.signup.idPlaceholder}
-            disabled
             className="flex-1 rounded-lg border border-white/30 bg-white/10 px-3 py-3
                        text-white placeholder-white/60 outline-none
                        focus:border-white/60 focus:bg-white/15 transition"
           />
-          <button
-            type="button"
-            disabled
-            className="min-w-[100px] rounded-lg py-3 text-sm font-semibold text-white
-                   bg-indigo-500 hover:bg-indigo-500/90
-                   shadow-[0_6px_18px_rgba(79,70,229,0.45)]"
-          >
+          <button type="button" disabled className={actionBtn}>
             {AUTH_SIGNUP_TEXT.signup.duplicateCheck}
           </button>
         </div>
       </Field>
 
-      <Field label={AUTH_SIGNUP_TEXT.signup.password}>
+      <Field label={AUTH_SIGNUP_TEXT.signup.password} error={errors.password?.message}>
         <input
-          name="password"
+          {...register("password")}
           type="password"
           placeholder={AUTH_SIGNUP_TEXT.signup.passwordPlaceholder}
-          disabled
           className="w-full rounded-lg border border-white/30 bg-white/10 px-3 py-3
                      text-white placeholder-white/60 outline-none
-                     focus:border-white/60 focus:bg-white/15 transition
-                     shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]"
+                     focus:border-white/60 focus:bg-white/15 transition"
         />
       </Field>
 
-      <Field label={AUTH_SIGNUP_TEXT.signup.passwordConfirm}>
+      <Field
+        label={AUTH_SIGNUP_TEXT.signup.passwordConfirm}
+        error={errors.passwordConfirm?.message}
+      >
         <input
-          name="passwordConfirm"
+          {...register("passwordConfirm")}
           type="password"
           placeholder={AUTH_SIGNUP_TEXT.signup.passwordConfirmPlaceholder}
-          disabled
           className="w-full rounded-lg border border-white/30 bg-white/10 px-3 py-3
                      text-white placeholder-white/60 outline-none
-                     focus:border-white/60 focus:bg-white/15 transition
-                     shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]"
+                     focus:border-white/60 focus:bg-white/15 transition"
         />
       </Field>
 
       <button
-        type="button"
-        disabled
+        type="submit"
+        disabled={!isValid || isSubmitting || isPending}
         className="w-full rounded-lg py-3 text-sm font-semibold text-white
                    bg-indigo-500 hover:bg-indigo-500/90
-                   shadow-[0_6px_18px_rgba(79,70,229,0.45)]"
+                   shadow-[0_6px_18px_rgba(79,70,229,0.45)]
+                   disabled:opacity-60"
       >
         {AUTH_SIGNUP_TEXT.signup.submit}
       </button>

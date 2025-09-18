@@ -19,3 +19,23 @@ export const AUTH_SIGNUP_TEXT = {
     note: "이메일은 인증용이며, 로그인 아이디는 별도로 사용됩니다.",
   },
 } as const;
+
+export const AUTH_SIGNUP_ERROR = {
+  email: "올바른 이메일 형식",
+  userId: {
+    min: "아이디 3자 이상",
+    max: "20자 이하",
+    regex: "영문/숫자/._-만 사용",
+  },
+  password: {
+    min: "8자 이상",
+    alpha: "영문 포함",
+    number: "숫자 포함",
+    special: "특수문자 포함",
+  },
+  passwordConfirm: {
+    required: "비밀번호 확인을 입력",
+    notMatch: "비밀번호가 일치하지 않습니다.",
+  },
+  signupFail: "회원가입 실패",
+} as const;
