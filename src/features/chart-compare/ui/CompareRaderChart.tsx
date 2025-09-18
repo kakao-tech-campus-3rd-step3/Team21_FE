@@ -1,7 +1,11 @@
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer } from "recharts";
 
 import type { Professor } from "@/entities/professor/model/professors";
-import { COMPARE_RADER_CHART_TEXTS } from "@/features/chart-compare/ui/text";
+import type { University } from "@/entities/university/model/university";
+import {
+  COMPARE_RADER_CHART_TEXTS,
+  COMPARE_UNIV_RADER_CHART_TEXTS,
+} from "@/features/chart-compare/ui/text";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/shared/ui/chart";
 import {
   GlassCard,
@@ -12,44 +16,41 @@ import {
   GlassCardTitle,
 } from "@/shared/ui/GlassCard";
 
-type props = {
-  professors: Professor[];
+type GenericCompareRadarChartProps<T> = {
+  items: T[];
+  categories: { [key: string]: string };
+  getName: (item: T) => string;
+  getValues: (item: T) => Record<string, number | undefined>;
+  title: string;
+  description: string;
 };
 
-export const CompareRaderChart = ({ professors }: props) => {
-  const chartData = [
-    {
-      category: COMPARE_RADER_CHART_TEXTS.categories.homework,
-      p1: professors[0]?.homework ?? 0,
-      p2: professors[1]?.homework ?? 0,
-    },
-    {
-      category: COMPARE_RADER_CHART_TEXTS.categories.lecDifficulty,
-      p1: professors[0]?.lecDifficulty ?? 0,
-      p2: professors[1]?.lecDifficulty ?? 0,
-    },
-    {
-      category: COMPARE_RADER_CHART_TEXTS.categories.examDifficulty,
-      p1: professors[0]?.examDifficulty ?? 0,
-      p2: professors[1]?.examDifficulty ?? 0,
-    },
-    {
-      category: COMPARE_RADER_CHART_TEXTS.categories.gradeDistribution,
-      p1: professors[0]?.gradeDistribution ?? 0,
-      p2: professors[1]?.gradeDistribution ?? 0,
-    },
-    {
-      category: COMPARE_RADER_CHART_TEXTS.categories.researchPerf,
-      p1: professors[0]?.researchPerf ?? 0,
-      p2: professors[1]?.researchPerf ?? 0,
-    },
-  ];
+function GenericCompareRaderChart<T>({
+  items,
+  categories,
+  getName,
+  getValues,
+  title,
+  description,
+}: GenericCompareRadarChartProps<T>) {
+  // chartData 구성
+  const chartData = Object.entries(categories).map(([key, label]) => {
+    const values: Record<string, number> = {};
+    items.forEach((item, index) => {
+      const value = getValues(item)[key] ?? 0;
+      values[`p${index + 1}`] = value;
+    });
+    return {
+      category: label,
+      ...values,
+    };
+  });
 
   return (
     <GlassCard shine={false}>
       <GlassCardHeader className="items-center pb-4">
-        <GlassCardTitle>{COMPARE_RADER_CHART_TEXTS.title}</GlassCardTitle>
-        <GlassCardDescription>{COMPARE_RADER_CHART_TEXTS.description}</GlassCardDescription>
+        <GlassCardTitle>{title}</GlassCardTitle>
+        <GlassCardDescription>{description}</GlassCardDescription>
       </GlassCardHeader>
 
       <GlassCardContent className="pb-0">
@@ -58,21 +59,15 @@ export const CompareRaderChart = ({ professors }: props) => {
           config={{}}
         >
           <ResponsiveContainer width="100%" height="100%">
-            <RadarChart
-              data={chartData}
-              outerRadius="90%"
-              margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-            >
+            <RadarChart data={chartData} outerRadius="90%">
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
               <PolarAngleAxis dataKey="category" />
               <PolarGrid radialLines={false} polarRadius={[140]} strokeWidth={1} />
-
-              {/* 교수별 Radar */}
-              {professors.map((prof, index) => (
+              {items.map((item, index) => (
                 <Radar
-                  key={prof.id}
+                  key={getName(item)}
                   dataKey={`p${index + 1}`}
-                  name={prof.name}
+                  name={getName(item)}
                   stroke={index === 0 ? "var(--chart-2)" : "oklch(0.627 0.265 303.9)"}
                   fill={`var(--chart-${index + 1})`}
                   fillOpacity={0.3}
@@ -85,19 +80,63 @@ export const CompareRaderChart = ({ professors }: props) => {
 
       <GlassCardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex items-center gap-4">
-          {professors.map((prof, index) => (
-            <div key={prof.id} className="flex items-center gap-1.5">
+          {items.map((item, index) => (
+            <div key={getName(item)} className="flex items-center gap-1.5">
               <div
                 className="h-2.5 w-2.5 shrink-0 rounded-full"
                 style={{
                   backgroundColor: index === 0 ? "var(--chart-2)" : "oklch(0.627 0.265 303.9)",
                 }}
               />
-              <span>{prof.name}</span>
+              <span>{getName(item)}</span>
             </div>
           ))}
         </div>
       </GlassCardFooter>
     </GlassCard>
   );
+}
+
+//교수
+type CompareProfessorRadarChartProps = {
+  professors: Professor[];
 };
+
+export const CompareRaderChart = ({ professors }: CompareProfessorRadarChartProps) => (
+  <GenericCompareRaderChart
+    items={professors}
+    categories={COMPARE_RADER_CHART_TEXTS.categories}
+    getName={(p) => p.name}
+    getValues={(p) => ({
+      homework: p.homework,
+      lecDifficulty: p.lecDifficulty,
+      examDifficulty: p.examDifficulty,
+      gradeDistribution: p.gradeDistribution,
+      researchPerf: p.researchPerf,
+    })}
+    title={COMPARE_RADER_CHART_TEXTS.title}
+    description={COMPARE_RADER_CHART_TEXTS.description}
+  />
+);
+
+//학교
+type CompareUniversityRadarChartProps = {
+  universities: University[];
+};
+
+export const CompareUniversityRaderChart = ({ universities }: CompareUniversityRadarChartProps) => (
+  <GenericCompareRaderChart
+    items={universities}
+    categories={COMPARE_UNIV_RADER_CHART_TEXTS.categories}
+    getName={(u) => u.name}
+    getValues={(u) => ({
+      food: u.food,
+      dorm: u.dorm,
+      conv: u.conv,
+      campus: u.campus,
+      welfare: u.welfare,
+    })}
+    title={COMPARE_UNIV_RADER_CHART_TEXTS.title}
+    description={COMPARE_UNIV_RADER_CHART_TEXTS.description}
+  />
+);
