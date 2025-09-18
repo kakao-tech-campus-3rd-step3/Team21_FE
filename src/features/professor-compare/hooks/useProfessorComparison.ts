@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import { depts, profs } from "@/__MOCK__/mockData";
-import { mapProfToProfessor, type Professor } from "@/entities/professor/model/professors";
-
+import { mapProfToProfessor } from "@/entities/professor/model/mapprofessor";
+import { type Professor } from "@/entities/professor/model/professors";
 type ProfessorSearch = {
   id: string;
   name: string;
