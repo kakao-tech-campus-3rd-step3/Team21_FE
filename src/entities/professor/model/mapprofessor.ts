@@ -7,8 +7,8 @@ import {
   profs,
   univs,
 } from "@/__MOCK__/mockData";
-import { getAverage } from "@/entities/professor/lib/getAverage";
 import type { Professor } from "@/entities/professor/model/professors";
+import { getAverage } from "@/shared/lib/getAverage";
 
 export const mapProfToProfessor = (profSeq: number): Professor | null => {
   const prof = profs.find((p) => p.profSeq === profSeq);
