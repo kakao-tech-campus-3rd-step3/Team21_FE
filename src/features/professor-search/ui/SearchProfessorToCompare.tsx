@@ -1,7 +1,7 @@
 import { Search } from "lucide-react";
 
-import type { ProfessorSearch } from "@/features/professor-search/model/type";
-import { SEARCH_PROFESSOR_TEXTS } from "@/features/professor-search/texts";
+import type { ProfessorSearch } from "@/features/professor-search/model/professors";
+import { SEARCH_PROFESSOR_TEXTS } from "@/features/professor-search/text";
 import { Button } from "@/shared/ui/button";
 import {
   GlassCard,
