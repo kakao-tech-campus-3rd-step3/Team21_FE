@@ -11,6 +11,20 @@ export const chartData = [
   { year: "4학년 1학기", p1: 29, p2: 130 },
   { year: "4학년 2학기", p1: 214, p2: 14 },
 ];
+// 대학 상세 사이드바 - contact
+export const contact = {
+  tel: "042-132-1234",
+  web: "https://plus.cnu.ac.kr/",
+  email: "qwer@cnu.ac.kr",
+};
+
+// 대학 상세 사이드바 - main
+export const sideBar = {
+  campuses: 1,
+  colleges: 21,
+  departments: 123,
+  students: 21000,
+};
 
 // 대학 상세 사이드바 - contact
 export const contact = {
