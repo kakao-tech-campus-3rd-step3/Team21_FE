@@ -4,7 +4,7 @@ import { HiArrowsRightLeft } from "react-icons/hi2";
 
 import type { UniversityHeroData } from "@/entities/university/model/hero.vm";
 import { UNIVERSITY_TEXT } from "@/entities/university/text";
-import { formatNumber } from "@/shared/lib/\bformat";
+import { formatNumber } from "@/shared/lib/format";
 import { Button } from "@/shared/ui/button";
 import { Card } from "@/shared/ui/card";
 import { RatingStars } from "@/shared/ui/RatingStars";
