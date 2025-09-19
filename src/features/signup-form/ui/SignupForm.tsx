@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { type SignupInput, SignupSchema } from "@/features/signup-form/model/validation";
+import { type SignupInput, SignupSchema } from "@/features/signup-form/model/schema";
+import { useSignup } from "@/features/signup-form/model/useSignup";
 import { Field } from "@/shared/ui/Field";
 
-import { useSignup } from "../model/useSignup";
 import { AUTH_SIGNUP_TEXT } from "../text";
 
 const actionBtn =
