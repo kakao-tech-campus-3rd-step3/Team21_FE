@@ -19,29 +19,29 @@ type Props = {
 export const CompareUnivRaderChart = ({ universities }: Props) => {
   const chartData = [
     {
-      category: COMPARE_UNIV_RADER_CHART_TEXTS.categories.research,
-      u1: universities[0]?.research ?? 0,
-      u2: universities[1]?.research ?? 0,
+      category: COMPARE_UNIV_RADER_CHART_TEXTS.categories.food,
+      u1: universities[0]?.food ?? 0,
+      u2: universities[1]?.food ?? 0,
     },
     {
-      category: COMPARE_UNIV_RADER_CHART_TEXTS.categories.employment,
-      u1: universities[0]?.employment ?? 0,
-      u2: universities[1]?.employment ?? 0,
+      category: COMPARE_UNIV_RADER_CHART_TEXTS.categories.dorm,
+      u1: universities[0]?.dorm ?? 0,
+      u2: universities[1]?.dorm ?? 0,
     },
     {
-      category: COMPARE_UNIV_RADER_CHART_TEXTS.categories.facilities,
-      u1: universities[0]?.facilities ?? 0,
-      u2: universities[1]?.facilities ?? 0,
+      category: COMPARE_UNIV_RADER_CHART_TEXTS.categories.campus,
+      u1: universities[0]?.campus ?? 0,
+      u2: universities[1]?.campus ?? 0,
     },
     {
-      category: COMPARE_UNIV_RADER_CHART_TEXTS.categories.studentSupport,
-      u1: universities[0]?.studentSupport ?? 0,
-      u2: universities[1]?.studentSupport ?? 0,
+      category: COMPARE_UNIV_RADER_CHART_TEXTS.categories.conv,
+      u1: universities[0]?.conv ?? 0,
+      u2: universities[1]?.conv ?? 0,
     },
     {
-      category: COMPARE_UNIV_RADER_CHART_TEXTS.categories.globalization,
-      u1: universities[0]?.globalization ?? 0,
-      u2: universities[1]?.globalization ?? 0,
+      category: COMPARE_UNIV_RADER_CHART_TEXTS.categories.welfare,
+      u1: universities[0]?.welfare ?? 0,
+      u2: universities[1]?.welfare ?? 0,
     },
   ];
 
