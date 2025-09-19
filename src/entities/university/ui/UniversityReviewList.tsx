@@ -58,7 +58,7 @@ export function UniversityReviewList({ univSeq }: Props) {
                 {rv.tags.map((t) => (
                   <span
                     key={t}
-                    className="text-xs rounded-md px-2 py-1 bg-zinc-800 text-zinc-300 border border-zinc-700"
+                    className="text-xs rounded-md px-2 py-1 bg-emerald-500/10 text-emerald-300 border border-emerald-500/20"
                   >
                     {t}
                   </span>
