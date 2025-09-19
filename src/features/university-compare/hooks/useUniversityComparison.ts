@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { univs } from "@/__MOCK__/mockData";
-import { mapUnivToUniversity } from "@/entities/university/model/mapuniversity";
+import { mapuniversity } from "@/entities/university/model/mapuniversity";
 import { type University } from "@/entities/university/model/university";
 
 type UniversitySearch = {
@@ -38,7 +38,7 @@ export const useUniversityComparison = () => {
   };
 
   const handlePick = (univSearch: UniversitySearch) => {
-    const univ = mapUnivToUniversity(Number(univSearch.id));
+    const univ = mapuniversity(Number(univSearch.id));
     if (!univ) return;
 
     setComparedUniversities((prev) => {

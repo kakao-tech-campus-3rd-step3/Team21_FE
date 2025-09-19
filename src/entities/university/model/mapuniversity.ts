@@ -2,7 +2,7 @@ import { univReviews, univs, univTags } from "@/__MOCK__/mockData";
 import type { University } from "@/entities/university/model/university";
 import { getAverage } from "@/shared/lib/getAverage";
 
-export const mapUnivToUniversity = (univSeq: number): University | null => {
+export const mapuniversity = (univSeq: number): University | null => {
   const univ = univs.find((u) => u.univSeq === univSeq);
   if (!univ) return null;
 

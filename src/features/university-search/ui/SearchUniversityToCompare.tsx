@@ -1,6 +1,6 @@
 import { Search } from "lucide-react";
 
-import type { UniversitySearch } from "@/features/university-search/model/university";
+import type { UniversitySearch } from "@/features/university-search/model/universitysearch";
 import { SEARCH_UNIVERSITY_TEXTS } from "@/features/university-search/text";
 import { Button } from "@/shared/ui/button";
 import {
