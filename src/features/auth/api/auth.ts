@@ -1,23 +1,22 @@
-import axios from "axios";
+import { apiClient } from "@/shared/api/apiClient";
 
-import { authStorage } from "@/shared/lib/authStorage";
+type LoginReq = { userId: string; password: string };
+type LoginRes = { success: boolean; message: string };
 
-const refreshClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
-  withCredentials: true,
-});
+type SignupReq = { email: string; userId: string; password: string };
+type SignupRes = { success: boolean };
 
-type RefreshResponse = { accessToken: string };
+export async function loginApi(body: LoginReq) {
+  const res = await apiClient.post<LoginRes>("/api/users/login", body, {
+    // 토큰 응답 추가 시 authStorage.set({ token }) + apiClient 인터셉터에서 자동 부착하도록 확장
+    // headers: { Authorization: `Bearer ${authStorage.get().token ?? ""}` },
+  });
+  return res.data;
+}
 
-export async function refreshAccessToken(): Promise<string | null> {
-  try {
-    const { data } = await refreshClient.post<RefreshResponse>("/auth/refresh");
-    if (data?.accessToken) {
-      authStorage.setAccessToken(data.accessToken);
-      return data.accessToken;
-    }
-    return null;
-  } catch {
-    return null;
-  }
+export async function signupApi(body: SignupReq) {
+  const res = await apiClient.post<SignupRes>("/api/users/signup", body, {
+    // headers: { Authorization: `Bearer ${authStorage.get().token ?? ""}` },
+  });
+  return res.data;
 }
