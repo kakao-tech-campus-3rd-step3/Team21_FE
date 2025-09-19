@@ -6,8 +6,9 @@ import type {
   InternalAxiosRequestConfig,
 } from "axios";
 
-import { refreshAccessToken } from "@/features/auth/api/auth";
 import { authStorage } from "@/shared/lib/authStorage";
+
+type RefreshFn = () => Promise<string | null>;
 
 let isRefreshing = false;
 let refreshQueue: Array<(token: string | null) => void> = [];
@@ -27,12 +28,19 @@ function setAuthHeader(config: AxiosRequestConfig, token: string) {
   config.headers = headers;
 }
 
-export function attachAuthInterceptors(client: AxiosInstance, onUnauthorizedRedirect?: () => void) {
+type AttachOptions = {
+  onUnauthorizedRedirect?: () => void;
+  refreshAccessToken?: RefreshFn;
+};
+
+export function attachAuthInterceptors(client: AxiosInstance, opts: AttachOptions = {}) {
+  const { onUnauthorizedRedirect, refreshAccessToken } = opts;
+
   client.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     const token = authStorage.getAccessToken();
     if (token) {
       config.headers = config.headers ?? {};
-      config.headers.Authorization = `Bearer ${token}`;
+      (config.headers as AxiosRequestHeaders).Authorization = `Bearer ${token}`;
     }
     return config;
   });
@@ -49,6 +57,12 @@ export function attachAuthInterceptors(client: AxiosInstance, onUnauthorizedRedi
       }
 
       if (error.response.status !== 401) {
+        return Promise.reject(error);
+      }
+
+      if (!refreshAccessToken) {
+        authStorage.clear();
+        onUnauthorizedRedirect?.();
         return Promise.reject(error);
       }
 
@@ -69,7 +83,6 @@ export function attachAuthInterceptors(client: AxiosInstance, onUnauthorizedRedi
               reject(error);
               return;
             }
-
             setAuthHeader(originalRequest, newToken);
             resolve(client(originalRequest));
           });
@@ -89,9 +102,7 @@ export function attachAuthInterceptors(client: AxiosInstance, onUnauthorizedRedi
         }
 
         client.defaults.headers.common.Authorization = `Bearer ${newToken}`;
-
         setAuthHeader(originalRequest, newToken);
-
         return client(originalRequest);
       } catch (e) {
         isRefreshing = false;
