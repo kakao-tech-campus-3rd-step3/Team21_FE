@@ -11,7 +11,7 @@ import {
 } from "@/shared/ui/GlassCard";
 import { StarRating } from "@/shared/ui/StarRating";
 
-export type props = {
+type props = {
   professor: Professor;
   onRemove: () => void;
 };

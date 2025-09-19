@@ -1,5 +1,4 @@
-import { CompareUniversityLineChart } from "@/features/chart-compare/ui/CompareLineChart";
-import { CompareUniversityRaderChart } from "@/features/chart-compare/ui/CompareRaderChart";
+import { CompareUnivLineChart } from "@/features/chart-compare/ui/CompareUnivLineChart";
 import { useUniversityComparison } from "@/features/university-compare/hooks/useUniversityComparison";
 import { UniversityCard } from "@/features/university-compare/ui/UniversityCard";
 import { SearchUniversityToCompare } from "@/features/university-search/ui/SearchUniversityToCompare";
@@ -54,10 +53,10 @@ export const CompareUniversityPage = () => {
             </div>
 
             {/* 오각형 비교 차트 */}
-            <CompareUniversityRaderChart universities={comparedUniversities} />
+            <CompareUnivLineChart universities={comparedUniversities} />
 
             {/* 직선 비교 차트 */}
-            <CompareUniversityLineChart universities={comparedUniversities} />
+            <CompareUnivLineChart universities={comparedUniversities} />
           </>
         )}
       </div>

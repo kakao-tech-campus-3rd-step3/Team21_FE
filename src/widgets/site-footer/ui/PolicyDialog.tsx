@@ -21,6 +21,12 @@ export default function PolicyDialog({ type, open, onOpenChange }: Props) {
   const title = type === "privacy" ? "개인정보처리방침" : type === "terms" ? "이용약관" : "";
   const body = type === "privacy" ? privacyMD : type === "terms" ? termsMD : "";
 
+  const badgeClass = isPrivacy
+    ? "bg-sky-500/15 text-sky-300"
+    : type === "terms"
+      ? "bg-emerald-500/15 text-emerald-300"
+      : "";
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -37,11 +43,7 @@ export default function PolicyDialog({ type, open, onOpenChange }: Props) {
             <span
               className={cn(
                 "inline-flex h-8 w-8 items-center justify-center rounded-xl ring-1 ring-inset ring-white/10",
-                isPrivacy
-                  ? "bg-sky-500/15 text-sky-300"
-                  : type === "terms"
-                    ? "bg-emerald-500/15 text-emerald-300"
-                    : "",
+                badgeClass,
               )}
               aria-hidden
             >

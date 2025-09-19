@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { depts, profs } from "@/__MOCK__/mockData";
-import { mapProfToProfessor } from "@/entities/professor/model/mapprofessor";
+import { mapprofessor } from "@/entities/professor/model/mapprofessor";
 import { type Professor } from "@/entities/professor/model/professors";
 type ProfessorSearch = {
   id: string;
@@ -42,7 +42,7 @@ export const useProfessorComparison = () => {
   };
 
   const handlePick = (profSearch: ProfessorSearch) => {
-    const prof = mapProfToProfessor(Number(profSearch.id));
+    const prof = mapprofessor(Number(profSearch.id));
     if (!prof) return;
 
     setComparedProfessors((prev) => {

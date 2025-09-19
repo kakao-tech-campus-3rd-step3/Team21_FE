@@ -19,4 +19,4 @@ export const HOME_TEXT = {
   search: {
     placeholder: "대학교, 학과, 교수를 입력하세요",
   },
-};
+} as const;
