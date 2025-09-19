@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import { type LoginInput, LoginSchema } from "@/features/login-form/model/schema";
 import { useLogin } from "@/features/login-form/model/useLogin";
-import { type LoginInput, LoginSchema } from "@/features/login-form/model/validation";
 import { AUTH_LOGIN_TEXT } from "@/features/login-form/text";
 import { Field } from "@/shared/ui/Field";
 
