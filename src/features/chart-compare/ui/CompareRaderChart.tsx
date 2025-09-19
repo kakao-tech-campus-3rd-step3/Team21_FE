@@ -62,7 +62,7 @@ function GenericCompareRaderChart<T>({
             <RadarChart data={chartData} outerRadius="90%">
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
               <PolarAngleAxis dataKey="category" />
-              <PolarGrid radialLines={false} polarRadius={[155]} strokeWidth={1} />
+              <PolarGrid radialLines={false} strokeWidth={1} />
               {items.map((item, index) => (
                 <Radar
                   key={getName(item)}
