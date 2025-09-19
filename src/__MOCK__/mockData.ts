@@ -26,7 +26,6 @@ export const sideBar = {
   students: 21000,
 };
 
-
 // 단과대학
 export const colleges = [
   {
