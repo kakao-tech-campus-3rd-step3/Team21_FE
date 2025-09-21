@@ -1,3 +1,3 @@
 export function DepartmentDetailPage() {
-  return <div>단과대학상세</div>;
+  return <div>학과상세</div>;
 }
