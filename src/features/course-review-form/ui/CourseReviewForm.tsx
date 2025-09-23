@@ -1,0 +1,194 @@
+import { Controller } from "react-hook-form";
+
+import type { CourseEvalForm } from "@/features/course-review-form/model/schema";
+import { useCourseEvalForm } from "@/features/course-review-form/model/useCourseEvalForm";
+import { EvalCard } from "@/features/eval";
+import { StarRatingField } from "@/features/rating-field";
+import { ControlledSelect } from "@/features/select-field";
+import { Button } from "@/shared/ui/button";
+import { Label } from "@/shared/ui/label";
+import { Textarea } from "@/shared/ui/textarea";
+
+type SelectOption = Readonly<{ label: string; value: string }>;
+
+type CourseEvalTextShape = {
+  title: string;
+  semesterLabel: string;
+  yearSuffix: string;
+  termSuffix: string;
+  yearPlaceholder: string;
+  termPlaceholder: string;
+
+  difficulty: string;
+  examDifficulty: string;
+  lectureSkill: string;
+
+  taskAmount: string;
+  taskDifficulty: string;
+  teamProject: string;
+
+  taskAmountOptions: ReadonlyArray<SelectOption>;
+  taskDifficultyOptions: ReadonlyArray<SelectOption>;
+  teamProjectOptions: ReadonlyArray<SelectOption>;
+
+  totalComment: string;
+  commentPlaceholder: string;
+
+  validate: {
+    yearRequired: string;
+    yearInvalid: string;
+    yearRange: string;
+    termRequired: string;
+    termInvalid: string;
+    requiredStar: string;
+    selectRequired: string;
+  };
+};
+
+type Props = {
+  lecSeq: string | number;
+  text: CourseEvalTextShape;
+  onSubmitted?: (data: CourseEvalForm & { lecSeq: string | number; semesterKey: string }) => void;
+};
+
+export function CourseReviewForm({ lecSeq, text, onSubmitted }: Props) {
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isValid, isSubmitting },
+  } = useCourseEvalForm(text);
+
+  const onSubmit = (data: CourseEvalForm) => {
+    const semesterKey = `${data.year}-${data.term}`; // 예: 2025-1
+    onSubmitted?.({ ...data, lecSeq, semesterKey });
+    if (!onSubmitted) {
+      console.log("COURSE REVIEW SUBMIT", { lecSeq, semesterKey, ...data });
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <h1 className="text-2xl font-bold">
+        {text.title} · {lecSeq}
+      </h1>
+
+      <EvalCard title={text.semesterLabel}>
+        <div className="flex items-center gap-2">
+          <Controller<CourseEvalForm>
+            control={control}
+            name="year"
+            render={({ field }) => (
+              <input
+                type="number"
+                inputMode="numeric"
+                placeholder={text.yearPlaceholder}
+                className="border p-2 rounded-md w-32"
+                value={field.value ?? ""}
+                min={1900}
+                max={2100}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  field.onChange(v === "" ? undefined : Number(v));
+                }}
+              />
+            )}
+          />
+          <span className="text-sm text-muted-foreground">{text.yearSuffix}</span>
+
+          <Controller<CourseEvalForm>
+            control={control}
+            name="term"
+            render={({ field }) => (
+              <input
+                type="number"
+                inputMode="numeric"
+                placeholder={text.termPlaceholder}
+                className="border p-2 rounded-md w-24"
+                value={field.value ?? ""}
+                min={1}
+                max={2}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  field.onChange(v === "" ? undefined : Number(v));
+                }}
+              />
+            )}
+          />
+          <span className="text-sm text-muted-foreground">{text.termSuffix}</span>
+        </div>
+
+        {(errors.year || errors.term) && (
+          <p className="mt-2 text-sm text-red-500">
+            {(errors.year?.message as string) || (errors.term?.message as string)}
+          </p>
+        )}
+      </EvalCard>
+
+      <EvalCard title={text.difficulty} center>
+        <StarRatingField
+          control={control}
+          name="difficulty"
+          aria-label={text.difficulty}
+          error={errors.difficulty?.message as string | undefined}
+        />
+      </EvalCard>
+
+      <EvalCard title={text.examDifficulty} center>
+        <StarRatingField
+          control={control}
+          name="examDifficulty"
+          aria-label={text.examDifficulty}
+          error={errors.examDifficulty?.message as string | undefined}
+        />
+      </EvalCard>
+
+      <EvalCard title={text.lectureSkill} center>
+        <StarRatingField
+          control={control}
+          name="lectureSkill"
+          aria-label={text.lectureSkill}
+          error={errors.lectureSkill?.message as string | undefined}
+        />
+      </EvalCard>
+
+      <EvalCard title={text.taskAmount}>
+        <ControlledSelect<CourseEvalForm>
+          control={control}
+          name="taskAmount"
+          options={text.taskAmountOptions}
+          error={errors.taskAmount?.message as string | undefined}
+        />
+      </EvalCard>
+
+      <EvalCard title={text.taskDifficulty}>
+        <ControlledSelect<CourseEvalForm>
+          control={control}
+          name="taskDifficulty"
+          options={text.taskDifficultyOptions}
+          error={errors.taskDifficulty?.message as string | undefined}
+        />
+      </EvalCard>
+
+      <EvalCard title={text.teamProject}>
+        <ControlledSelect<CourseEvalForm>
+          control={control}
+          name="teamProject"
+          options={text.teamProjectOptions}
+          error={errors.teamProject?.message as string | undefined}
+        />
+      </EvalCard>
+
+      <EvalCard title={text.totalComment}>
+        <Label htmlFor="comment" className="sr-only">
+          {text.totalComment}
+        </Label>
+        <Textarea id="comment" placeholder={text.commentPlaceholder} {...register("comment")} />
+      </EvalCard>
+
+      <Button type="submit" disabled={!isValid || isSubmitting} className="w-full">
+        제출하기
+      </Button>
+    </form>
+  );
+}
