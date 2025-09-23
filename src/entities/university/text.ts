@@ -7,4 +7,5 @@ export const UNIVERSITY_TEXT = {
     compare: "다른 대학과 비교하기",
   },
   ratingSuffix: "평가",
+  reviewCount: "리뷰 수",
 } as const;
