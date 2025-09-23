@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 
 import { univs } from "@/__MOCK__/mockData";
-import type { UnivSearchResult } from "@/entities/university/model/search-result";
+import type { UnivSearchResult } from "@/entities/university/model/univ-search-result";
 import { SearchResultsList, SearchUniversity } from "@/features/search";
 import { UNIVERSITY_SEARCH_TEXTS } from "@/features/search/text";
 

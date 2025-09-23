@@ -1,4 +1,4 @@
-import type { UnivSearchResult } from "@/entities/university/model/search-result";
+import type { UnivSearchResult } from "@/entities/university/model/univ-search-result";
 import { UniversityCard } from "@/entities/university/ui/UniversitySearchCard";
 import { UNIVERSITY_SEARCH_TEXTS } from "@/features/search/text";
 

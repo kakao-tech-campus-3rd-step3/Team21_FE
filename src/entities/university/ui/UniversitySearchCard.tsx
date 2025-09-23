@@ -1,5 +1,5 @@
 import cnulogo from "@/assets/cnulogo.svg";
-import type { UnivSearchResult } from "@/entities/university/model/search-result";
+import type { UnivSearchResult } from "@/entities/university/model/univ-search-result";
 import { UNIVERSITY_TEXT } from "@/entities/university/text";
 import {
   GlassCard,
@@ -16,9 +16,9 @@ type Props = {
 export const UniversityCard = ({ university }: Props) => {
   return (
     <GlassCard shine={false} className="w-full">
-      <GlassCardHeader className="flex flex-row items-center justify-between">
-        <div className="w-16 h-16 flex items-center justify-center">
-          <img src={cnulogo} alt={`${university.name} logo`} className="w-25 h-25 object-contain" />
+      <GlassCardHeader className="flex flex-row items-center justify-between gap-4">
+        <div className="w-24 h-24 flex items-center justify-center">
+          <img src={cnulogo} alt={`${university.name} logo`} className="w-24 h-24 object-contain" />
         </div>
 
         <div className="ml-3 flex-1">

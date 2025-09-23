@@ -4,4 +4,5 @@ export type UnivSearchResult = {
   address: string;
   rating: number;
   reviewCount: number;
+  logoUrl?: string;
 };
