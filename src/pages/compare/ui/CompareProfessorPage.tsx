@@ -1,7 +1,7 @@
 import { CompareLineChart } from "@/features/chart-compare/ui/CompareLineChart";
 import { CompareRaderChart } from "@/features/chart-compare/ui/CompareRaderChart";
 import { useProfessorComparison } from "@/features/professor-compare/hooks/useProfessorComparison";
-import { getGridCols } from "@/features/professor-compare/lib/getGridCols";
+import { getGridColClass } from "@/features/professor-compare/lib/getGridColClass";
 import { ProfessorCard } from "@/features/professor-compare/ui/ProfessorCard";
 import { SearchProfessorToCompare } from "@/features/professor-search/ui/SearchProfessorToCompare";
 import { COMPARE_PROFESSOR_TEXTS } from "@/pages/compare/text";
@@ -46,7 +46,7 @@ export const CompareProfessorPage = () => {
             {/* 교수 카드 */}
 
             <div
-              className={`relative grid grid-cols-1 items-start gap-8 ${getGridCols(
+              className={`relative grid items-start gap-8 ${getGridColClass(
                 comparedProfessors.length,
               )}`}
             >
