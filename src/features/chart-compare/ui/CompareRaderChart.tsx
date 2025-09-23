@@ -1,8 +1,15 @@
-import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer } from "recharts";
+import {
+  PolarAngleAxis,
+  PolarGrid,
+  Radar,
+  RadarChart,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
 
 import type { Professor } from "@/entities/professor/model/professors";
 import { COMPARE_RADER_CHART_TEXTS } from "@/features/chart-compare/ui/text";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/shared/ui/chart";
+import { ChartContainer } from "@/shared/ui/chart";
 import {
   GlassCard,
   GlassCardContent,
@@ -40,7 +47,7 @@ export const CompareRaderChart = ({ professors }: props) => {
     return row;
   });
 
-  const colors = ["red", "blue", "yellow"];
+  const colors = ["#3b82f6", "#ef4444", "#22c55e"];
 
   return (
     <GlassCard shine={false}>
@@ -60,7 +67,15 @@ export const CompareRaderChart = ({ professors }: props) => {
               outerRadius="100%"
               margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
             >
-              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+              <Tooltip
+                cursor={false}
+                contentStyle={{
+                  background: "rgba(24,24,27,0.9)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: 10,
+                  color: "#fff",
+                }}
+              />
               <PolarAngleAxis dataKey="category" />
               <PolarGrid strokeWidth={1} />
 
@@ -72,7 +87,7 @@ export const CompareRaderChart = ({ professors }: props) => {
                   name={prof.name}
                   stroke={colors[index % colors.length]}
                   fill={colors[index % colors.length]}
-                  fillOpacity={0.6}
+                  fillOpacity={0.4}
                 />
               ))}
             </RadarChart>

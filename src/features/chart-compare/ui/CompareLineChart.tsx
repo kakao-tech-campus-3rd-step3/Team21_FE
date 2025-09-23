@@ -17,7 +17,7 @@ type CompareLineChartProps = {
 };
 
 export const CompareLineChart = ({ professors }: CompareLineChartProps) => {
-  const colors = ["red", "blue", "yellow"];
+  const colors = ["#3b82f6", "#ef4444", "#22c55e"];
   return (
     <GlassCard shine={false}>
       <GlassCardHeader>
