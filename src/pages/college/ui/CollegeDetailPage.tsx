@@ -22,19 +22,6 @@ const FEATURES = [
   "창업지원센터 운영",
 ];
 
-const JOB_TAGS = [
-  "IT·소프트웨어",
-  "제조업",
-  "건설·건축",
-  "전자·통신",
-  "자동차",
-  "반도체",
-  "항공우주",
-  "에너지",
-  "바이오",
-  "연구소",
-];
-
 const CONTACT = {
   tel: "042-821-5600",
   email: "engineering@cnu.ac.kr",
