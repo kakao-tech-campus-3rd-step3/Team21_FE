@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { cn } from "@/shared/lib/utils";
-import { Card, CardContent } from "@/shared/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/ui/card";
 
 type GlassCardProps = {
   children: React.ReactNode;
@@ -38,4 +38,28 @@ export function GlassCard({
       <CardContent className={cn("relative p-6", contentClassName)}>{children}</CardContent>
     </Card>
   );
+}
+export function GlassCardHeader({ className, ...props }: React.ComponentProps<"div">) {
+  return <CardHeader className={cn("px-6 pb-4", className)} {...props} />;
+}
+
+export function GlassCardTitle({ className, ...props }: React.ComponentProps<"h2">) {
+  return (
+    <CardTitle
+      className={cn("text-lg font-semibold text-white leading-none", className)}
+      {...props}
+    />
+  );
+}
+
+export function GlassCardDescription({ className, ...props }: React.ComponentProps<"p">) {
+  return <p className={cn("text-sm text-slate-200", className)} {...props} />;
+}
+
+export function GlassCardContent({ className, ...props }: React.ComponentProps<"div">) {
+  return <CardContent className={cn("px-6", className)} {...props} />;
+}
+
+export function GlassCardFooter({ className, ...props }: React.ComponentProps<"div">) {
+  return <CardFooter className={cn("px-6 pt-4 border-t border-white/20", className)} {...props} />;
 }
