@@ -83,7 +83,6 @@ export function ProfessorResearchCard({ profId }: Props) {
                     <li key={course.id} className="flex items-center justify-between">
                       <div>
                         <div className="font-medium">{course.title}</div>
-                        <div className="text-xs text-muted-foreground">{course.semester}</div>
                       </div>
                       <Button
                         size="sm"
