@@ -7,4 +7,5 @@ export const ROUTES = {
   DEPARTMENT_DETAIL: (id: string | number = ":id") => `/department/${id}`,
   COMPARE_PROFESSOR: (id: string | number = ":id") => `/compare/professor/${id}`,
   UNIV_SEARCH_RESULT: (id: string | number = ":id") => `/search-result/university/${id}`,
+  COMPARE_UNIVERSITY: (id: string | number = ":id") => `/compare/university/${id}`,
 } as const;
