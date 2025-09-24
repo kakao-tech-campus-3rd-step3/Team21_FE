@@ -1,27 +1,13 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import { univs } from "@/__MOCK__/mockData";
-import type { UnivSearchResult } from "@/entities/university/model/univ-search-result";
 import { SearchResultsList, SearchUniversity } from "@/features/search";
+import { useUniversitySearch } from "@/features/search/hooks/useSearchUniversity";
 import { UNIVERSITY_SEARCH_TEXTS } from "@/features/search/text";
 
 export const UniversitySearchResultPage = () => {
   const [query, setQuery] = useState("");
-
-  //입력값 필터링
-  const results: UnivSearchResult[] = useMemo(() => {
-    if (!query.trim()) return [];
-    const lower = query.toLowerCase();
-    return univs
-      .filter((u) => u.name.toLowerCase().includes(lower))
-      .map((u) => ({
-        id: String(u.univSeq),
-        name: u.name,
-        address: u.address,
-        rating: u.rating,
-        reviewCount: u.ratingCount,
-      }));
-  }, [query]);
+  const results = useUniversitySearch(query, univs);
 
   return (
     <div className="mx-auto max-w-4xl p-4 sm:p-8">
