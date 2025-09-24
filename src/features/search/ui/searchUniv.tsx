@@ -34,7 +34,7 @@ export function SearchUniversity({ query, setQuery, onSubmit }: Props) {
               className="w-full rounded-lg border border-white/20 bg-white/10 backdrop-blur-sm px-9 py-2 text-sm text-slate-100 outline-none placeholder:text-slate-300 focus:border-primary"
             />
           </div>
-          <Button onClick={onSubmit}>검색</Button>
+          <Button onClick={onSubmit}>{UNIVERSITY_SEARCH_TEXTS.search}</Button>
         </div>
       </GlassCardContent>
     </GlassCard>

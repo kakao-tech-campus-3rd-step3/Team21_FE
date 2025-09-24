@@ -5,4 +5,5 @@ export const UNIVERSITY_SEARCH_TEXTS = {
   all: "총",
   findUniv: "개의 대학을 찾았습니다.",
   cantFind: "검색 결과가 없습니다.",
+  search: "검색",
 };
