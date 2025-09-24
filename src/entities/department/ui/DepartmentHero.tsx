@@ -1,13 +1,15 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { Card } from "@/shared/ui/card";
+import { Calendar, Users } from "lucide-react";
 
 type Props = {
   collegeName: string;
-  departmentName: string;
+  departmentName: string; // 컴퓨터융합학부 등
   intro: string;
   students: number;
   professors: number;
   foundedYear: number;
   logoUrl?: string;
+  universityName?: string; // 충남대학교 (상단 태그로 표시)
 };
 
 export function DepartmentHero({
@@ -18,37 +20,63 @@ export function DepartmentHero({
   professors,
   foundedYear,
   logoUrl,
+  universityName,
 }: Props) {
   return (
-    <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur shadow-md">
-      <CardHeader className="pb-3 flex flex-row items-start gap-4">
-        {logoUrl && (
-          <img
-            src={logoUrl}
-            alt={`${departmentName} 로고`}
-            className="h-10 w-10 rounded-md border border-zinc-700 bg-zinc-950 object-contain p-1"
-          />
-        )}
-        <div className="flex-1">
-          <div className="text-xs text-zinc-400">{collegeName}</div>
-          <CardTitle className="text-2xl font-bold tracking-tight">{departmentName}</CardTitle>
-          <p className="mt-2 text-sm text-zinc-300 leading-relaxed">{intro}</p>
+    <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur shadow-md p-6 md:p-8 space-y-4">
+      <div className="flex items-start gap-6">
+        {/* 왼쪽 로고 */}
+        <div className="h-20 w-20 md:h-24 md:w-24 shrink-0 rounded-xl bg-zinc-800/60 overflow-hidden grid place-items-center">
+          {logoUrl ? (
+            <img
+              src={logoUrl}
+              alt={`${departmentName} 로고`}
+              className="h-full w-full object-contain"
+            />
+          ) : (
+            <span className="text-xs text-zinc-500">No Logo</span>
+          )}
         </div>
-      </CardHeader>
-      <CardContent className="grid grid-cols-3 gap-4 pt-0 text-center">
-        <Stat label="재학생" value={`${students.toLocaleString()}명`} />
-        <Stat label="교수진" value={`${professors}명`} />
-        <Stat label="설립" value={`${foundedYear}년`} />
-      </CardContent>
-    </Card>
-  );
-}
 
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-lg border border-zinc-600/60 bg-zinc-950/50 p-3">
-      <div className="text-[11px] text-zinc-400">{label}</div>
-      <div className="mt-1 text-lg font-semibold">{value}</div>
-    </div>
+        {/* 오른쪽 본문 */}
+        <div className="flex-1">
+          {/* 대학명 태그 */}
+          {(universityName ?? collegeName) && (
+            <span className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800/70 px-3 py-1 text-xs text-zinc-200">
+              {universityName ?? collegeName}
+            </span>
+          )}
+
+          {/* 타이틀: 학대/학부명 굵게 */}
+          <h1 className="mt-2 text-2xl md:text-3xl font-bold tracking-tight">
+            {departmentName || collegeName}
+          </h1>
+
+          {/* 설명 텍스트: 더 희미하게 */}
+          <p className="mt-1 text-sm text-muted-foreground">{intro}</p>
+
+          {/* 메타 정보 칩들 */}
+          <div className="mt-4 flex flex-wrap gap-3 text-sm">
+            <span className="inline-flex items-center gap-1 rounded-md bg-zinc-800/70 px-2.5 py-1">
+              <Users className="h-4 w-4 text-indigo-500" />
+              재학생:
+              <span className="ml-1 font-medium text-white">{students.toLocaleString()}</span>
+            </span>
+
+            <span className="inline-flex items-center gap-1 rounded-md bg-zinc-800/70 px-2.5 py-1">
+              <Users className="h-4 w-4 text-indigo-500" />
+              교수진:
+              <span className="ml-1 font-medium text-white">{professors}</span>
+            </span>
+
+            <span className="inline-flex items-center gap-1 rounded-md bg-zinc-800/70 px-2.5 py-1">
+              <Calendar className="h-4 w-4 text-indigo-500" />
+              설립:
+              <span className="ml-1 font-medium text-white">{foundedYear}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </Card>
   );
 }
