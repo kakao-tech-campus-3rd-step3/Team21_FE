@@ -1,5 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Check } from "lucide-react";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
 type Props = { title: string; features: string[] };
 

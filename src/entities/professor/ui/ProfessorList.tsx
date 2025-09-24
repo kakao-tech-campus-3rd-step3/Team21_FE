@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+
 import { ProfessorCard } from "./ProfessorCard";
 
 type Item = {

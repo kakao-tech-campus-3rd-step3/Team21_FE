@@ -1,6 +1,7 @@
+import { BadgeCheck, Mail, MapPin } from "lucide-react";
+
 import { cn } from "@/shared/lib/utils";
 import { Card } from "@/shared/ui/card";
-import { BadgeCheck, Mail, MapPin } from "lucide-react";
 
 type Props = {
   name: string;

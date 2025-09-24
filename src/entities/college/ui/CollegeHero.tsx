@@ -1,6 +1,7 @@
+import { Calendar, Users } from "lucide-react";
+
 import { formatNumber } from "@/shared/lib/format";
 import { Card } from "@/shared/ui/card";
-import { Calendar, Users } from "lucide-react";
 
 type Props = {
   collegeName: string;

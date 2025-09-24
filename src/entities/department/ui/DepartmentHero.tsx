@@ -1,5 +1,6 @@
-import { Card } from "@/shared/ui/card";
 import { Calendar, Users } from "lucide-react";
+
+import { Card } from "@/shared/ui/card";
 
 type Props = {
   collegeName: string;

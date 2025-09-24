@@ -1,7 +1,8 @@
+import { BadgeCheck } from "lucide-react";
+
 import { cn } from "@/shared/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Separator } from "@/shared/ui/separator";
-import { BadgeCheck } from "lucide-react";
 
 type Department = {
   name: string;

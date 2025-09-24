@@ -1,5 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Mail, MapPin, Phone } from "lucide-react";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
 type Props = { tel?: string; email?: string; address?: string };
 
