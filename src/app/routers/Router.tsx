@@ -4,6 +4,7 @@ import { GlobalLayout } from "@/app/layout/GlobalLayout";
 import { UniversitySearchResultPage } from "@/entities/university";
 import { CollegeDetailPage } from "@/pages/college";
 import { CompareProfessorPage } from "@/pages/compare";
+import { CompareUniversityPage } from "@/pages/compare";
 import { DepartmentDetailPage } from "@/pages/department";
 import { HomePage } from "@/pages/home";
 import { ProfessorDetailPage } from "@/pages/professor";
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: ROUTES.DEPARTMENT_DETAIL(), element: <DepartmentDetailPage /> },
       { path: ROUTES.COMPARE_PROFESSOR(), element: <CompareProfessorPage /> },
       { path: ROUTES.UNIV_SEARCH_RESULT(), element: <UniversitySearchResultPage /> },
+      { path: ROUTES.COMPARE_UNIVERSITY(), element: <CompareUniversityPage /> },
     ],
   },
 ]);

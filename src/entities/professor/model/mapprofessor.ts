@@ -11,7 +11,7 @@ import {
 import type { Professor } from "@/entities/professor/model/professors";
 import { getAverage } from "@/shared/lib/getAverage";
 
-export const mapProfToProfessor = (profSeq: number): Professor | null => {
+export const mapprofessor = (profSeq: number): Professor | null => {
   const prof = profs.find((p) => p.profSeq === profSeq);
   if (!prof) return null;
 

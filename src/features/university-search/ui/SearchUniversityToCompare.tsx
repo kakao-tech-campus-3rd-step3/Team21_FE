@@ -1,8 +1,8 @@
 import { Search } from "lucide-react";
 
-import type { ProfessorSearch } from "@/features/professor-search/model/professorsearch";
-import { SEARCH_PROFESSOR_TEXTS } from "@/features/professor-search/text";
-import { ProfessorResultList } from "@/features/professor-search/ui/ProfessorResultList";
+import type { UniversitySearch } from "@/features/university-search/model/universitysearch";
+import { SEARCH_UNIVERSITY_TEXTS } from "@/features/university-search/text";
+import { UniversityResultList } from "@/features/university-search/ui/UniversityResultList";
 import { Button } from "@/shared/ui/button";
 import {
   GlassCard,
@@ -15,13 +15,13 @@ import {
 type props = {
   query: string;
   setQuery: (v: string) => void;
-  results: ProfessorSearch[];
+  results: UniversitySearch[];
   resultsOpen: boolean;
   setResultsOpen: (v: boolean) => void;
-  onPick: (p: ProfessorSearch) => void;
+  onPick: (u: UniversitySearch) => void;
 };
 
-export function SearchProfessorToCompare({
+export function SearchUniversityToCompare({
   query,
   setQuery,
   results,
@@ -32,8 +32,8 @@ export function SearchProfessorToCompare({
   return (
     <GlassCard>
       <GlassCardHeader>
-        <GlassCardTitle>{SEARCH_PROFESSOR_TEXTS.cardTitle}</GlassCardTitle>
-        <GlassCardDescription>{SEARCH_PROFESSOR_TEXTS.cardDescription}</GlassCardDescription>
+        <GlassCardTitle>{SEARCH_UNIVERSITY_TEXTS.cardTitle}</GlassCardTitle>
+        <GlassCardDescription>{SEARCH_UNIVERSITY_TEXTS.cardDescription}</GlassCardDescription>
       </GlassCardHeader>
       <GlassCardContent>
         <div className="flex items-center gap-2">
@@ -46,15 +46,15 @@ export function SearchProfessorToCompare({
                 setResultsOpen(true);
               }}
               onFocus={() => setResultsOpen(true)}
-              placeholder={SEARCH_PROFESSOR_TEXTS.placeholder}
+              placeholder={SEARCH_UNIVERSITY_TEXTS.placeholder}
               className="w-full rounded-lg border border-white/20 bg-white/10 backdrop-blur-sm px-9 py-2 text-sm text-slate-100 outline-none placeholder:text-slate-300 focus:border-primary"
             />
             {resultsOpen && results.length > 0 && (
-              <ProfessorResultList results={results} onPick={onPick} />
+              <UniversityResultList results={results} onPick={onPick} />
             )}
           </div>
           <Button onClick={() => setResultsOpen(!!query)}>
-            {SEARCH_PROFESSOR_TEXTS.searchButton}
+            {SEARCH_UNIVERSITY_TEXTS.searchButton}
           </Button>
         </div>
       </GlassCardContent>
