@@ -2,7 +2,6 @@ import cnulogo from "@/assets/cnulogo.svg";
 import { CollegeContactCard } from "@/entities/college/ui/CollegeContactCard";
 import { CollegeFeatureCard } from "@/entities/college/ui/CollegeFeatureCard";
 import { CollegeHero } from "@/entities/college/ui/CollegeHero";
-import { CollegeJobsCard } from "@/entities/college/ui/CollegeJobsCard";
 import { DepartmentList } from "@/entities/department/ui/DepartmentList";
 
 const HERO = {
@@ -101,7 +100,6 @@ export function CollegeDetailPage() {
 
         <div className="space-y-6">
           <CollegeFeatureCard title="주요 특징" features={FEATURES} />
-          <CollegeJobsCard title="취업 분야" tags={JOB_TAGS} />
           <CollegeContactCard tel={CONTACT.tel} email={CONTACT.email} address={CONTACT.address} />
         </div>
       </div>
