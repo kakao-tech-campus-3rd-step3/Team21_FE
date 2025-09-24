@@ -3,13 +3,13 @@ import { Calendar, Users } from "lucide-react";
 
 type Props = {
   collegeName: string;
-  departmentName: string; // 컴퓨터융합학부 등
+  departmentName: string;
   intro: string;
   students: number;
   professors: number;
   foundedYear: number;
   logoUrl?: string;
-  universityName?: string; // 충남대학교 (상단 태그로 표시)
+  universityName?: string;
 };
 
 export function DepartmentHero({
@@ -38,24 +38,19 @@ export function DepartmentHero({
           )}
         </div>
 
-        {/* 오른쪽 본문 */}
         <div className="flex-1">
-          {/* 대학명 태그 */}
           {(universityName ?? collegeName) && (
             <span className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800/70 px-3 py-1 text-xs text-zinc-200">
               {universityName ?? collegeName}
             </span>
           )}
 
-          {/* 타이틀: 학대/학부명 굵게 */}
           <h1 className="mt-2 text-2xl md:text-3xl font-bold tracking-tight">
             {departmentName || collegeName}
           </h1>
 
-          {/* 설명 텍스트: 더 희미하게 */}
           <p className="mt-1 text-sm text-muted-foreground">{intro}</p>
 
-          {/* 메타 정보 칩들 */}
           <div className="mt-4 flex flex-wrap gap-3 text-sm">
             <span className="inline-flex items-center gap-1 rounded-md bg-zinc-800/70 px-2.5 py-1">
               <Users className="h-4 w-4 text-indigo-500" />
