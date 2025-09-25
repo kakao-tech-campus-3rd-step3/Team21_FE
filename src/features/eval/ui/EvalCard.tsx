@@ -3,14 +3,14 @@ import { type PropsWithChildren } from "react";
 import { cn } from "@/shared/lib/utils";
 import { GlassCard } from "@/shared/ui/GlassCard";
 
-type EvalCardProps = PropsWithChildren<{
+type Props = PropsWithChildren<{
   title: string;
   description?: string;
   className?: string;
   center?: boolean;
 }>;
 
-export function EvalCard({ title, description, center, className, children }: EvalCardProps) {
+export function EvalCard({ title, description, center, className, children }: Props) {
   return (
     <GlassCard
       shine={false}
