@@ -2,12 +2,12 @@ import { useState } from "react";
 
 import { univs } from "@/__MOCK__/mockData";
 import { SearchResultsList, SearchUniversity } from "@/features/search";
-import { useUniversitySearch } from "@/features/search/hooks/useSearchUniversity";
+import { useSearchUniversity } from "@/features/search/hooks/useSearchUniversity";
 import { UNIVERSITY_SEARCH_TEXTS } from "@/features/search/text";
 
 export const UniversitySearchResultPage = () => {
   const [query, setQuery] = useState("");
-  const results = useUniversitySearch(query, univs);
+  const results = useSearchUniversity(query, univs);
 
   return (
     <div className="mx-auto max-w-4xl p-4 sm:p-8">

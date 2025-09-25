@@ -2,7 +2,7 @@ import { useMemo } from "react";
 
 import type { UnivSearchResult } from "@/entities/university/model/univsearch.domain";
 
-export function useUniversitySearch(
+export function useSearchUniversity(
   query: string,
   univs: typeof import("@/__MOCK__/mockData").univs,
 ): UnivSearchResult[] {
