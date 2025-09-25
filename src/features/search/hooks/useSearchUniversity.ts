@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import type { UnivSearchResult } from "@/entities/university/model/univ-search-result";
+import type { UnivSearchResult } from "@/entities/university/model/univsearch.domain";
 
 export function useUniversitySearch(
   query: string,
