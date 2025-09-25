@@ -1,18 +1,18 @@
 export const COURSE_EVAL_TEXT = {
   title: "강의 평가",
-  semesterLabel: "수강 학기",
+  semesterLabel: "수강 학기를 입력해 주세요",
   yearSuffix: "년",
   termSuffix: "학기",
   yearPlaceholder: "2025",
   termPlaceholder: "1 또는 2",
 
-  difficulty: "강의 난이도",
-  examDifficulty: "시험 난이도",
-  lectureSkill: "교수 강의력",
+  difficulty: "강의 난이도를 평가해 주세요.",
+  examDifficulty: "시험 난이도를 평가해 주세요.",
+  lectureSkill: "교수의 강의력을 평가해 주세요.",
 
-  taskAmount: "과제량",
-  taskDifficulty: "과제 난이도",
-  teamProject: "팀플",
+  taskAmount: "과제량을 선택해 주세요.",
+  taskDifficulty: "과제 난이도를 선택해 주세요.",
+  teamProject: "팀플 여부를 선택해 주세요.",
 
   taskAmountOptions: [
     { label: "매우 적음", value: "very-few" },
@@ -33,8 +33,8 @@ export const COURSE_EVAL_TEXT = {
     { label: "있음", value: "yes" },
   ],
 
-  totalComment: "강의 총평 (선택)",
-  commentPlaceholder: "강의에 대한 총평을 작성해주세요",
+  totalComment: "강의 총평을 작성해 주세요. (선택)",
+  commentPlaceholder: "강의에 대한 총평을 작성해 주세요.",
 
   actions: {
     submit: "제출하기",
