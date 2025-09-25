@@ -12,7 +12,12 @@ type EvalCardProps = PropsWithChildren<{
 
 export function EvalCard({ title, description, center, className, children }: EvalCardProps) {
   return (
-    <GlassCard shine={false} className={className} contentClassName="p-4 space-y-3">
+    <GlassCard
+      shine={false}
+      elevated={false}
+      className={cn("before:shadow-none", className)}
+      contentClassName="p-4 space-y-3"
+    >
       <div>
         <p className="font-medium">{title}</p>
         {description && <p className="text-sm text-muted-foreground">{description}</p>}
