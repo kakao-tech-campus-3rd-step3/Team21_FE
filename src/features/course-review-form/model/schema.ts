@@ -29,14 +29,14 @@ export const createCourseEvalSchema = <
   const V = text.validate;
 
   const year = z
-    .number()
+    .number({ message: V.yearRequired })
     .refine((v) => Number.isFinite(v), { message: V.yearRequired })
     .int({ message: V.yearInvalid })
     .min(1900, { message: V.yearRange })
     .max(2100, { message: V.yearRange });
 
   const term = z
-    .number()
+    .number({ message: V.termRequired })
     .refine((v) => Number.isFinite(v), { message: V.termRequired })
     .int({ message: V.termInvalid })
     .refine((v) => v === 1 || v === 2, { message: V.termInvalid });
