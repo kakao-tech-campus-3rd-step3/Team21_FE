@@ -55,12 +55,18 @@ export const authStorage = {
     state = { ...state, ...next, isAuthed: !!(next.token ?? state.token) };
     try {
       if (next.token !== undefined) {
-        if (next.token) localStorage.setItem(ACCESS_TOKEN_KEY, next.token);
-        else localStorage.removeItem(ACCESS_TOKEN_KEY);
+        if (next.token) {
+          localStorage.setItem(ACCESS_TOKEN_KEY, next.token);
+        } else {
+          localStorage.removeItem(ACCESS_TOKEN_KEY);
+        }
       }
       if (next.userName !== undefined) {
-        if (next.userName) localStorage.setItem(USER_NAME_KEY, next.userName);
-        else localStorage.removeItem(USER_NAME_KEY);
+        if (next.userName) {
+          localStorage.setItem(USER_NAME_KEY, next.userName);
+        } else {
+          localStorage.removeItem(USER_NAME_KEY);
+        }
       }
     } catch (e) {
       console.error("Failed to access localStorage", e);
