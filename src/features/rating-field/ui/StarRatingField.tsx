@@ -1,6 +1,6 @@
 import { type Control, Controller, type FieldValues, type Path } from "react-hook-form";
 
-import { StarInput } from "@/shared/ui/StarInput";
+import StarRating_Fractions from "@/shared/ui/star-rating-fractions";
 
 type StarRatingFieldProps<T extends FieldValues> = {
   control: Control<T>;
@@ -17,7 +17,6 @@ export function StarRatingField<T extends FieldValues>({
   size = 32,
   error,
   className,
-  "aria-label": ariaLabel,
 }: StarRatingFieldProps<T>) {
   return (
     <div className={className}>
@@ -25,11 +24,10 @@ export function StarRatingField<T extends FieldValues>({
         control={control}
         name={name}
         render={({ field }) => (
-          <StarInput
-            size={size}
-            aria-label={ariaLabel}
+          <StarRating_Fractions
+            iconSize={size}
             value={Number(field.value ?? 0)}
-            onChange={(v) => field.onChange(v)}
+            onChange={(v: number) => field.onChange(v)}
             className="justify-center"
           />
         )}
