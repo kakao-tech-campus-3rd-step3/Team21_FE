@@ -70,7 +70,14 @@ export function UniversityReviewForm<
         <Textarea id="comment" placeholder={text.commentPlaceholder} {...register("comment")} />
       </EvalCard>
 
-      <Button type="submit" disabled={!isValid || isSubmitting} className="w-full">
+      <Button
+        type="submit"
+        disabled={!isValid || isSubmitting}
+        className="w-full rounded-lg py-3 text-sm font-semibold text-white
+                   bg-indigo-500 hover:bg-indigo-500/90
+                   shadow-[0_6px_18px_rgba(79,70,229,0.45)]
+                   disabled:opacity-60"
+      >
         제출하기
       </Button>
     </form>
