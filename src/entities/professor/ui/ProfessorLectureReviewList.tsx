@@ -1,4 +1,3 @@
-// src/entities/professor/ui/ProfessorLectureReviewList.tsx
 import { useState } from "react";
 
 import { lectureReviews } from "@/__MOCK__/mockData";
