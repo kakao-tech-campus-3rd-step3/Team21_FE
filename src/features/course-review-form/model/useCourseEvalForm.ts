@@ -27,12 +27,11 @@ export function useCourseEvalForm<
       year: undefined as unknown as number,
       term: undefined as unknown as number,
 
-      difficulty: 0,
+      gradeKindness: 0,
       examDifficulty: 0,
       lectureSkill: 0,
 
       taskAmount: "",
-      taskDifficulty: "",
       teamProject: "",
       comment: "",
       ...defaults,

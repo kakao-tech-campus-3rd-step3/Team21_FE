@@ -3,11 +3,10 @@ import { z } from "zod";
 export type CourseEvalForm = {
   year: number;
   term: number;
-  difficulty: number;
+  gradeKindness: number;
   examDifficulty: number;
   lectureSkill: number;
   taskAmount: string;
-  taskDifficulty: string;
   teamProject: string;
   comment?: string;
 };
@@ -47,11 +46,10 @@ export const createCourseEvalSchema = <
   return z.object({
     year,
     term,
-    difficulty: star,
+    gradeKindness: star,
     examDifficulty: star,
     lectureSkill: star,
     taskAmount: z.string().min(1, V.selectRequired),
-    taskDifficulty: z.string().min(1, V.selectRequired),
     teamProject: z.string().min(1, V.selectRequired),
     comment: z.string().optional(),
   });

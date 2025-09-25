@@ -19,16 +19,14 @@ type CourseEvalTextShape = {
   yearPlaceholder: string;
   termPlaceholder: string;
 
-  difficulty: string;
+  gradeKindness: string;
   examDifficulty: string;
   lectureSkill: string;
 
   taskAmount: string;
-  taskDifficulty: string;
   teamProject: string;
 
   taskAmountOptions: ReadonlyArray<SelectOption>;
-  taskDifficultyOptions: ReadonlyArray<SelectOption>;
   teamProjectOptions: ReadonlyArray<SelectOption>;
 
   totalComment: string;
@@ -125,12 +123,12 @@ export function CourseReviewForm({ lecSeq, text, onSubmitted }: Props) {
         )}
       </EvalCard>
 
-      <EvalCard title={text.difficulty} center>
+      <EvalCard title={text.gradeKindness} center>
         <StarRatingField
           control={control}
-          name="difficulty"
-          aria-label={text.difficulty}
-          error={errors.difficulty?.message as string | undefined}
+          name="gradeKindness"
+          aria-label={text.gradeKindness}
+          error={errors.gradeKindness?.message as string | undefined}
         />
       </EvalCard>
 
@@ -158,15 +156,6 @@ export function CourseReviewForm({ lecSeq, text, onSubmitted }: Props) {
           name="taskAmount"
           options={text.taskAmountOptions}
           error={errors.taskAmount?.message as string | undefined}
-        />
-      </EvalCard>
-
-      <EvalCard title={text.taskDifficulty}>
-        <ControlledSelect<CourseEvalForm>
-          control={control}
-          name="taskDifficulty"
-          options={text.taskDifficultyOptions}
-          error={errors.taskDifficulty?.message as string | undefined}
         />
       </EvalCard>
 

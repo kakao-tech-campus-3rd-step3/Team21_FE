@@ -6,12 +6,11 @@ export const COURSE_EVAL_TEXT = {
   yearPlaceholder: "2025",
   termPlaceholder: "1 또는 2",
 
-  difficulty: "강의 난이도를 평가해 주세요.",
+  gradeKindness: "성적은 얼마나 잘 주나요? 평가해 주세요.",
   examDifficulty: "시험 난이도를 평가해 주세요.",
   lectureSkill: "교수의 강의력을 평가해 주세요.",
 
   taskAmount: "과제량을 선택해 주세요.",
-  taskDifficulty: "과제 난이도를 선택해 주세요.",
   teamProject: "팀플 여부를 선택해 주세요.",
 
   taskAmountOptions: [
@@ -20,13 +19,6 @@ export const COURSE_EVAL_TEXT = {
     { label: "보통", value: "normal" },
     { label: "많음", value: "many" },
     { label: "매우 많음", value: "very-many" },
-  ],
-  taskDifficultyOptions: [
-    { label: "매우 쉬움", value: "very-easy" },
-    { label: "쉬움", value: "easy" },
-    { label: "보통", value: "normal" },
-    { label: "어려움", value: "hard" },
-    { label: "매우 어려움", value: "very-hard" },
   ],
   teamProjectOptions: [
     { label: "없음", value: "none" },
