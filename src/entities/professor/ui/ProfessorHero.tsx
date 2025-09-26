@@ -1,6 +1,7 @@
 import { Building2, GraduationCap, Mail, MapPin } from "lucide-react";
 import { FiEdit3, FiUser } from "react-icons/fi";
 import { HiArrowsRightLeft } from "react-icons/hi2";
+import { Link, useNavigate } from "react-router-dom";
 
 import { PROFESSOR_TEXT } from "@/pages/professor/text";
 import { Button } from "@/shared/ui/button";
@@ -12,8 +13,14 @@ import type { ProfessorHeroData } from "../model/professor-hero.vm";
 type Props = { data: ProfessorHeroData };
 
 export function ProfessorHero({ data }: Props) {
-  const { name, department, university, email, office, avatarUrl, rating, ratingCount } = data;
+  const { id, name, department, university, email, office, avatarUrl, rating, ratingCount } = data;
   const fmt = (n: number) => n.toLocaleString("ko-KR");
+  const navigate = useNavigate();
+
+  // TODO: api 호출
+  const handleWriteReview = () => {
+    navigate(`/professor/${id}/evaluate`);
+  };
 
   return (
     <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur shadow-md p-6 md:p-8 space-y-4">
@@ -72,18 +79,22 @@ export function ProfessorHero({ data }: Props) {
             <Button
               size="sm"
               className="bg-indigo-600 hover:bg-indigo-600/90 flex items-center gap-1.5 text-white"
+              onClick={handleWriteReview}
             >
               <FiEdit3 size={16} />
               {PROFESSOR_TEXT.actions.writeReview}
             </Button>
 
             <Button
+              asChild
               size="sm"
               variant="secondary"
               className="bg-zinc-800 hover:bg-zinc-700 flex items-center gap-1.5"
             >
-              <HiArrowsRightLeft size={16} />
-              {PROFESSOR_TEXT.actions.compare}
+              <Link to={`/compare/professor/${id}`}>
+                <HiArrowsRightLeft size={16} />
+                {PROFESSOR_TEXT.actions.compare}
+              </Link>
             </Button>
           </div>
         </div>

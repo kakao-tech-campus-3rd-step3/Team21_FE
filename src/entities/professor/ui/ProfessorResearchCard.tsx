@@ -1,4 +1,5 @@
 import { FiEdit3 } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 import { profResearch } from "@/__MOCK__/mockData";
 import type { ProfessorResearchInfo } from "@/entities/professor/model/research.vm";
@@ -19,7 +20,6 @@ export function ProfessorResearchCard({ profId }: Props) {
     { id: 5, profId: 100, title: "데이터베이스", semester: "2023-1학기" },
   ];
 
-  // TODO: ErrorBoundary
   if (!prof) {
     return (
       <Card className="relative overflow-hidden bg-zinc-900/60 border-zinc-800 backdrop-blur">
@@ -73,6 +73,7 @@ export function ProfessorResearchCard({ profId }: Props) {
               <div className="text-sm text-muted-foreground">등록된 연구분야가 없습니다.</div>
             )}
           </section>
+
           <section>
             <div className="mb-2 text-xs text-muted-foreground">개설 강의</div>
             {profCourses.filter((c) => c.profId === profId).length > 0 ? (
@@ -83,14 +84,18 @@ export function ProfessorResearchCard({ profId }: Props) {
                     <li key={course.id} className="flex items-center justify-between">
                       <div>
                         <div className="font-medium">{course.title}</div>
+                        <div className="text-xs text-muted-foreground">{course.semester}</div>
                       </div>
                       <Button
+                        asChild
                         size="sm"
                         className="bg-indigo-600 hover:bg-indigo-600/90 flex items-center gap-1.5 text-white"
-                        onClick={() => alert(`"${course.title}" 강의 평가하기`)}
                       >
-                        <FiEdit3 size={16} />
-                        평가하기
+                        {/* TODO: api 호출 */}
+                        <Link to={`/course/${100}/evaluate`}>
+                          <FiEdit3 size={16} />
+                          평가하기
+                        </Link>
                       </Button>
                     </li>
                   ))}
