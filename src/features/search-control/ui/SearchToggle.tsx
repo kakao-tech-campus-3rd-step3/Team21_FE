@@ -1,4 +1,5 @@
 import { IoClose, IoSearch } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 import { useSearchControl } from "@/features/search-control";
 import { SEARCH_CONTROL_TEXT } from "@/features/search-control/text";
@@ -8,12 +9,29 @@ import { Button } from "@/shared/ui/button";
 type Props = { className?: string; onSearch?: (q: string) => void };
 
 export default function SearchToggle({ className, onSearch }: Props) {
-  const { open, setOpen, q, setQ, inputRef, submit } = useSearchControl(onSearch);
+  const { open, setOpen, q, setQ, inputRef } = useSearchControl(onSearch);
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const text = q.trim();
+
+    if (text === "충남대학교") {
+      navigate("/university/100");
+    } else if (text === "이영석") {
+      navigate("/professor/100");
+    } else {
+      navigate(`/search?q=${encodeURIComponent(text)}`);
+    }
+
+    setOpen(false);
+    setQ("");
+  };
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <form
-        onSubmit={submit}
+        onSubmit={handleSubmit}
         className={cn(
           "absolute top-full left-10 right-10 mt-2 transition-all duration-200",
           open ? "opacity-100" : "opacity-0 pointer-events-none",
@@ -40,6 +58,7 @@ export default function SearchToggle({ className, onSearch }: Props) {
           <IoSearch className="h-6 w-6" />
         </button>
       </form>
+
       {open ? (
         <Button
           variant="ghost"
