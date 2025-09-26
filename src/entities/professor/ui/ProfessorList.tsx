@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
-import { Link } from "react-router-dom";
 import { ProfessorCard } from "./ProfessorCard";
 
 type Item = {
