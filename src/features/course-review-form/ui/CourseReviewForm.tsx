@@ -1,4 +1,5 @@
 import { Controller } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 import type { CourseEvalForm } from "@/features/course-review-form/model/schema";
 import { useCourseEvalForm } from "@/features/course-review-form/model/useCourseEvalForm";
@@ -57,12 +58,16 @@ export function CourseReviewForm({ lecSeq, text, onSubmitted }: Props) {
     formState: { errors, isValid, isSubmitting },
   } = useCourseEvalForm(text);
 
-  const onSubmit = (data: CourseEvalForm) => {
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: CourseEvalForm) => {
     const semesterKey = `${data.year}-${data.term}`; // 예: 2025-1
-    onSubmitted?.({ ...data, lecSeq, semesterKey });
+    await Promise.resolve(onSubmitted?.({ ...data, lecSeq, semesterKey }));
     if (!onSubmitted) {
       console.log("COURSE REVIEW SUBMIT", { lecSeq, semesterKey, ...data });
     }
+    //성공했다고 가정
+    navigate(-1);
   };
 
   return (
