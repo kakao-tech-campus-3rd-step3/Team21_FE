@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import { EvalCard } from "@/features/eval";
 import { StarRatingField } from "@/features/rating-field";
 import type { UniversityEvalForm } from "@/features/university-review-form/model/schema";
@@ -36,9 +38,15 @@ export function UniversityReviewForm<
     formState: { errors, isValid, isSubmitting },
   } = useUniversityEvalForm(text);
 
-  const onSubmit = (data: UniversityEvalForm) => {
-    onSubmitted?.({ ...data, univId });
-    if (!onSubmitted) console.log("UNIV REVIEW SUBMIT", { univId, ...data });
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: UniversityEvalForm) => {
+    await Promise.resolve(onSubmitted?.({ ...data, univId }));
+    if (!onSubmitted) {
+      console.log("UNIV REVIEW SUBMIT", { univId, ...data });
+    }
+    //성공했다고 가정
+    navigate(-1);
   };
 
   const keys = ["food", "dorm", "conv", "campus", "overall"] as const;

@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import { EvalCard } from "@/features/eval";
 import type { ProfessorEvalForm } from "@/features/professor-review-form/model/schema";
 import { useProfessorEvalForm } from "@/features/professor-review-form/model/useProfessorEvalForm";
@@ -38,9 +40,15 @@ export function ProfessorReviewForm<
     formState: { errors, isValid, isSubmitting },
   } = useProfessorEvalForm(text);
 
-  const onSubmit = (data: ProfessorEvalForm) => {
-    onSubmitted?.({ ...data, profId });
-    if (!onSubmitted) console.log("PROF REVIEW SUBMIT", { profId, ...data });
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: ProfessorEvalForm) => {
+    await Promise.resolve(onSubmitted?.({ ...data, profId }));
+    if (!onSubmitted) {
+      console.log("PROF REVIEW SUBMIT", { profId, ...data });
+    }
+    //성공했다고 가정
+    navigate(-1);
   };
 
   return (
