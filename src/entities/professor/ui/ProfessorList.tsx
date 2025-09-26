@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 
+import { ProfessorCard } from "@/entities/professor/ui/ProfessorCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-
-import { ProfessorCard } from "./ProfessorCard";
 
 type Item = {
   name: string;
