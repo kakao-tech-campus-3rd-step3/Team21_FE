@@ -16,7 +16,13 @@ export default function SearchToggle({ className, onSearch }: Props) {
     e.preventDefault();
     const text = q.trim();
 
-    if (text === "충남대학교") {
+    if (
+      text === "충남대학교" ||
+      text === "충" ||
+      text === "충남" ||
+      text === "충남대" ||
+      text === "충대"
+    ) {
       navigate("/university/100");
     } else if (text === "이영석") {
       navigate("/professor/100");
