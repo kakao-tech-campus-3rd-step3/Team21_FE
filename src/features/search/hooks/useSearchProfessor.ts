@@ -1,25 +1,22 @@
 import { useMemo } from "react";
 
-import { depts, profs } from "@/__MOCK__/mockData";
+import { profs } from "@/__MOCK__/mockData";
+import { mapprofessor } from "@/entities/professor/model/mapprofessor";
 import type { ProfessorSearch } from "@/features/professor-search/model/professor-search.domain";
-
-function mapToProfessorSearch(): ProfessorSearch[] {
-  return profs.map((p) => {
-    const dept = depts.find((d) => d.deptSeq === p.deptSeq);
-    return {
-      id: String(p.profSeq),
-      name: p.profName,
-      univ: "Uni",
-      dept: dept?.deptName ?? "정보 없음",
-    };
-  });
-}
 
 export const useProfessorSearch = (query: string, professors: ProfessorSearch[] = []) => {
   const professorDataset = useMemo<ProfessorSearch[]>(() => {
     if (professors.length > 0) return professors;
 
-    return mapToProfessorSearch();
+    return profs
+      .map((p) => mapprofessor(p.profSeq))
+      .filter((p): p is NonNullable<ReturnType<typeof mapprofessor>> => !!p)
+      .map<ProfessorSearch>((p) => ({
+        id: String(p.id),
+        name: p.name,
+        univ: p.university ?? "정보 없음",
+        dept: p.department ?? "정보 없음",
+      }));
   }, [professors]);
 
   const filteredResults = useMemo(() => {
