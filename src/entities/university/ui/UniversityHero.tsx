@@ -1,6 +1,7 @@
 import { Calendar, Users } from "lucide-react";
 import { FiEdit3 } from "react-icons/fi";
 import { HiArrowsRightLeft } from "react-icons/hi2";
+import { Link, useNavigate } from "react-router-dom";
 
 import type { UniversityHeroData } from "@/entities/university/model/hero.vm";
 import { UNIVERSITY_TEXT } from "@/entities/university/text";
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export function UniversityHero({ data }: Props) {
+  const navigate = useNavigate();
   const { name, logoUrl, address, foundedYear, rating, ratingCount, students } = data;
 
   const formattedStudents = formatNumber(students);
@@ -61,18 +63,25 @@ export function UniversityHero({ data }: Props) {
             <Button
               size="sm"
               className="bg-indigo-600 hover:bg-indigo-600/90 flex items-center gap-1.5 text-white"
+              onClick={() => {
+                // TODO: 로그인 체크
+                navigate(`/university/${data.id}/evaluate`);
+              }}
             >
               <FiEdit3 size={16} />
               {UNIVERSITY_TEXT.actions.writeReview}
             </Button>
 
             <Button
+              asChild
               size="sm"
               variant="secondary"
               className="bg-zinc-800 hover:bg-zinc-700 flex items-center gap-1.5"
             >
-              <HiArrowsRightLeft size={16} />
-              {UNIVERSITY_TEXT.actions.compare}
+              <Link to={`/compare/university/${data.id}`}>
+                <HiArrowsRightLeft size={16} />
+                {UNIVERSITY_TEXT.actions.compare}
+              </Link>
             </Button>
           </div>
         </div>
