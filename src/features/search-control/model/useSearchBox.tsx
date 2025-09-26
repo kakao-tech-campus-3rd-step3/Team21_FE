@@ -1,27 +1,22 @@
 import { useState } from "react";
 
 import { univs } from "@/__MOCK__/mockData";
-import type { UnivSearchResult } from "@/entities/university/model/univsearch.domain";
-import type { ProfessorSearch } from "@/features/professor-search/model/professorsearch";
+import type { UnivSearchResult } from "@/entities/university/model/univ-search.domain";
+import type { ProfessorSearch } from "@/features/professor-search/model/professor-search.domain";
 import { useProfessorSearch } from "@/features/search/hooks/useSearchProfessor";
 import { useSearchUniversity } from "@/features/search/hooks/useSearchUniversity";
 import { SEARCH_CONTROL_PROF_TEXT, SEARCH_CONTROL_TEXT } from "@/features/search-control/text";
 
 type Mode = "univ" | "prof";
 
-interface UseSearchBoxParams {
+type Params = {
   placeholder?: string;
   onSelectUniv?: (univ: UnivSearchResult) => void;
   onSelectProf?: (prof: ProfessorSearch) => void;
   professors?: ProfessorSearch[];
-}
+};
 
-export function useSearchBox({
-  placeholder,
-  onSelectUniv,
-  onSelectProf,
-  professors = [],
-}: UseSearchBoxParams) {
+export function useSearchBox({ placeholder, onSelectUniv, onSelectProf, professors = [] }: Params) {
   const [mode, setMode] = useState<Mode>("univ");
   const [query, setQuery] = useState("");
 

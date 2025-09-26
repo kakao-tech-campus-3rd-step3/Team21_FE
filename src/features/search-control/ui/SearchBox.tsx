@@ -1,20 +1,20 @@
 import { FaSearch } from "react-icons/fa";
 
-import type { UnivSearchResult } from "@/entities/university/model/univsearch.domain";
-import type { ProfessorSearch } from "@/features/professor-search/model/professorsearch";
+import type { UnivSearchResult } from "@/entities/university/model/univ-search.domain";
+import type { ProfessorSearch } from "@/features/professor-search/model/professor-search.domain";
 import { ProfessorResultItem, UniversityResultItem } from "@/features/search";
 import { useSearchBox } from "@/features/search-control/model/useSearchBox";
 import { SEARCH_CONTROL_PROF_TEXT, SEARCH_CONTROL_TEXT } from "@/features/search-control/text";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent } from "@/shared/ui/card";
-interface SearchBoxProps {
+type Props = {
   placeholder?: string;
   onSelectUniv?: (univ: UnivSearchResult) => void;
   onSelectProf?: (prof: ProfessorSearch) => void;
   professors?: ProfessorSearch[];
-}
+};
 
-export function SearchBox(props: SearchBoxProps) {
+export function SearchBox(props: Props) {
   const { mode, query, setMode, setQuery, results, dynamicPlaceholder, handlePick } =
     useSearchBox(props);
 
