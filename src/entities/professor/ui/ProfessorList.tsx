@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
+import { Link } from "react-router-dom";
 import { ProfessorCard } from "./ProfessorCard";
 
 type Item = {
@@ -24,15 +25,21 @@ export function ProfessorList({ title, items }: Props) {
       </CardHeader>
       <CardContent className="space-y-4">
         {items.map((p) => (
-          <ProfessorCard
-            key={`${p.name}-${p.email}`}
-            name={p.name}
-            rankLabel={p.rankLabel}
-            degree={p.degree}
-            researchAreas={p.researchAreas}
-            email={p.email}
-            office={p.office}
-          />
+          // TODO: api 호출로 교체
+          <Link
+            key={`${100}`}
+            to={`/professor/${100}`}
+            className="block transition hover:opacity-90"
+          >
+            <ProfessorCard
+              name={p.name}
+              rankLabel={p.rankLabel}
+              degree={p.degree}
+              researchAreas={p.researchAreas}
+              email={p.email}
+              office={p.office}
+            />
+          </Link>
         ))}
       </CardContent>
     </Card>
