@@ -257,6 +257,18 @@ export const profs = [
     modifyDate: now(),
     deltYn: "N",
   },
+  {
+    profSeq: 100,
+    deptSeq: 100101,
+    profName: "이영석",
+    profEmail: "lee@cnu.ac.kr",
+    homePage: "",
+    createUser: "admin",
+    modifyUser: "admin",
+    createDate: now(),
+    modifyDate: now(),
+    deltYn: "N",
+  },
 ];
 
 // 대학리뷰
