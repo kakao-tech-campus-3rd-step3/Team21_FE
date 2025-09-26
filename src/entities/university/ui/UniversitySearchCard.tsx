@@ -1,5 +1,5 @@
 import cnulogo from "@/assets/cnulogo.svg";
-import type { UnivSearchResult } from "@/entities/university/model/univsearch.domain";
+import type { UnivSearchResult } from "@/entities/university/model/univ-search.domain";
 import { UNIVERSITY_TEXT } from "@/entities/university/text";
 import {
   GlassCard,

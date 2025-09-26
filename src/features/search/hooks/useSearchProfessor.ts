@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import { depts, profs } from "@/__MOCK__/mockData";
-import type { ProfessorSearch } from "@/features/professor-search/model/professorsearch";
+import type { ProfessorSearch } from "@/features/professor-search/model/professor-search.domain";
 
 function mapToProfessorSearch(): ProfessorSearch[] {
   return profs.map((p) => {

@@ -1,5 +1,5 @@
-import type { UnivSearchResult } from "@/entities/university/model/univsearch.domain";
-import type { ProfessorSearch } from "@/features/professor-search/model/professorsearch";
+import type { UnivSearchResult } from "@/entities/university/model/univ-search.domain";
+import type { ProfessorSearch } from "@/features/professor-search/model/professor-search.domain";
 
 export const UniversityResultItem = ({
   item,
