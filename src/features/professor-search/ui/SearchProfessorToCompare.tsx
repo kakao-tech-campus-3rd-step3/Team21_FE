@@ -1,6 +1,6 @@
 import { Search } from "lucide-react";
 
-import type { ProfessorSearch } from "@/features/professor-search/model/professorsearch";
+import type { ProfessorSearch } from "@/features/professor-search/model/professor-search.domain";
 import { SEARCH_PROFESSOR_TEXTS } from "@/features/professor-search/text";
 import { ProfessorResultList } from "@/features/professor-search/ui/ProfessorResultList";
 import { Button } from "@/shared/ui/button";

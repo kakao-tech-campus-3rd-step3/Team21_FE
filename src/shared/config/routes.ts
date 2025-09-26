@@ -6,6 +6,7 @@ export const ROUTES = {
   COLLEGE_DETAIL: (id: string | number = ":id") => `/college/${id}`,
   DEPARTMENT_DETAIL: (id: string | number = ":id") => `/department/${id}`,
   COMPARE_PROFESSOR: (id: string | number = ":id") => `/compare/professor/${id}`,
+  UNIV_SEARCH_RESULT: (id: string | number = ":id") => `/search-result/university/${id}`,
   COMPARE_UNIVERSITY: (id: string | number = ":id") => `/compare/university/${id}`,
   PROFESSOR_EVAL: (id: string | number = ":id") => `/professor/${id}/evaluate`,
   UNIVERSITY_EVAL: (id: string | number = ":id") => `/university/${id}/evaluate`,
