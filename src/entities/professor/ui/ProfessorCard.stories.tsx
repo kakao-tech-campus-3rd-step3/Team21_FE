@@ -1,5 +1,5 @@
+import { ProfessorCard } from "@/entities/professor/ui/ProfessorCard";
 import type { Meta, StoryObj } from "@storybook/react";
-import { ProfessorCard } from "./ProfessorCard";
 
 const meta: Meta<typeof ProfessorCard> = {
   title: "Entities/Professor/ProfessorCard",
