@@ -1,10 +1,14 @@
-// .storybook/preview.tsx
 import "@/app/styles/global.css";
 import type { Preview } from "@storybook/react";
 import React from "react";
 
 const preview: Preview = {
   parameters: {
+    options: {
+      storySort: {
+        order: ["Pages", "Widgets", "Features", "Entities", "Shared", "Example"],
+      },
+    },
     layout: "fullscreen",
     backgrounds: {
       default: "dark",
@@ -22,11 +26,9 @@ const preview: Preview = {
   },
   decorators: [
     (Story, context) => {
-      // iframe 문서에 dark 클래스 부여
       const doc = context.canvasElement?.ownerDocument ?? document;
       doc.documentElement.classList.add("dark");
 
-      // JSX를 반드시 return!
       return (
         <div className="min-h-screen bg-zinc-950 text-zinc-100 p-8">
           <Story />
