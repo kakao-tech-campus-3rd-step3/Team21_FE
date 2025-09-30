@@ -24,8 +24,8 @@ export function useCourseEvalForm<
     resolver: zodResolver(schema),
     mode: "onChange",
     defaultValues: {
-      year: undefined as unknown as number,
-      term: undefined as unknown as number,
+      year: undefined,
+      term: undefined,
 
       gradeKindness: 0,
       examDifficulty: 0,
