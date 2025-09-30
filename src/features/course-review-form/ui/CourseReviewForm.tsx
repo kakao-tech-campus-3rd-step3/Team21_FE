@@ -123,7 +123,7 @@ export function CourseReviewForm({ lecSeq, text, onSubmitted }: Props) {
 
         {(errors.year || errors.term) && (
           <p className="mt-2 text-sm text-red-500">
-            {(errors.year?.message as string) || (errors.term?.message as string)}
+            {errors.year?.message || errors.term?.message}
           </p>
         )}
       </EvalCard>
@@ -133,7 +133,7 @@ export function CourseReviewForm({ lecSeq, text, onSubmitted }: Props) {
           control={control}
           name="gradeKindness"
           aria-label={text.gradeKindness}
-          error={errors.gradeKindness?.message as string | undefined}
+          error={errors.gradeKindness?.message}
         />
       </EvalCard>
 
@@ -142,7 +142,7 @@ export function CourseReviewForm({ lecSeq, text, onSubmitted }: Props) {
           control={control}
           name="examDifficulty"
           aria-label={text.examDifficulty}
-          error={errors.examDifficulty?.message as string | undefined}
+          error={errors.examDifficulty?.message}
         />
       </EvalCard>
 
@@ -151,7 +151,7 @@ export function CourseReviewForm({ lecSeq, text, onSubmitted }: Props) {
           control={control}
           name="lectureSkill"
           aria-label={text.lectureSkill}
-          error={errors.lectureSkill?.message as string | undefined}
+          error={errors.lectureSkill?.message}
         />
       </EvalCard>
 
@@ -160,7 +160,7 @@ export function CourseReviewForm({ lecSeq, text, onSubmitted }: Props) {
           control={control}
           name="taskAmount"
           options={text.taskAmountOptions}
-          error={errors.taskAmount?.message as string | undefined}
+          error={errors.taskAmount?.message}
         />
       </EvalCard>
 
@@ -169,7 +169,7 @@ export function CourseReviewForm({ lecSeq, text, onSubmitted }: Props) {
           control={control}
           name="teamProject"
           options={text.teamProjectOptions}
-          error={errors.teamProject?.message as string | undefined}
+          error={errors.teamProject?.message}
         />
       </EvalCard>
 

@@ -51,8 +51,7 @@ export function UniversityReviewForm<
 
   const keys = ["food", "dorm", "conv", "campus", "overall"] as const;
 
-  const getFieldError = <K extends keyof UniversityEvalForm>(key: K) =>
-    errors[key]?.message as string | undefined;
+  const getFieldError = <K extends keyof UniversityEvalForm>(key: K) => errors[key]?.message;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

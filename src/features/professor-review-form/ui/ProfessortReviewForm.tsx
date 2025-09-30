@@ -61,7 +61,7 @@ export function ProfessorReviewForm<
         <StarRatingField
           control={control}
           name="thesisPerf"
-          error={errors.thesisPerf?.message as string | undefined}
+          error={errors.thesisPerf?.message}
           aria-label={text.paperEval}
         />
       </EvalCard>
@@ -81,7 +81,7 @@ export function ProfessorReviewForm<
         <StarRatingField
           control={control}
           name="labPerf"
-          error={errors.labPerf?.message as string | undefined}
+          error={errors.labPerf?.message}
           aria-label={text.labEval}
         />
       </EvalCard>
