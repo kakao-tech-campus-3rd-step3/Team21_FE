@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 
+import { BreadcrumbProvider } from "@/features/nav-trail";
 import { BackgroundDecor } from "@/shared/ui/BackgroundDecor";
 import { NavigationBar } from "@/widgets/navigation-bar";
 import { Footer } from "@/widgets/site-footer";
@@ -11,10 +12,12 @@ export function GlobalLayout() {
       <BackgroundDecor />
       <div className="relative z-10 flex flex-col min-h-screen">
         <Header />
-        <NavigationBar />
-        <main className="flex-1">
-          <Outlet />
-        </main>
+        <BreadcrumbProvider>
+          <NavigationBar />
+          <main className="flex-1">
+            <Outlet />
+          </main>
+        </BreadcrumbProvider>
         <Footer />
       </div>
     </div>
