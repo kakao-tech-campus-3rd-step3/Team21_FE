@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import { contact, sideBar, univs } from "@/__MOCK__/mockData";
@@ -12,6 +13,7 @@ import {
 import type { UniversityHeroData } from "@/entities/university/model/hero.vm";
 import type { UniversitySideContact } from "@/entities/university/model/university-contact.vm";
 import type { UniversityMainInfo } from "@/entities/university/model/university-maininfo.vm";
+import { useBreadcrumbTrail } from "@/features/nav-trail";
 
 export function UniversityDetailPage() {
   const { id } = useParams();
@@ -21,6 +23,9 @@ export function UniversityDetailPage() {
   const univ = univs.find((u) => u.univSeq === univSeq);
   const stats = sideBar;
   const sideContact = contact;
+
+  const crumbs = useMemo(() => [{ label: univ?.name ?? "대학교" }], [univ?.name]);
+  useBreadcrumbTrail(crumbs);
 
   // TODO: ErrorBoundary 적용
   if (!univ) return <div className="p-6 text-center">해당 대학 정보를 찾을 수 없습니다.</div>;
