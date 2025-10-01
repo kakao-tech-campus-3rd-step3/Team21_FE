@@ -5,6 +5,7 @@ import { ProfessorCard } from "@/entities/professor/ui/ProfessorCard";
 const meta: Meta<typeof ProfessorCard> = {
   title: "Entities/Professor/ProfessorCard",
   component: ProfessorCard,
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
