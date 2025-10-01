@@ -1,4 +1,5 @@
 import type { StorybookConfig } from "@storybook/react-vite";
+import { resolve } from "path";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 const config: StorybookConfig = {
@@ -17,6 +18,15 @@ const config: StorybookConfig = {
   viteFinal: async (baseConfig) => {
     baseConfig.plugins = baseConfig.plugins || [];
     baseConfig.plugins.push(tsconfigPaths());
+
+    baseConfig.resolve = {
+      ...(baseConfig.resolve || {}),
+      alias: {
+        ...(baseConfig.resolve?.alias || {}),
+        "@": resolve(__dirname, "../src"),
+      },
+    };
+
     return baseConfig;
   },
 };

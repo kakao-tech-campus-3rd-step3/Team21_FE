@@ -2,6 +2,8 @@ import "@/app/styles/global.css";
 
 import type { Preview } from "@storybook/react";
 import React from "react";
+import { MemoryRouter } from "react-router-dom";
+import { Providers } from "../src/app/providers/providers";
 
 const preview: Preview = {
   parameters: {
@@ -31,9 +33,13 @@ const preview: Preview = {
       doc.documentElement.classList.add("dark");
 
       return (
-        <div className="min-h-screen bg-zinc-950 text-zinc-100 p-8">
-          <Story />
-        </div>
+        <MemoryRouter initialEntries={["/"]}>
+          <Providers>
+            <div className="min-h-screen bg-zinc-950 text-zinc-100 p-8">
+              <Story />
+            </div>
+          </Providers>
+        </MemoryRouter>
       );
     },
   ],
