@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import { DepartmentJobsCard } from "./DepartmentJobsCard";
 
 const meta: Meta<typeof DepartmentJobsCard> = {
@@ -30,7 +31,6 @@ export const Playground: Story = {
 };
 
 export const FewTags: Story = {
-  name: "Few Tags",
   args: {
     title: "졸업 후 진로",
     tags: ["교수", "공무원"],
@@ -38,7 +38,6 @@ export const FewTags: Story = {
 };
 
 export const ManyTags: Story = {
-  name: "Many Tags",
   args: {
     title: "졸업 후 진로",
     tags: [
@@ -57,7 +56,6 @@ export const ManyTags: Story = {
 };
 
 export const Empty: Story = {
-  name: "Empty",
   args: {
     title: "졸업 후 진로",
     tags: [],

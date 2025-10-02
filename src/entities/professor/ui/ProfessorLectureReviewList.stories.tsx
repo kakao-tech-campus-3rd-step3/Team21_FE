@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { userEvent, within } from "@storybook/testing-library";
+
 import { ProfessorLectureReviewList } from "./ProfessorLectureReviewList";
 
 const meta: Meta<typeof ProfessorLectureReviewList> = {

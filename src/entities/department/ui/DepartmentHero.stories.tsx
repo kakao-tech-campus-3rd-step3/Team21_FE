@@ -1,5 +1,7 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import cnulogo from "@/assets/cnulogo.svg";
-import type { Meta, StoryObj } from "@storybook/react";
+
 import { DepartmentHero } from "./DepartmentHero";
 
 const meta: Meta<typeof DepartmentHero> = {
@@ -44,7 +46,6 @@ export const Playground: Story = {
 };
 
 export const WithoutLogo: Story = {
-  name: "Without Logo",
   args: {
     collegeName: "인문대학",
     departmentName: "철학과",
@@ -57,7 +58,6 @@ export const WithoutLogo: Story = {
 };
 
 export const CollegeOnly: Story = {
-  name: "College Only",
   args: {
     collegeName: "자연과학대학",
     departmentName: "",
@@ -69,7 +69,6 @@ export const CollegeOnly: Story = {
 };
 
 export const Minimal: Story = {
-  name: "Minimal",
   args: {
     collegeName: "사회과학대학",
     departmentName: "정치외교학과",

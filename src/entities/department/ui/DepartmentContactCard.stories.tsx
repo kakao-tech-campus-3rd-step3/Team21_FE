@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import { DepartmentContactCard } from "./DepartmentContactCard";
 
 const meta: Meta<typeof DepartmentContactCard> = {
@@ -33,22 +34,18 @@ export const Playground: Story = {
 };
 
 export const TelOnly: Story = {
-  name: "Tel Only",
   args: { tel: "02-123-4567" },
 };
 
 export const EmailOnly: Story = {
-  name: "Email Only",
   args: { email: "contact@univ.ac.kr" },
 };
 
 export const AddressOnly: Story = {
-  name: "Address Only",
   args: { address: "세종특별자치시 대학로 1, 공학관 101호" },
 };
 
 export const LongAddress: Story = {
-  name: "Long Address",
   args: {
     tel: "031-987-6543",
     address:
@@ -57,7 +54,6 @@ export const LongAddress: Story = {
 };
 
 export const Empty: Story = {
-  name: "Empty",
   args: {},
   parameters: {
     docs: {

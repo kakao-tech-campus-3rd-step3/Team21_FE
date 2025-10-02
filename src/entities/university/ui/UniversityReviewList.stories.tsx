@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { userEvent, within } from "@storybook/testing-library";
+
 import { UniversityReviewList } from "./UniversityReviewList";
 
 const meta: Meta<typeof UniversityReviewList> = {
@@ -38,7 +39,6 @@ export const Playground: Story = {
 };
 
 export const LoadMore: Story = {
-  name: "Load More",
   args: { univSeq: 1 },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -58,7 +58,6 @@ export const LoadMore: Story = {
 };
 
 export const Empty: Story = {
-  name: "Empty",
   args: { univSeq: 999999 },
   parameters: {
     docs: {

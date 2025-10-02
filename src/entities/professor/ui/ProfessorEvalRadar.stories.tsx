@@ -1,6 +1,7 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import { profEvals } from "@/__MOCK__/mockData";
 import { ProfessorEvalCard } from "@/entities/professor/ui/ProfessorEvalRadar";
-import type { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof ProfessorEvalCard> = {
   title: "Entities/Professor/ProfessorEvalCard",

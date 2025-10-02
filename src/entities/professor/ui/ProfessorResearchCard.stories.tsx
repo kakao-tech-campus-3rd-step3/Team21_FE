@@ -1,5 +1,7 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import { profResearch } from "@/__MOCK__/mockData";
-import type { Meta, StoryObj } from "@storybook/react";
+
 import { ProfessorResearchCard } from "./ProfessorResearchCard";
 
 const meta: Meta<typeof ProfessorResearchCard> = {

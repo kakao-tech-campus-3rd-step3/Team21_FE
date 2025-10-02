@@ -1,7 +1,8 @@
-import logo from "@/assets/cnulogo.svg";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import logo from "@/assets/cnulogo.svg";
 import type { UniversityHeroData } from "@/entities/university/model/hero.vm";
-import type { Meta, StoryObj } from "@storybook/react";
+
 import { UniversityHero } from "./UniversityHero";
 
 const meta: Meta<typeof UniversityHero> = {
@@ -38,19 +39,15 @@ const baseData: UniversityHeroData = {
 
 export const Playground: Story = { args: { data: baseData } };
 export const WithoutLogo: Story = {
-  name: "Without Logo",
   args: { data: { ...baseData, logoUrl: undefined, name: "국립 모범대학교" } },
 };
 export const NoAddress: Story = {
-  name: "No Address",
   args: { data: { ...baseData, address: "", name: "서울 모 대학" } },
 };
 export const NoFoundedYear: Story = {
-  name: "No Founded Year",
   args: { data: { ...baseData, foundedYear: undefined, name: "부산 모 대학" } },
 };
 export const LargeNumbers: Story = {
-  name: "Large Numbers",
   args: {
     data: {
       ...baseData,

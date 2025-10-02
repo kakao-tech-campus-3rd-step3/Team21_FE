@@ -1,5 +1,7 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import type { UniversityMainInfo } from "@/entities/university/model/university-maininfo.vm";
-import type { Meta, StoryObj } from "@storybook/react";
+
 import { UniversityMainInfoSide } from "./UniversityMainInfoSide";
 
 const meta: Meta<typeof UniversityMainInfoSide> = {
@@ -35,7 +37,6 @@ export const Playground: Story = {
 };
 
 export const LargeNumbers: Story = {
-  name: "Large Numbers",
   args: {
     data: {
       campuses: 5,
@@ -47,7 +48,6 @@ export const LargeNumbers: Story = {
 };
 
 export const ZeroValues: Story = {
-  name: "Zero Values",
   args: {
     data: {
       campuses: 0,
@@ -59,7 +59,6 @@ export const ZeroValues: Story = {
 };
 
 export const PartialData: Story = {
-  name: "Partial Data",
   args: {
     data: {
       campuses: 1,

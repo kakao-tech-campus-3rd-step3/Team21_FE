@@ -1,5 +1,7 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import type { UniversitySideContact } from "@/entities/university/model/university-contact.vm";
-import type { Meta, StoryObj } from "@storybook/react";
+
 import { UniversityContactSide } from "./UniversityContactSide";
 
 const meta: Meta<typeof UniversityContactSide> = {
@@ -36,28 +38,24 @@ export const Playground: Story = {
 };
 
 export const TelOnly: Story = {
-  name: "Tel Only",
   args: {
     data: { tel: "02-123-4567" },
   },
 };
 
 export const WebOnly: Story = {
-  name: "Web Only",
   args: {
     data: { web: "https://example-univ.kr" },
   },
 };
 
 export const EmailOnly: Story = {
-  name: "Email Only",
   args: {
     data: { email: "info@example-univ.kr" },
   },
 };
 
 export const Empty: Story = {
-  name: "Empty",
   args: {
     data: {},
   },

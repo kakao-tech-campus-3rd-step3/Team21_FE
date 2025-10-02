@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import { DepartmentList } from "./DepartmentList";
 
 type Department = {
@@ -71,7 +72,6 @@ export const Playground: Story = {
 };
 
 export const SingleDepartment: Story = {
-  name: "Single Department",
   args: {
     title: "단일 학과",
     items: [sampleDepartments[0]],
@@ -79,7 +79,6 @@ export const SingleDepartment: Story = {
 };
 
 export const NoTags: Story = {
-  name: "No Tags",
   args: {
     title: "태그 없는 학과",
     items: [
@@ -97,7 +96,6 @@ export const NoTags: Story = {
 };
 
 export const Empty: Story = {
-  name: "Empty",
   args: {
     title: "빈 목록",
     items: [],

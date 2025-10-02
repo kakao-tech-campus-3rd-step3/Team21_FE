@@ -1,5 +1,7 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import logo from "@/assets/cnulogo.svg";
-import type { Meta, StoryObj } from "@storybook/react";
+
 import { CollegeHero } from "./CollegeHero";
 
 const meta: Meta<typeof CollegeHero> = {

@@ -1,8 +1,9 @@
 import "@/app/styles/global.css";
 
-import type { Preview } from "@storybook/react";
+import type { Preview } from "@storybook/react-vite";
 import React from "react";
 import { MemoryRouter } from "react-router-dom";
+
 import { Providers } from "../src/app/providers/providers";
 
 const preview: Preview = {

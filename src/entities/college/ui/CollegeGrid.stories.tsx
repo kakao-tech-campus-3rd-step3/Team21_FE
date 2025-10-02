@@ -1,5 +1,7 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import type { CollegeCard } from "@/entities/college/model/college-card.vm";
-import type { Meta, StoryObj } from "@storybook/react";
+
 import { CollegeGrid } from "./CollegeGrid";
 
 const sampleColleges: CollegeCard[] = [
