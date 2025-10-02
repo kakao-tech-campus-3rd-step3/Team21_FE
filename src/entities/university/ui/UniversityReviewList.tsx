@@ -1,33 +1,32 @@
-import { useState } from "react";
-
-import { univReviews } from "@/__MOCK__/mockData";
-import type { UniversityReview } from "@/entities/university/model/review.vm";
+import { useUniversityReviews } from "@/entities/university/hooks/useUniversityReviews";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/ui/card";
 import { RatingStars } from "@/shared/ui/RatingStars";
 import { Separator } from "@/shared/ui/separator";
+import { useState } from "react";
 
-type Props = {
-  univSeq: number;
-};
+type Props = { univSeq: number };
+
+const PAGE_SIZE = 3;
 
 export function UniversityReviewList({ univSeq }: Props) {
-  const [visibleCount, setVisibleCount] = useState(3);
+  const [size] = useState(PAGE_SIZE);
+  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useUniversityReviews(univSeq, size);
 
-  const reviews: UniversityReview[] = univReviews
-    .filter((r) => r.univSeq === univSeq)
-    .map((r) => ({
-      id: r.univReviewSeq,
-      authorName: "익명",
-      rating: r.aver,
-      date: r.createDate.split("T")[0],
-      content: r.reviewTxt,
-      tags: r.tags,
-    }));
+  const pages = data?.pages ?? [];
+  const items = pages.flatMap((p) =>
+    p.items.map((rv) => ({
+      id: rv.id,
+      authorName: rv.author || "익명",
+      rating: rv.rating,
+      date: rv.createdAt.toISOString().split("T")[0],
+      content: rv.text,
+      // tags: API 없음
+    })),
+  );
 
-  const total = reviews.length;
-
-  const visibleReviews = reviews.slice(0, visibleCount);
+  const total = pages[0]?.totalElements ?? 0;
 
   return (
     <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur">
@@ -41,42 +40,41 @@ export function UniversityReviewList({ univSeq }: Props) {
       <Separator className="bg-zinc-800/60" />
 
       <CardContent className="divide-y divide-zinc-800/60 p-0">
-        {visibleReviews.map((rv) => (
-          <article key={rv.id} className="p-5">
-            <div className="text-sm">
-              <div className="font-medium">{rv.authorName}</div>
-              <div className="text-xs text-muted-foreground flex items-center gap-3">
-                <RatingStars rating={rv.rating} size={14} />
-                <span className="tabular-nums">{rv.date}</span>
-              </div>
-            </div>
+        {isLoading && <div className="p-5 text-sm text-zinc-300">불러오는 중…</div>}
+        {isError && (
+          <div className="p-5 text-sm text-red-400">리뷰 정보를 불러오지 못했습니다.</div>
+        )}
 
-            <p className="mt-3 text-sm leading-6 whitespace-pre-wrap">{rv.content}</p>
-
-            {rv.tags && rv.tags.length > 0 && (
-              <div className="mt-3 flex flex-wrap gap-2">
-                {rv.tags.map((t) => (
-                  <span
-                    key={t}
-                    className="text-xs rounded-md px-2 py-1 bg-emerald-500/10 text-emerald-300 border border-emerald-500/20"
-                  >
-                    {t}
-                  </span>
-                ))}
+        {!isLoading &&
+          !isError &&
+          items.map((rv) => (
+            <article key={rv.id} className="p-5">
+              <div className="text-sm">
+                <div className="font-medium">{rv.authorName}</div>
+                <div className="text-xs text-muted-foreground flex items-center gap-3">
+                  <RatingStars rating={rv.rating} size={14} />
+                  <span className="tabular-nums">{rv.date}</span>
+                </div>
               </div>
-            )}
-          </article>
-        ))}
+
+              <p className="mt-3 text-sm leading-6 whitespace-pre-wrap">{rv.content}</p>
+            </article>
+          ))}
+
+        {!isLoading && !isError && total === 0 && (
+          <div className="p-5 text-sm text-zinc-300">아직 등록된 평가가 없습니다.</div>
+        )}
       </CardContent>
 
-      {visibleCount < total && (
+      {!isLoading && !isError && hasNextPage && (
         <CardFooter className="pt-0">
           <Button
             variant="secondary"
             className="w-full bg-zinc-800 hover:bg-zinc-700"
-            onClick={() => setVisibleCount(total)}
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
           >
-            더보기
+            {isFetchingNextPage ? "불러오는 중…" : "더보기"}
           </Button>
         </CardFooter>
       )}
