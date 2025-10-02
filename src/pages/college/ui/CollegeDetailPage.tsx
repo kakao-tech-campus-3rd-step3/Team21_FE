@@ -1,18 +1,11 @@
-import cnulogo from "@/assets/cnulogo.svg";
+import { useParams } from "react-router-dom";
+
 import { CollegeContactCard } from "@/entities/college/ui/CollegeContactCard";
 import { CollegeFeatureCard } from "@/entities/college/ui/CollegeFeatureCard";
 import { CollegeHero } from "@/entities/college/ui/CollegeHero";
 import { DepartmentList } from "@/entities/department/ui/DepartmentList";
 
-const HERO = {
-  universityName: "충남대학교",
-  collegeName: "공과대학",
-  intro:
-    "미래 산업을 이끌어갈 창의적이고 실무능력을 갖춘 공학인재 양성을 목표로 하며, 첨단 연구시설과 산학 협력을 통해 최상위권 교육을 제공합니다.",
-  students: 4200,
-  professors: 89,
-  foundedYear: 1962,
-} as const;
+import { useCollegeDetail } from "@/entities/college/hooks/useCollegeDetail";
 
 const FEATURES = [
   "국가연구·개발사업 다수 수행",
@@ -21,12 +14,6 @@ const FEATURES = [
   "국제공학인증 프로그램 운영",
   "창업지원센터 운영",
 ];
-
-const CONTACT = {
-  tel: "042-821-5600",
-  email: "engineering@cnu.ac.kr",
-  address: "공과대학 1호관 1층 학장실",
-};
 
 const DEPARTMENTS = [
   {
@@ -68,26 +55,49 @@ const DEPARTMENTS = [
 ];
 
 export function CollegeDetailPage() {
+  // 라우트 파라미터 키가 id 또는 collegeSeq일 수 있어 둘 다 대응
+  const params = useParams<{ id?: string; collegeSeq?: string }>();
+  const collegeSeq = Number(params.collegeSeq ?? params.id);
+
+  if (!Number.isFinite(collegeSeq)) {
+    return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">잘못된 접근입니다.</main>;
+  }
+
+  const { data, isLoading, isError } = useCollegeDetail(collegeSeq);
+
+  if (isLoading) {
+    return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">불러오는 중…</main>;
+  }
+  if (isError || !data) {
+    return (
+      <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">
+        단과대학 정보를 불러오지 못했습니다.
+      </main>
+    );
+  }
+
   return (
     <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
       <CollegeHero
-        collegeName={HERO.collegeName}
-        universityName={HERO.universityName}
-        intro={HERO.intro}
-        students={HERO.students}
-        professors={HERO.professors}
-        foundedYear={HERO.foundedYear}
-        logoUrl={cnulogo}
+        collegeName={data.name}
+        universityName={"" /* API 미제공 */}
+        intro={"" /* API 미제공 */}
+        students={data.students ?? 0}
+        professors={0 /* API 미제공 */}
+        foundedYear={data.foundedYear ?? 0}
+        logoUrl={undefined /* API 미제공 */}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
+          {/* 아직 학과/학부 API가 없으므로 기존 상수 유지 */}
           <DepartmentList title="학과 및 학부" items={DEPARTMENTS} />
         </div>
 
         <div className="space-y-6">
           <CollegeFeatureCard title="주요 특징" features={FEATURES} />
-          <CollegeContactCard tel={CONTACT.tel} email={CONTACT.email} address={CONTACT.address} />
+          {/* 연락처: API에 tel만 존재. email/address는 미제공 → 빈값 */}
+          <CollegeContactCard tel={data.tel ?? ""} email={""} address={""} />
         </div>
       </div>
     </main>
