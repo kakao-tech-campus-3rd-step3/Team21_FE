@@ -1,7 +1,5 @@
 import { useParams } from "react-router-dom";
 
-import { contact, sideBar, univs } from "@/__MOCK__/mockData";
-import cnulogo from "@/assets/cnulogo.svg";
 import { CollegeSection } from "@/entities/college/ui/CollegeSection";
 import {
   UniversityContactSide,
@@ -13,40 +11,46 @@ import type { UniversityHeroData } from "@/entities/university/model/hero.vm";
 import type { UniversitySideContact } from "@/entities/university/model/university-contact.vm";
 import type { UniversityMainInfo } from "@/entities/university/model/university-maininfo.vm";
 
+import { useUniversityDetail } from "@/entities/university/hooks/useUniversityDetail";
+
 export function UniversityDetailPage() {
   const { id } = useParams();
   const univSeq = Number(id);
 
-  // TODO: api hook 또는 map 호출로 변경
-  const univ = univs.find((u) => u.univSeq === univSeq);
-  const stats = sideBar;
-  const sideContact = contact;
+  const { data, isLoading, isError } = useUniversityDetail(univSeq);
 
-  // TODO: ErrorBoundary 적용
-  if (!univ) return <div className="p-6 text-center">해당 대학 정보를 찾을 수 없습니다.</div>;
+  if (!Number.isFinite(univSeq)) {
+    return <div className="p-6 text-center">잘못된 접근입니다.</div>;
+  }
+  if (isLoading) {
+    return <div className="p-6 text-center">불러오는 중…</div>;
+  }
+  if (isError || !data) {
+    return <div className="p-6 text-center">해당 대학 정보를 불러오지 못했습니다.</div>;
+  }
 
   const heroData: UniversityHeroData = {
-    id: univ.univSeq,
-    name: univ.name,
-    logoUrl: univ.univSeq === 100 ? cnulogo : univ.image,
-    address: univ.address,
-    foundedYear: Number(univ.year),
-    rating: univ.rating,
-    ratingCount: univ.ratingCount,
-    students: univ.studentNum,
+    id: data.id,
+    name: data.name,
+    logoUrl: data.logoUrl ?? "", // API에 없음
+    address: data.address ?? "",
+    foundedYear: data.foundedYear ?? 0,
+    rating: 0, // API에 없음 → 임시 0
+    ratingCount: 0, // API에 없음 → 임시 0
+    students: data.studentCount ?? 0,
   };
 
   const sideBarData: UniversityMainInfo = {
-    campuses: stats.campuses,
-    colleges: stats.colleges,
-    departments: stats.departments,
-    students: stats.students,
+    campuses: data.campusCount ?? 0,
+    colleges: 0, // API에 없음 → 임시 0 (추후 연동)
+    departments: 0, // API에 없음 → 임시 0 (추후 연동)
+    students: data.studentCount ?? 0,
   };
 
   const contactData: UniversitySideContact = {
-    tel: sideContact.tel,
-    web: sideContact.web,
-    email: sideContact.email,
+    tel: data.phone ?? "",
+    web: data.homepage ?? "",
+    email: "", // API에 없음
   };
 
   return (
@@ -55,8 +59,8 @@ export function UniversityDetailPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <CollegeSection univId={univSeq} />
-          <UniversityReviewList univSeq={univSeq} />
+          <CollegeSection univId={data.id} />
+          <UniversityReviewList univSeq={data.id} />
         </div>
 
         <div className="space-y-6">
