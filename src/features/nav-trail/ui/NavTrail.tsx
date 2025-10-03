@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { GoChevronRight, GoHomeFill } from "react-icons/go";
 import { Link } from "react-router-dom";
 
+import { useBreadcrumbContext } from "@/features/nav-trail/model/BreadcrumbProvider";
 import { cn } from "@/shared/lib/utils";
 import {
   Breadcrumb,
@@ -12,9 +13,9 @@ import {
   BreadcrumbSeparator,
 } from "@/shared/ui/breadcrumb";
 
-export type Crumb = { label: string; href?: string };
+export default function NavTrail({ className }: { className?: string }) {
+  const { crumbs } = useBreadcrumbContext();
 
-export default function NavTrail({ items, className }: { items: Crumb[]; className?: string }) {
   return (
     <nav className={cn("relative bg-transparent", className)} aria-label="Breadcrumb">
       <div className="w-full px-15 py-2">
@@ -28,7 +29,7 @@ export default function NavTrail({ items, className }: { items: Crumb[]; classNa
               </BreadcrumbLink>
             </BreadcrumbItem>
 
-            {items.map((it, i) => (
+            {crumbs.map((it, i) => (
               <Fragment key={i}>
                 <BreadcrumbSeparator className="text-muted-foreground/70">
                   <GoChevronRight className="h-4 w-4" />
