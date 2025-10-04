@@ -32,7 +32,7 @@ export function UniversityDetailPage() {
   const heroData: UniversityHeroData = {
     id: data.id,
     name: data.name,
-    logoUrl: data.logoUrl ?? "", // API에 없음
+    logoUrl: data.logoUrl ?? "", // API
     address: data.address ?? "",
     foundedYear: data.foundedYear ?? 0,
     rating: 0, // API에 없음 → 임시 0
