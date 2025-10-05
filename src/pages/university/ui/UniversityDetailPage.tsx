@@ -17,6 +17,7 @@ export function UniversityDetailPage() {
   const { id } = useParams();
   const univSeq = Number(id);
 
+  // error boundary
   const { data, isLoading, isError } = useUniversityDetail(univSeq);
 
   if (!Number.isFinite(univSeq)) {
