@@ -1,6 +1,10 @@
+import { FiEdit3 } from "react-icons/fi";
+import { Link } from "react-router-dom";
+
 import { profResearch } from "@/__MOCK__/mockData";
 import type { ProfessorResearchInfo } from "@/entities/professor/model/research.vm";
 import { PROFESSOR_RESEARCH_TEXT } from "@/pages/professor/text";
+import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
 type Props = { profId: number };
@@ -8,8 +12,14 @@ type Props = { profId: number };
 export function ProfessorResearchCard({ profId }: Props) {
   // TODO: api hook
   const prof = (profResearch as ProfessorResearchInfo[]).find((p) => p.id === profId);
+  const profCourses = [
+    { id: 1, profId: 100, title: "컴퓨터네트워크", semester: "2023-1학기" },
+    { id: 2, profId: 100, title: "운영체제", semester: "2023-2학기" },
+    { id: 3, profId: 100, title: "자료구조", semester: "2023-1학기" },
+    { id: 4, profId: 100, title: "알고리즘", semester: "2023-2학기" },
+    { id: 5, profId: 100, title: "데이터베이스", semester: "2023-1학기" },
+  ];
 
-  // TODO: ErrorBoundary
   if (!prof) {
     return (
       <Card className="relative overflow-hidden bg-zinc-900/60 border-zinc-800 backdrop-blur">
@@ -61,6 +71,37 @@ export function ProfessorResearchCard({ profId }: Props) {
               </div>
             ) : (
               <div className="text-sm text-muted-foreground">등록된 연구분야가 없습니다.</div>
+            )}
+          </section>
+
+          <section>
+            <div className="mb-2 text-xs text-muted-foreground">개설 강의</div>
+            {profCourses.filter((c) => c.profId === profId).length > 0 ? (
+              <ul className="space-y-3">
+                {profCourses
+                  .filter((c) => c.profId === profId)
+                  .map((course) => (
+                    <li key={course.id} className="flex items-center justify-between">
+                      <div>
+                        <div className="font-medium">{course.title}</div>
+                        <div className="text-xs text-muted-foreground">{course.semester}</div>
+                      </div>
+                      <Button
+                        asChild
+                        size="sm"
+                        className="bg-indigo-600 hover:bg-indigo-600/90 flex items-center gap-1.5 text-white"
+                      >
+                        {/* TODO: api 호출 */}
+                        <Link to={`/course/${100}/evaluate`}>
+                          <FiEdit3 size={16} />
+                          평가하기
+                        </Link>
+                      </Button>
+                    </li>
+                  ))}
+              </ul>
+            ) : (
+              <div className="text-sm text-muted-foreground">등록된 강의가 없습니다.</div>
             )}
           </section>
         </div>

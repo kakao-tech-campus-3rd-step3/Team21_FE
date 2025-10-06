@@ -1,8 +1,15 @@
-import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer } from "recharts";
+import {
+  PolarAngleAxis,
+  PolarGrid,
+  Radar,
+  RadarChart,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
 
 import type { Professor } from "@/entities/professor/model/professors";
 import { COMPARE_RADER_CHART_TEXTS } from "@/features/chart-compare/ui/text";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/shared/ui/chart";
+import { ChartContainer } from "@/shared/ui/chart";
 import {
   GlassCard,
   GlassCardContent,
@@ -16,34 +23,31 @@ type props = {
   professors: Professor[];
 };
 
+type ProfessorStatKey =
+  | "homework"
+  | "lecDifficulty"
+  | "examDifficulty"
+  | "gradeDistribution"
+  | "researchPerf";
+
 export const CompareRaderChart = ({ professors }: props) => {
-  const chartData = [
-    {
-      category: COMPARE_RADER_CHART_TEXTS.categories.homework,
-      p1: professors[0]?.homework ?? 0,
-      p2: professors[1]?.homework ?? 0,
-    },
-    {
-      category: COMPARE_RADER_CHART_TEXTS.categories.lecDifficulty,
-      p1: professors[0]?.lecDifficulty ?? 0,
-      p2: professors[1]?.lecDifficulty ?? 0,
-    },
-    {
-      category: COMPARE_RADER_CHART_TEXTS.categories.examDifficulty,
-      p1: professors[0]?.examDifficulty ?? 0,
-      p2: professors[1]?.examDifficulty ?? 0,
-    },
-    {
-      category: COMPARE_RADER_CHART_TEXTS.categories.gradeDistribution,
-      p1: professors[0]?.gradeDistribution ?? 0,
-      p2: professors[1]?.gradeDistribution ?? 0,
-    },
-    {
-      category: COMPARE_RADER_CHART_TEXTS.categories.researchPerf,
-      p1: professors[0]?.researchPerf ?? 0,
-      p2: professors[1]?.researchPerf ?? 0,
-    },
+  const categories = [
+    { key: "homework", label: COMPARE_RADER_CHART_TEXTS.categories.homework },
+    { key: "lecDifficulty", label: COMPARE_RADER_CHART_TEXTS.categories.lecDifficulty },
+    { key: "examDifficulty", label: COMPARE_RADER_CHART_TEXTS.categories.examDifficulty },
+    { key: "gradeDistribution", label: COMPARE_RADER_CHART_TEXTS.categories.gradeDistribution },
+    { key: "researchPerf", label: COMPARE_RADER_CHART_TEXTS.categories.researchPerf },
   ];
+
+  const chartData = categories.map((cat) => {
+    const row: Record<string, string | number> = { category: cat.label };
+    professors.forEach((prof) => {
+      row[prof.name] = prof[cat.key as ProfessorStatKey] ?? 0;
+    });
+    return row;
+  });
+
+  const colors = ["#3b82f6", "#ef4444", "#22c55e"];
 
   return (
     <GlassCard shine={false}>
@@ -60,22 +64,30 @@ export const CompareRaderChart = ({ professors }: props) => {
           <ResponsiveContainer width="100%" height="100%">
             <RadarChart
               data={chartData}
-              outerRadius="80%"
+              outerRadius="100%"
               margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
             >
-              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+              <Tooltip
+                cursor={false}
+                contentStyle={{
+                  background: "rgba(24,24,27,0.9)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: 10,
+                  color: "#fff",
+                }}
+              />
               <PolarAngleAxis dataKey="category" />
-              <PolarGrid radialLines={false} polarRadius={[160]} strokeWidth={1} />
+              <PolarGrid strokeWidth={1} />
 
               {/* 교수별 Radar */}
               {professors.map((prof, index) => (
                 <Radar
                   key={prof.id}
-                  dataKey={`p${index + 1}`}
+                  dataKey={prof.name}
                   name={prof.name}
-                  stroke={index === 0 ? "var(--chart-2)" : "oklch(0.627 0.265 303.9)"}
-                  fill={`var(--chart-${index + 1})`}
-                  fillOpacity={0.3}
+                  stroke={colors[index % colors.length]}
+                  fill={colors[index % colors.length]}
+                  fillOpacity={0.4}
                 />
               ))}
             </RadarChart>
@@ -90,7 +102,7 @@ export const CompareRaderChart = ({ professors }: props) => {
               <div
                 className="h-2.5 w-2.5 shrink-0 rounded-full"
                 style={{
-                  backgroundColor: index === 0 ? "var(--chart-2)" : "oklch(0.627 0.265 303.9)",
+                  backgroundColor: colors[index % colors.length],
                 }}
               />
               <span>{prof.name}</span>

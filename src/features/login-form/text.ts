@@ -9,8 +9,8 @@ export const AUTH_LOGIN_TEXT = {
     forgot: "비밀번호를 잊으셨나요?",
     toSignup: "회원가입으로 이동",
   },
-  vaildate: {
-    id: "아이디는 3자 이상",
-    pw: "비밀번호는 8자 이상",
+  validate: {
+    id: "아이디는 3자 이상 입력해 주세요.",
+    pw: "비밀번호는 8자 이상 입력해 주세요.",
   },
 } as const;

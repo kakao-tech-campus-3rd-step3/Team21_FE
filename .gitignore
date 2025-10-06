@@ -35,3 +35,6 @@ Thumbs.db
 # misc
 *.swp
 *.swo
+
+*storybook.log
+storybook-static

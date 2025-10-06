@@ -1,4 +1,4 @@
-import type { ProfessorSearch } from "@/features/professor-search/model/professorsearch";
+import type { ProfessorSearch } from "@/features/professor-search/model/professor-search.domain";
 import { Button } from "@/shared/ui/button";
 
 type props = {
