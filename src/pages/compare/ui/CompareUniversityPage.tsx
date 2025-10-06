@@ -1,4 +1,4 @@
-import { CompareUnivLineChart } from "@/features/chart-compare/ui/CompareUnivLineChart";
+import { CompareUnivBarChart } from "@/features/chart-compare/ui/CompareUnivBarChart";
 import { CompareUnivRaderChart } from "@/features/chart-compare/ui/CompareUnivRaderChart";
 import { useUniversityComparison } from "@/features/university-compare/hooks/useUniversityComparison";
 import { UniversityCard } from "@/features/university-compare/ui/UniversityCard";
@@ -57,7 +57,7 @@ export const CompareUniversityPage = () => {
             <CompareUnivRaderChart universities={comparedUniversities} />
 
             {/* 직선 비교 차트 */}
-            <CompareUnivLineChart universities={comparedUniversities} />
+            <CompareUnivBarChart universities={comparedUniversities} />
           </>
         )}
       </div>
