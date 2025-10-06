@@ -5,4 +5,8 @@ export type CollegeDetail = {
   foundedYear?: number;
   tel?: string;
   homepage?: string;
+  intro?: string;
+  professors?: number;
+  logoUrl?: string;
+  universityName?: string;
 };

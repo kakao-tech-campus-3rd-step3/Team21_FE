@@ -14,5 +14,9 @@ export function mapCollegeDetailResponseToDomain(r: CollegeDetailResponse): Coll
     foundedYear: r.collegeEstablishedYear ? Number(r.collegeEstablishedYear) : undefined,
     tel: r.collegeTel || undefined,
     homepage: r.collegeHomePage || undefined,
+    intro: r.collegeIntro || undefined,
+    professors: r.professorCount ?? undefined,
+    logoUrl: r.image_url || undefined,
+    universityName: r.univName || undefined,
   };
 }

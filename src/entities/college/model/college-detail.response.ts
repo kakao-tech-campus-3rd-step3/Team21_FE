@@ -5,4 +5,8 @@ export type CollegeDetailResponse = {
   collegeEstablishedYear: string;
   collegeTel: string;
   collegeHomePage: string;
+  collegeIntro: string;
+  professorCount: number;
+  image_url: string;
+  univName: string;
 };

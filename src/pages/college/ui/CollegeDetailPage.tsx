@@ -55,9 +55,8 @@ const DEPARTMENTS = [
 ];
 
 export function CollegeDetailPage() {
-  // 라우트 파라미터 키가 id 또는 collegeSeq일 수 있어 둘 다 대응
-  const params = useParams<{ id?: string; collegeSeq?: string }>();
-  const collegeSeq = Number(params.collegeSeq ?? params.id);
+  const { id } = useParams<{ id: string }>();
+  const collegeSeq = Number(id);
 
   if (!Number.isFinite(collegeSeq)) {
     return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">잘못된 접근입니다.</main>;
@@ -80,23 +79,21 @@ export function CollegeDetailPage() {
     <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
       <CollegeHero
         collegeName={data.name}
-        universityName={"" /* API 미제공 */}
-        intro={"" /* API 미제공 */}
+        universityName={data.universityName ?? ""}
+        intro={data.intro ?? ""}
         students={data.students ?? 0}
-        professors={0 /* API 미제공 */}
+        professors={data.professors ?? 0}
         foundedYear={data.foundedYear ?? 0}
-        logoUrl={undefined /* API 미제공 */}
+        logoUrl={data.logoUrl}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          {/* 아직 학과/학부 API가 없으므로 기존 상수 유지 */}
           <DepartmentList title="학과 및 학부" items={DEPARTMENTS} />
         </div>
 
         <div className="space-y-6">
           <CollegeFeatureCard title="주요 특징" features={FEATURES} />
-          {/* 연락처: API에 tel만 존재. email/address는 미제공 → 빈값 */}
           <CollegeContactCard tel={data.tel ?? ""} email={""} address={""} />
         </div>
       </div>
