@@ -8,4 +8,8 @@ export type UniversityDetail = {
   foundedYear?: number;
   studentCount?: number;
   campusCount?: number;
+  collegeCount?: number;
+  departmentCount?: number;
+  averageRating?: number;
+  reviewCount?: number;
 };

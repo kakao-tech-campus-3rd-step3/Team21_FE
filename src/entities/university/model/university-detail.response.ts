@@ -9,5 +9,9 @@ export type UniversityDetailResponse = {
     establishedYear: string;
     totalStudent: number;
     campusCnt: number;
+    collegeCount: number;
+    departmentCount: number;
+    averageRating: string;
+    reviewCount: number;
   };
 };

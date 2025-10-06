@@ -33,18 +33,18 @@ export function UniversityDetailPage() {
   const heroData: UniversityHeroData = {
     id: data.id,
     name: data.name,
-    logoUrl: data.logoUrl ?? "", // API
+    logoUrl: data.logoUrl ?? "",
     address: data.address ?? "",
     foundedYear: data.foundedYear ?? 0,
-    rating: 0, // API에 없음 → 임시 0
-    ratingCount: 0, // API에 없음 → 임시 0
+    rating: data.averageRating ?? 0,
+    ratingCount: data.reviewCount ?? 0,
     students: data.studentCount ?? 0,
   };
 
   const sideBarData: UniversityMainInfo = {
     campuses: data.campusCount ?? 0,
-    colleges: 0, // API에 없음 → 임시 0 (추후 연동)
-    departments: 0, // API에 없음 → 임시 0 (추후 연동)
+    colleges: data.collegeCount ?? 0,
+    departments: data.departmentCount ?? 0,
     students: data.studentCount ?? 0,
   };
 

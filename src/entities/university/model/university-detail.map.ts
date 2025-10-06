@@ -18,5 +18,9 @@ export function mapDetailResponseToDomain(r: UniversityDetailResponse): Universi
     foundedYear: u.establishedYear ? Number(u.establishedYear) : undefined,
     studentCount: u.totalStudent ?? undefined,
     campusCount: u.campusCnt ?? undefined,
+    collegeCount: u.collegeCount ?? undefined,
+    departmentCount: u.departmentCount ?? undefined,
+    averageRating: u.averageRating ? Number(u.averageRating) : undefined,
+    reviewCount: u.reviewCount ?? undefined,
   };
 }
