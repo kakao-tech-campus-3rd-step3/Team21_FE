@@ -1,4 +1,11 @@
-import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer } from "recharts";
+import {
+  PolarAngleAxis,
+  PolarGrid,
+  PolarRadiusAxis,
+  Radar,
+  RadarChart,
+  ResponsiveContainer,
+} from "recharts";
 
 import type { University } from "@/entities/university/model/university";
 import { COMPARE_UNIV_RADER_CHART_TEXTS } from "@/features/chart-compare/ui/text";
@@ -17,6 +24,15 @@ type Props = {
 };
 
 export const CompareUnivRaderChart = ({ universities }: Props) => {
+  const colors = ["#3b82f6", "#ef4444", "#22c55e"];
+  const u1Color = colors[0];
+  const u2Color = colors[1];
+  const u1Name = universities[0]?.name ?? "University 1";
+  const u2Name = universities[1]?.name ?? "University 2";
+  const chartConfig = {
+    u1: { label: u1Name, color: u1Color },
+    u2: { label: u2Name, color: u2Color },
+  } as const;
   const chartData = [
     {
       category: COMPARE_UNIV_RADER_CHART_TEXTS.categories.food,
@@ -55,17 +71,14 @@ export const CompareUnivRaderChart = ({ universities }: Props) => {
       <GlassCardContent className="pb-0">
         <ChartContainer
           className="mx-auto aspect-square max-h-[500px] w-full bg-transparent"
-          config={{}}
+          config={chartConfig}
         >
           <ResponsiveContainer width="100%" height="100%">
-            <RadarChart
-              data={chartData}
-              outerRadius="80%"
-              margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
-            >
+            <RadarChart data={chartData} outerRadius={160}>
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-              <PolarAngleAxis dataKey="category" />
-              <PolarGrid radialLines={false} polarRadius={[160]} strokeWidth={1} />
+              <PolarAngleAxis dataKey="category" tick={{ dy: -10 }} />
+              <PolarGrid strokeWidth={1} />
+              <PolarRadiusAxis angle={90} domain={[0, 5]} tickCount={6} />
 
               {/* 대학별 Radar */}
               {universities.map((univ, index) => (
@@ -73,9 +86,9 @@ export const CompareUnivRaderChart = ({ universities }: Props) => {
                   key={univ.id}
                   dataKey={`u${index + 1}`}
                   name={univ.name}
-                  stroke={index === 0 ? "var(--chart-2)" : "oklch(0.627 0.265 303.9)"}
-                  fill={`var(--chart-${index + 1})`}
-                  fillOpacity={0.3}
+                  stroke={index === 0 ? u1Color : u2Color}
+                  fill={index === 0 ? u1Color : u2Color}
+                  fillOpacity={0.5}
                 />
               ))}
             </RadarChart>
@@ -90,7 +103,7 @@ export const CompareUnivRaderChart = ({ universities }: Props) => {
               <div
                 className="h-2.5 w-2.5 shrink-0 rounded-full"
                 style={{
-                  backgroundColor: index === 0 ? "var(--chart-2)" : "oklch(0.627 0.265 303.9)",
+                  backgroundColor: index === 0 ? u1Color : u2Color,
                 }}
               />
               <span>{univ.name}</span>
