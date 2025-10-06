@@ -11,5 +11,6 @@ export function mapCollegeListResponseToDomain(r: CollegeListResponse): College[
     id: c.collegeSeq,
     name: c.collegeName,
     departmentCount: c.departmentCount,
+    intro: c.collegeIntro,
   }));
 }

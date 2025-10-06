@@ -3,5 +3,6 @@ export type CollegeListResponse = {
     collegeSeq: number;
     collegeName: string;
     departmentCount: number;
+    collegeIntro: string;
   }>;
 };

@@ -11,7 +11,7 @@ export function CollegeSection({ univId }: Props) {
   const items: CollegeCard[] = (data ?? []).map((c) => ({
     collegeSeq: c.id,
     name: c.name,
-    description: undefined, // API 없음
+    description: c.intro,
     departmentCount: c.departmentCount,
   }));
 
