@@ -29,7 +29,7 @@ const TEXT = {
 };
 
 const meta: Meta<typeof UniversityReviewForm> = {
-  title: "features/university-review-form/UniversityReviewForm",
+  title: "Features/University-Review-Form/UniversityReviewForm",
   component: UniversityReviewForm,
   tags: ["autodocs"],
   decorators: [
@@ -39,7 +39,14 @@ const meta: Meta<typeof UniversityReviewForm> = {
       </DisableBackNav>
     ),
   ],
-  parameters: { layout: "centered" },
+  parameters: {
+    layout: "centered",
+    docs: {
+      description: {
+        component: "대학교 리뷰를 위한 Star Rating Field, 텍스트 에리어를 포함한 폼을 표시합니다",
+      },
+    },
+  },
   args: {
     univId: "CNU",
     text: TEXT,

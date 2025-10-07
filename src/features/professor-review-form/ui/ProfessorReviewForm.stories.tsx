@@ -24,7 +24,7 @@ const TEXT = {
 };
 
 const meta: Meta<typeof ProfessorReviewForm> = {
-  title: "features/professor-review-form/ProfessorReviewForm",
+  title: "Features/Professor-Review-Form/ProfessorReviewForm",
   component: ProfessorReviewForm,
   tags: ["autodocs"],
   decorators: [
@@ -34,7 +34,14 @@ const meta: Meta<typeof ProfessorReviewForm> = {
       </DisableBackNav>
     ),
   ],
-  parameters: { layout: "centered" },
+  parameters: {
+    layout: "centered",
+    docs: {
+      description: {
+        component: "교수 리뷰를 위한 Star Rating Field, 텍스트 에리어를 포함한 폼을 표시합니다",
+      },
+    },
+  },
   args: {
     profId: "EE-101",
     text: TEXT,

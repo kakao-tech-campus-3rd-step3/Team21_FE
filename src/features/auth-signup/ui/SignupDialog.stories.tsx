@@ -26,11 +26,18 @@ function Demo({ open: controlledOpen = false }: { open?: boolean }) {
 }
 
 const meta: Meta<typeof Demo> = {
-  title: "features/auth-signup/SignupDialog",
+  title: "Features/Auth-Signup/SignupDialog",
   component: Demo,
   tags: ["autodocs"],
   decorators: [withQueryProvider],
-  parameters: { layout: "centered" },
+  parameters: {
+    layout: "centered",
+    docs: {
+      description: {
+        component: "회원가입을 위한 텍스트 에리어, 유효성 검증을 포함한 다이얼로그를 표시합니다",
+      },
+    },
+  },
   args: { open: false },
   argTypes: { open: { control: "boolean" } },
 };
