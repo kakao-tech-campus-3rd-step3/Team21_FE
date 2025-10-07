@@ -12,7 +12,6 @@ export function ProfessorDetailPage() {
   const { id } = useParams();
   const profSeq = Number(id);
 
-  // TODO: api hook 적용
   const prof = profDetail.find((p) => p.id === profSeq);
 
   // TODO: ErrorBoundary 적용
