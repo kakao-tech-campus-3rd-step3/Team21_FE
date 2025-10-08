@@ -10,12 +10,13 @@ import { ProfessorList } from "@/entities/professor/ui/ProfessorList";
 export function DepartmentDetailPage() {
   const { id } = useParams<{ id: string }>();
   const deptSeq = Number(id);
-
-  if (!Number.isFinite(deptSeq)) {
-    return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">잘못된 접근입니다.</main>;
-  }
+  const isInvalid = !Number.isFinite(deptSeq) || deptSeq <= 0;
 
   const { data, isLoading, isError } = useDepartmentDetail(deptSeq);
+
+  if (isInvalid) {
+    return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">잘못된 접근입니다.</main>;
+  }
 
   if (isLoading) {
     return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">불러오는 중…</main>;
@@ -73,7 +74,7 @@ export function DepartmentDetailPage() {
         students={data.students ?? 0}
         professors={data.professors ?? 0}
         foundedYear={data.foundedYear ?? 0}
-        logoUrl={cnulogo /* API 미제공 → 임시 로고 */}
+        logoUrl={cnulogo /* api 로고 외않줌 */}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

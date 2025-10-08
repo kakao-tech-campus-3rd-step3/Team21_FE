@@ -18,10 +18,7 @@ const FEATURES = [
 export function CollegeDetailPage() {
   const { id } = useParams<{ id: string }>();
   const collegeSeq = Number(id);
-
-  if (!Number.isFinite(collegeSeq)) {
-    return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">잘못된 접근입니다.</main>;
-  }
+  const isInvalid = !Number.isFinite(collegeSeq) || collegeSeq <= 0;
 
   const { data: college, isLoading, isError } = useCollegeDetail(collegeSeq);
   const {
@@ -29,6 +26,10 @@ export function CollegeDetailPage() {
     isLoading: deptLoading,
     isError: deptError,
   } = useDepartmentsByCollege(collegeSeq);
+
+  if (isInvalid) {
+    return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">잘못된 접근입니다.</main>;
+  }
 
   if (isLoading) {
     return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">불러오는 중…</main>;
@@ -41,6 +42,8 @@ export function CollegeDetailPage() {
       </main>
     );
   }
+
+  const hasDept = (departments?.length ?? 0) > 0;
 
   return (
     <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
@@ -60,17 +63,19 @@ export function CollegeDetailPage() {
           {deptError && (
             <div className="text-sm text-red-400">학과 정보를 불러오지 못했습니다.</div>
           )}
-          {!deptLoading && !deptError && (
-            <DepartmentList title="학과 및 학부" items={departments ?? []} />
+
+          {!deptLoading && !deptError && hasDept && (
+            <DepartmentList title="학과 및 학부" items={departments!} />
           )}
-          {!deptLoading && !deptError && departments && departments.length === 0 && (
+
+          {!deptLoading && !deptError && !hasDept && (
             <div className="text-sm text-zinc-400">등록된 학과 정보가 없습니다.</div>
           )}
         </div>
 
         <div className="space-y-6">
           <CollegeFeatureCard title="주요 특징" features={FEATURES} />
-          <CollegeContactCard tel={college.tel ?? ""} email={""} address={""} />
+          <CollegeContactCard tel={college.tel ?? ""} email="" address="" />
         </div>
       </div>
     </main>

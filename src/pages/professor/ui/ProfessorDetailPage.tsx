@@ -10,16 +10,21 @@ import { ProfessorResearchCard } from "@/entities/professor/ui/ProfessorResearch
 export function ProfessorDetailPage() {
   const { id } = useParams<{ id: string }>();
   const profSeq = Number(id);
-
-  if (!Number.isFinite(profSeq)) {
-    return <div className="p-6 text-center">잘못된 접근입니다.</div>;
-  }
+  const isInvalid = !Number.isFinite(profSeq) || profSeq <= 0;
 
   const { data, isLoading, isError } = useProfessorDetail(profSeq);
 
-  if (isLoading) return <div className="p-6 text-center">불러오는 중…</div>;
-  if (isError || !data)
+  if (isInvalid) {
+    return <div className="p-6 text-center">잘못된 접근입니다.</div>;
+  }
+
+  if (isLoading) {
+    return <div className="p-6 text-center">불러오는 중…</div>;
+  }
+
+  if (isError || !data) {
     return <div className="p-6 text-center">해당 교수 정보를 찾을 수 없습니다.</div>;
+  }
 
   const heroData: ProfessorHeroData = {
     id: data.id,
