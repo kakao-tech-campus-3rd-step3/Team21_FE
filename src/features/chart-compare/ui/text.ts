@@ -29,5 +29,5 @@ export const COMPARE_UNIV_RADER_CHART_TEXTS = {
 
 export const COMPARE_UNIV_LINE_CHART_TEXTS = {
   title: "대학교 종합 평점 변화 추이",
-  description: "2021 - 2025",
+  //description: "2021 - 2025",
 };

@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import { CollegeSection } from "@/entities/college/ui/CollegeSection";
@@ -11,6 +12,7 @@ import { useUniversityDetail } from "@/entities/university/hooks/useUniversityDe
 import type { UniversityHeroData } from "@/entities/university/model/hero.vm";
 import type { UniversitySideContact } from "@/entities/university/model/university-contact.vm";
 import type { UniversityMainInfo } from "@/entities/university/model/university-maininfo.vm";
+import { useBreadcrumbTrail } from "@/features/nav-trail";
 
 export function UniversityDetailPage() {
   const { id } = useParams();
@@ -28,6 +30,11 @@ export function UniversityDetailPage() {
   if (isError || !data) {
     return <div className="p-6 text-center">해당 대학 정보를 불러오지 못했습니다.</div>;
   }
+  const crumbs = useMemo(() => [{ label: univ?.name ?? "대학교" }], [univ?.name]);
+  useBreadcrumbTrail(crumbs);
+
+  // TODO: ErrorBoundary 적용
+  if (!univ) return <div className="p-6 text-center">해당 대학 정보를 찾을 수 없습니다.</div>;
 
   const heroData: UniversityHeroData = {
     id: data.id,

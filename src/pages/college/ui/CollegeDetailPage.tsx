@@ -1,11 +1,15 @@
 import { useParams } from "react-router-dom";
 
 import { useCollegeDetail } from "@/entities/college/hooks/useCollegeDetail";
+import { useMemo } from "react";
+
+import cnulogo from "@/assets/cnulogo.svg";
 import { CollegeContactCard } from "@/entities/college/ui/CollegeContactCard";
 import { CollegeFeatureCard } from "@/entities/college/ui/CollegeFeatureCard";
 import { CollegeHero } from "@/entities/college/ui/CollegeHero";
 import { useDepartmentsByCollege } from "@/entities/department/hooks/useDepartmentsByCollege";
 import { DepartmentList } from "@/entities/department/ui/DepartmentList";
+import { useBreadcrumbTrail } from "@/features/nav-trail";
 
 const FEATURES = [
   "국가연구·개발사업 다수 수행",
@@ -44,6 +48,10 @@ export function CollegeDetailPage() {
   }
 
   const hasDept = (departments?.length ?? 0) > 0;
+
+export function CollegeDetailPage() {
+  const crumbs = useMemo(() => [{ label: HERO.universityName }, { label: HERO.collegeName }], []);
+  useBreadcrumbTrail(crumbs);
 
   return (
     <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
