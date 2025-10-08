@@ -7,6 +7,7 @@ import { useSearchBox } from "@/features/search-control/model/useSearchBox";
 import { SEARCH_CONTROL_PROF_TEXT, SEARCH_CONTROL_TEXT } from "@/features/search-control/text";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent } from "@/shared/ui/card";
+
 type Props = {
   placeholder?: string;
   onSelectUniv?: (univ: UnivSearchResult) => void;
@@ -61,7 +62,8 @@ export function SearchBox(props: Props) {
           <div className="relative flex-1">
             <FaSearch
               className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/75 drop-shadow"
-              aria-hidden
+              aria-hidden="true"
+              focusable="false"
             />
             <input
               type="text"
@@ -112,6 +114,8 @@ export function SearchBox(props: Props) {
 
           <Button
             type="button"
+            aria-label="검색"
+            title="검색"
             className={[
               "relative inline-flex items-center justify-center rounded-lg",
               "h-12 w-12",
@@ -126,7 +130,7 @@ export function SearchBox(props: Props) {
             ].join(" ")}
             disabled
           >
-            <FaSearch className="h-4 w-4" />
+            <FaSearch className="h-4 w-4" aria-hidden="true" focusable="false" />
           </Button>
         </div>
       </CardContent>

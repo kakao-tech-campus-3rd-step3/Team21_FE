@@ -1,14 +1,9 @@
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 import { univChartData } from "@/__MOCK__/mockData";
 import type { University } from "@/entities/university/model/university";
 import { COMPARE_UNIV_LINE_CHART_TEXTS as TEXTS } from "@/features/chart-compare/ui/text";
-import {
-  type ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/shared/ui/chart";
+import { type ChartConfig, ChartContainer } from "@/shared/ui/chart";
 import {
   GlassCard,
   GlassCardContent,
@@ -42,14 +37,14 @@ export function CompareUnivBarChart({ universities }: Props) {
 
   return (
     <GlassCard shine={false}>
-      <GlassCardHeader>
+      <GlassCardHeader className="relative z-10">
         <GlassCardTitle className="text-center">{TEXTS.title}</GlassCardTitle>
       </GlassCardHeader>
 
-      <GlassCardContent className="h-100">
+      <GlassCardContent className="relative z-0 h-100">
         <ChartContainer
           config={chartConfig}
-          className="h-full bg-transparent"
+          className="h-full rounded-lg bg-black p-3"
           style={
             {
               ["--color-u1"]: u1Color,
@@ -67,7 +62,12 @@ export function CompareUnivBarChart({ universities }: Props) {
               barCategoryGap="20%"
               barGap={4}
             >
-              <CartesianGrid vertical={false} />
+              <CartesianGrid
+                vertical={false}
+                stroke="#000000"
+                strokeDasharray="0"
+                strokeWidth={1}
+              />
               <XAxis type="number" hide />
               <YAxis
                 dataKey="year"
@@ -77,12 +77,16 @@ export function CompareUnivBarChart({ universities }: Props) {
                 tickMargin={10}
                 width={64}
                 interval={0}
+                tick={{ fill: "#ffffff", fontSize: 12 }}
               />
-              <ChartTooltip
+              <Tooltip
                 cursor={false}
-                labelFormatter={(label) => `Year: ${label}`}
-                formatter={(value, name) => [`${value}`, String(name)]}
-                content={<ChartTooltipContent />}
+                contentStyle={{
+                  background: "#000000",
+                  border: "1px solid #262626",
+                  borderRadius: 10,
+                  color: "#ffffff",
+                }}
               />
               <Bar
                 dataKey="u1"
@@ -105,16 +109,20 @@ export function CompareUnivBarChart({ universities }: Props) {
         </ChartContainer>
       </GlassCardContent>
 
-      <GlassCardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex items-center gap-4">
+      <GlassCardFooter className="relative z-10 flex-col items-start gap-2 text-sm">
+        <div className="relatice z-10 flex items-center gap-4">
           <div className="flex items-center gap-1.5">
             <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: u1Color }} />
-            <span>{u1Name}</span>
+            <span className="relative z-20 inline-block rounded-md px-1.5 py-0.5 text-white">
+              {u1Name}
+            </span>
           </div>
           {hasU2 && (
             <div className="flex items-center gap-1.5">
               <div className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: u2Color }} />
-              <span>{u2Name}</span>
+              <span className="relative z-20 inline-block rounded-md px-1.5 py-0.5 text-white">
+                {u2Name}
+              </span>
             </div>
           )}
         </div>

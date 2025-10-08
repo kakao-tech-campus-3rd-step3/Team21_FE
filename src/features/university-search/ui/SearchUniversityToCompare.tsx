@@ -30,12 +30,12 @@ export function SearchUniversityToCompare({
   onPick,
 }: props) {
   return (
-    <GlassCard>
-      <GlassCardHeader>
+    <GlassCard shine={false}>
+      <GlassCardHeader className="relative z-10">
         <GlassCardTitle>{SEARCH_UNIVERSITY_TEXTS.cardTitle}</GlassCardTitle>
         <GlassCardDescription>{SEARCH_UNIVERSITY_TEXTS.cardDescription}</GlassCardDescription>
       </GlassCardHeader>
-      <GlassCardContent>
+      <GlassCardContent className="relative z-10">
         <div className="flex items-center gap-2">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
