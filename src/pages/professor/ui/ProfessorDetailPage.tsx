@@ -1,34 +1,35 @@
-import { useParams } from "react-router-dom";
-
-import { profDetail } from "@/__MOCK__/mockData";
-import yslee from "@/assets/yslee.jpeg";
+import { useProfessorDetail } from "@/entities/professor/hooks/useProfessorDetail";
 import type { ProfessorHeroData } from "@/entities/professor/model/professor-hero.vm";
 import { ProfessorEvalCard } from "@/entities/professor/ui/ProfessorEvalRadar";
 import { ProfessorHero } from "@/entities/professor/ui/ProfessorHero";
 import { ProfessorLectureReviewList } from "@/entities/professor/ui/ProfessorLectureReviewList";
 import { ProfessorResearchCard } from "@/entities/professor/ui/ProfessorResearchCard";
+import { useParams } from "react-router-dom";
 
 export function ProfessorDetailPage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const profSeq = Number(id);
 
-  const prof = profDetail.find((p) => p.id === profSeq);
-
-  // TODO: ErrorBoundary 적용
-  if (!prof) {
-    return <div className="p-6 text-center">해당 교수 정보를 찾을 수 없습니다.</div>;
+  if (!Number.isFinite(profSeq)) {
+    return <div className="p-6 text-center">잘못된 접근입니다.</div>;
   }
 
+  const { data, isLoading, isError } = useProfessorDetail(profSeq);
+
+  if (isLoading) return <div className="p-6 text-center">불러오는 중…</div>;
+  if (isError || !data)
+    return <div className="p-6 text-center">해당 교수 정보를 찾을 수 없습니다.</div>;
+
   const heroData: ProfessorHeroData = {
-    id: prof.id,
-    name: prof.name,
-    department: prof.department,
-    university: prof.university,
-    email: prof.email || undefined,
-    office: prof.office || undefined,
-    avatarUrl: prof.avatarUrl || yslee,
-    rating: typeof prof.rating === "number" ? prof.rating : Number(prof.rating) || 0,
-    ratingCount: prof.ratingCount ?? 0,
+    id: data.id,
+    name: data.name,
+    department: data.department.name,
+    university: data.university.name,
+    email: data.email,
+    office: data.office,
+    avatarUrl: data.imageUrl,
+    rating: data.overallRating ?? 0,
+    ratingCount: data.totalReviewCount ?? 0,
   };
 
   return (
