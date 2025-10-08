@@ -16,42 +16,38 @@ export function ProfessorDetailPage() {
 
   const { data, isLoading, isError } = useProfessorDetail(profSeq);
 
-  if (isInvalid) {
-    return <div className="p-6 text-center">잘못된 접근입니다.</div>;
-  }
-
-  if (isLoading) {
-    return <div className="p-6 text-center">불러오는 중…</div>;
-  }
-
-  if (isError || !data) {
-  // 단과대학명: 데이터에 없어서 우선 상수로
-  const collegeName = "공과대학"; // 나중에 API/모델에서 받아오면 교체
-
+  const collegeName = data?.college ?? data?.college ?? "";
   const crumbs = useMemo(
     () => [
-      { label: prof?.university ?? "충남대학교" },
-      { label: collegeName },
-      { label: prof?.department ?? "학과" },
-      { label: prof?.name ? `${prof.name} 교수` : "교수" },
+      { label: String(data?.university?.name ?? "") },
+      { label: String(collegeName) },
+      { label: String(data?.department?.name ?? "") },
+      { label: String(data?.name ? `${data.name} 교수` : "") },
     ],
-    [prof?.university, collegeName, prof?.department, prof?.name],
+    [data?.university?.name, collegeName, data?.department?.name, data?.name],
   );
   useBreadcrumbTrail(crumbs);
 
-  // TODO: ErrorBoundary 적용
-  if (!prof) {
-    return <div className="p-6 text-center">해당 교수 정보를 찾을 수 없습니다.</div>;
+  if (isInvalid) {
+    return <main className="p-6 text-center">잘못된 접근입니다.</main>;
+  }
+
+  if (isLoading) {
+    return <main className="p-6 text-center">불러오는 중…</main>;
+  }
+
+  if (isError || !data) {
+    return <main className="p-6 text-center">해당 교수 정보를 찾을 수 없습니다.</main>;
   }
 
   const heroData: ProfessorHeroData = {
     id: data.id,
     name: data.name,
-    department: data.department.name,
-    university: data.university.name,
-    email: data.email,
-    office: data.office,
-    avatarUrl: data.imageUrl,
+    department: data.department?.name ?? "",
+    university: data.university?.name ?? "",
+    email: data.email ?? "",
+    office: data.office ?? "",
+    avatarUrl: data.imageUrl ?? "",
     rating: data.overallRating ?? 0,
     ratingCount: data.totalReviewCount ?? 0,
   };
