@@ -1,4 +1,4 @@
-import { type InfiniteData,useInfiniteQuery } from "@tanstack/react-query";
+import { type InfiniteData, useInfiniteQuery } from "@tanstack/react-query";
 
 import { fetchProfessorReviews } from "@/entities/professor/api";
 import type { ProfessorReview } from "@/entities/professor/model/professor-reviews.domain";
