@@ -16,7 +16,7 @@ export function ProfessorDetailPage() {
 
   const { data, isLoading, isError } = useProfessorDetail(profSeq);
 
-  const collegeName = data?.college ?? data?.college ?? "";
+  const collegeName = data?.college.name ?? data?.college.name ?? "";
   const crumbs = useMemo(
     () => [
       { label: String(data?.university?.name ?? "") },

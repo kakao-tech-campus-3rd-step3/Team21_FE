@@ -15,11 +15,13 @@ import type { UniversityMainInfo } from "@/entities/university/model/university-
 import { useBreadcrumbTrail } from "@/features/nav-trail";
 
 export function UniversityDetailPage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const univSeq = Number(id);
 
-  // error boundary
   const { data, isLoading, isError } = useUniversityDetail(univSeq);
+
+  const crumbs = useMemo(() => [{ label: data?.name ?? "대학교" }], [data?.name]);
+  useBreadcrumbTrail(crumbs);
 
   if (!Number.isFinite(univSeq)) {
     return <div className="p-6 text-center">잘못된 접근입니다.</div>;
@@ -30,11 +32,6 @@ export function UniversityDetailPage() {
   if (isError || !data) {
     return <div className="p-6 text-center">해당 대학 정보를 불러오지 못했습니다.</div>;
   }
-  const crumbs = useMemo(() => [{ label: univ?.name ?? "대학교" }], [univ?.name]);
-  useBreadcrumbTrail(crumbs);
-
-  // TODO: ErrorBoundary 적용
-  if (!univ) return <div className="p-6 text-center">해당 대학 정보를 찾을 수 없습니다.</div>;
 
   const heroData: UniversityHeroData = {
     id: data.id,
