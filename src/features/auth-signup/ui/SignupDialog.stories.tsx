@@ -1,17 +1,7 @@
-import type { Decorator, Meta, StoryObj } from "@storybook/react-vite";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEffect, useState } from "react";
 
 import { SignupDialog } from "./SignupDialog";
-
-const withQueryProvider: Decorator = (Story) => {
-  const qc = new QueryClient();
-  return (
-    <QueryClientProvider client={qc}>
-      <Story />
-    </QueryClientProvider>
-  );
-};
 
 function Demo({ open: controlledOpen = false }: { open?: boolean }) {
   const [open, setOpen] = useState(controlledOpen);
@@ -29,7 +19,6 @@ const meta: Meta<typeof Demo> = {
   title: "Features/Auth-Signup/SignupDialog",
   component: Demo,
   tags: ["autodocs"],
-  decorators: [withQueryProvider],
   parameters: {
     layout: "centered",
     docs: {
