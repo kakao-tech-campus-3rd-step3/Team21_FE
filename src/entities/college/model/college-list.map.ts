@@ -1,6 +1,6 @@
+import type { College } from "./college.domain";
 import type { CollegesRequest } from "./college-list.request";
 import type { CollegeListResponse } from "./college-list.response";
-import type { College } from "./college.domain";
 
 export function toGetCollegesRequest(univSeq: number): CollegesRequest {
   return { univSeq };

@@ -1,10 +1,11 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { fetchDepartmentDetail } from "@/entities/department/api";
 import type { DepartmentDetail } from "@/entities/department/model/department-detail.domain";
 import {
   mapDepartmentDetailResponseToDomain,
   toGetDepartmentDetailRequest,
 } from "@/entities/department/model/department-detail.map";
-import { useQuery } from "@tanstack/react-query";
 
 export function useDepartmentDetail(deptSeq: number) {
   return useQuery<DepartmentDetail>({

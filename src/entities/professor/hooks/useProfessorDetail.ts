@@ -1,7 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { fetchProfessorDetail } from "@/entities/professor/api";
 import type { ProfessorDetail } from "@/entities/professor/model/professor-detail.domain";
 import { mapProfessorDetailResponseToDomain } from "@/entities/professor/model/professor-detail.map";
-import { useQuery } from "@tanstack/react-query";
 
 export function useProfessorDetail(profSeq: number) {
   return useQuery<ProfessorDetail>({

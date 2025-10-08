@@ -1,10 +1,11 @@
+import { useParams } from "react-router-dom";
+
 import { useProfessorDetail } from "@/entities/professor/hooks/useProfessorDetail";
 import type { ProfessorHeroData } from "@/entities/professor/model/professor-hero.vm";
 import { ProfessorEvalCard } from "@/entities/professor/ui/ProfessorEvalRadar";
 import { ProfessorHero } from "@/entities/professor/ui/ProfessorHero";
 import { ProfessorLectureReviewList } from "@/entities/professor/ui/ProfessorLectureReviewList";
 import { ProfessorResearchCard } from "@/entities/professor/ui/ProfessorResearchCard";
-import { useParams } from "react-router-dom";
 
 export function ProfessorDetailPage() {
   const { id } = useParams<{ id: string }>();

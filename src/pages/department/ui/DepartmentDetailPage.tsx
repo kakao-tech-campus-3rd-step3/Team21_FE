@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 
 import cnulogo from "@/assets/cnulogo.svg";
 import { useDepartmentDetail } from "@/entities/department/hooks/useDepartmentDetail";
-
 import { DepartmentContactCard } from "@/entities/department/ui/DepartmentContactCard";
 import { DepartmentHero } from "@/entities/department/ui/DepartmentHero";
 import { DepartmentJobsCard } from "@/entities/department/ui/DepartmentJobsCard";

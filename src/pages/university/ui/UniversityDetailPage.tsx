@@ -7,11 +7,10 @@ import {
   UniversityMainInfoSide,
   UniversityReviewList,
 } from "@/entities/university";
+import { useUniversityDetail } from "@/entities/university/hooks/useUniversityDetail";
 import type { UniversityHeroData } from "@/entities/university/model/hero.vm";
 import type { UniversitySideContact } from "@/entities/university/model/university-contact.vm";
 import type { UniversityMainInfo } from "@/entities/university/model/university-maininfo.vm";
-
-import { useUniversityDetail } from "@/entities/university/hooks/useUniversityDetail";
 
 export function UniversityDetailPage() {
   const { id } = useParams();

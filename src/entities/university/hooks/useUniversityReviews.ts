@@ -1,10 +1,11 @@
+import { useInfiniteQuery } from "@tanstack/react-query";
+
 import { fetchUniversityReviews } from "@/entities/university/api";
 import type { UniversityReviewPage } from "@/entities/university/model/university-review.domain";
 import {
   mapUniversityReviewListResponseToDomain,
   toGetUniversityReviewsRequest,
 } from "@/entities/university/model/university-review.map";
-import { useInfiniteQuery } from "@tanstack/react-query";
 
 export function useUniversityReviews(univSeq: number, size = 10) {
   return useInfiniteQuery<UniversityReviewPage>({

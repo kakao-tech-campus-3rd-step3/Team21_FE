@@ -1,5 +1,6 @@
 import type { UniversityReviewListResponse } from "@/entities/university/model/university-review.response";
 import { apiClient } from "@/shared/api/apiClient";
+
 import type { UniversityDetailResponse } from "../model/university-detail.response";
 
 export async function fetchUniversityDetail(univSeq: number) {

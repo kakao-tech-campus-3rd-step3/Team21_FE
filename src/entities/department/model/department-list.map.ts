@@ -1,4 +1,5 @@
 import type { Department } from "@/entities/department/model/department-list.domain";
+
 import type { DepartmentListResponse } from "./department-list.response";
 
 export function mapDepartmentListResponseToDomain(r: DepartmentListResponse): Department[] {

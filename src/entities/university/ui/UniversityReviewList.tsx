@@ -1,9 +1,10 @@
+import { useState } from "react";
+
 import { useUniversityReviews } from "@/entities/university/hooks/useUniversityReviews";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/ui/card";
 import { RatingStars } from "@/shared/ui/RatingStars";
 import { Separator } from "@/shared/ui/separator";
-import { useState } from "react";
 
 type Props = { univSeq: number };
 

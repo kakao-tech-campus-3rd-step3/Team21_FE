@@ -1,9 +1,10 @@
+import { BadgeCheck } from "lucide-react";
+import { Link } from "react-router-dom";
+
 import type { Department } from "@/entities/department/model/department-list.domain";
 import { cn } from "@/shared/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Separator } from "@/shared/ui/separator";
-import { BadgeCheck } from "lucide-react";
-import { Link } from "react-router-dom";
 
 type Props = {
   title: string;

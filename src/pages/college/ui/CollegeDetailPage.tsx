@@ -1,12 +1,11 @@
 import { useParams } from "react-router-dom";
 
+import { useCollegeDetail } from "@/entities/college/hooks/useCollegeDetail";
 import { CollegeContactCard } from "@/entities/college/ui/CollegeContactCard";
 import { CollegeFeatureCard } from "@/entities/college/ui/CollegeFeatureCard";
 import { CollegeHero } from "@/entities/college/ui/CollegeHero";
-import { DepartmentList } from "@/entities/department/ui/DepartmentList";
-
-import { useCollegeDetail } from "@/entities/college/hooks/useCollegeDetail";
 import { useDepartmentsByCollege } from "@/entities/department/hooks/useDepartmentsByCollege";
+import { DepartmentList } from "@/entities/department/ui/DepartmentList";
 
 const FEATURES = [
   "국가연구·개발사업 다수 수행",

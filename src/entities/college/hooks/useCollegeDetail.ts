@@ -1,10 +1,11 @@
+import { useQuery } from "@tanstack/react-query";
+
 import { fetchCollegeDetail } from "@/entities/college/api";
 import type { CollegeDetail } from "@/entities/college/model/college-detail.domain";
 import {
   mapCollegeDetailResponseToDomain,
   toGetCollegeDetailRequest,
 } from "@/entities/college/model/college-detail.map";
-import { useQuery } from "@tanstack/react-query";
 
 export function useCollegeDetail(collegeSeq: number) {
   return useQuery<CollegeDetail>({
