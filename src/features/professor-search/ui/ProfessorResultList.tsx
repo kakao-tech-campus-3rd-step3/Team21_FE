@@ -6,7 +6,7 @@ type props = {
   onPick: (p: ProfessorSearch) => void;
 };
 
-export function ProfessorResultList({ results, onPick }: Pick<props, "results" | "onPick">) {
+export function ProfessorResultList({ results, onPick }: props) {
   return (
     <div
       className="absolute z-20 mt-2 w-full overflow-hidden rounded-lg border border-white bg-black backdrop-blur-md shadow-lg"
