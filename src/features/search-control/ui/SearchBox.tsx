@@ -8,6 +8,7 @@ import {
   ProfessorResultItem,
   UnivDeptResultItem,
   UniversityResultItem,
+  UnivProfResultItem,
 } from "@/features/search";
 import { useSearchBox } from "@/features/search-control/model/useSearchBox";
 import {
@@ -15,8 +16,10 @@ import {
   SEARCH_CONTROL_PROF_TEXT,
   SEARCH_CONTROL_TEXT,
   SEARCH_CONTROL_UNIV_DEPT_TEXT,
+  SEARCH_CONTROL_UNIV_PROF_TEXT,
 } from "@/features/search-control/text";
 import type { UnivDeptSearch } from "@/features/univ-dept-search";
+import type { UnivProfSearch } from "@/features/univ-prof-search";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent } from "@/shared/ui/card";
 
@@ -111,6 +114,18 @@ export function SearchBox(props: Props) {
             >
               {SEARCH_CONTROL_UNIV_DEPT_TEXT.dept}
             </button>
+
+            <button
+              type="button"
+              aria-pressed={mode === "univ-prof"}
+              onClick={() => setMode("univ-prof")}
+              className={[
+                "px-3 py-1 text-xs rounded",
+                mode === "univ-prof" ? "bg-white/30 text-white" : "text-white/80 hover:bg-white/20",
+              ].join(" ")}
+            >
+              {SEARCH_CONTROL_UNIV_PROF_TEXT.dept}
+            </button>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -171,6 +186,15 @@ export function SearchBox(props: Props) {
                 {mode === "univ-dept" &&
                   (results as UnivDeptSearch[]).map((item) => (
                     <UnivDeptResultItem
+                      key={item.id}
+                      item={item}
+                      onClick={() => handlePick(item)}
+                    />
+                  ))}
+
+                {mode === "univ-prof" &&
+                  (results as UnivProfSearch[]).map((item) => (
+                    <UnivProfResultItem
                       key={item.id}
                       item={item}
                       onClick={() => handlePick(item)}
