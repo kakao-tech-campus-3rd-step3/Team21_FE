@@ -12,3 +12,8 @@ export const SEARCH_CONTROL_DEPT_TEXT = {
   dept: "학과",
   empty: "검색 결과가 없습니다.",
 } as const;
+export const SEARCH_CONTROL_UNIV_DEPT_TEXT = {
+  placeholder: "대학 + 학과 검색…",
+  dept: "대학 + 학과",
+  empty: "검색 결과가 없습니다.",
+} as const;

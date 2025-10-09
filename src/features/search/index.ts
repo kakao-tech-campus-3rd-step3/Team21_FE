@@ -1,6 +1,8 @@
+export { resolveDeptIdByName } from "@/features/search/lib/resolveDeptId";
 export {
   DepartmentResultItem,
   ProfessorResultItem,
+  UnivDeptResultItem,
   UniversityResultItem,
 } from "@/features/search/ui/SearchItemList";
 export { SearchResultsList } from "@/features/search/ui/SearchResultList";

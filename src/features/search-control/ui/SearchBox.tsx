@@ -3,13 +3,20 @@ import { FaSearch } from "react-icons/fa";
 import type { UnivSearchResult } from "@/entities/university/model/univ-search.domain";
 import type { DepartmentSearch } from "@/features/department-search/model/department-search.domain";
 import type { ProfessorSearch } from "@/features/professor-search/model/professor-search.domain";
-import { DepartmentResultItem, ProfessorResultItem, UniversityResultItem } from "@/features/search";
+import {
+  DepartmentResultItem,
+  ProfessorResultItem,
+  UnivDeptResultItem,
+  UniversityResultItem,
+} from "@/features/search";
 import { useSearchBox } from "@/features/search-control/model/useSearchBox";
 import {
   SEARCH_CONTROL_DEPT_TEXT,
   SEARCH_CONTROL_PROF_TEXT,
   SEARCH_CONTROL_TEXT,
+  SEARCH_CONTROL_UNIV_DEPT_TEXT,
 } from "@/features/search-control/text";
+import type { UnivDeptSearch } from "@/features/univ-dept-search";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent } from "@/shared/ui/card";
 
@@ -92,6 +99,18 @@ export function SearchBox(props: Props) {
             >
               {SEARCH_CONTROL_DEPT_TEXT.dept}
             </button>
+
+            <button
+              type="button"
+              aria-pressed={mode === "univ-dept"}
+              onClick={() => setMode("univ-dept")}
+              className={[
+                "px-3 py-1 text-xs rounded",
+                mode === "univ-dept" ? "bg-white/30 text-white" : "text-white/80 hover:bg-white/20",
+              ].join(" ")}
+            >
+              {SEARCH_CONTROL_UNIV_DEPT_TEXT.dept}
+            </button>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -143,6 +162,15 @@ export function SearchBox(props: Props) {
                 {mode === "dept" &&
                   (results as DepartmentSearch[]).map((item) => (
                     <DepartmentResultItem
+                      key={item.id}
+                      item={item}
+                      onClick={() => handlePick(item)}
+                    />
+                  ))}
+
+                {mode === "univ-dept" &&
+                  (results as UnivDeptSearch[]).map((item) => (
+                    <UnivDeptResultItem
                       key={item.id}
                       item={item}
                       onClick={() => handlePick(item)}
