@@ -1,39 +1,47 @@
 import { useState } from "react";
 
 import type { UnivSearchResult } from "@/entities/university/model/univ-search.domain";
+import type { DepartmentSearch } from "@/features/department-search/model/department-search.domain";
 import type { ProfessorSearch } from "@/features/professor-search/model/professor-search.domain";
+import { useSearchDepartment } from "@/features/search/hooks/useSearchDepartment";
 import { useSearchProfessor } from "@/features/search/hooks/useSearchProfessor";
-import { useSearchUniversity } from "@/features/search/hooks/useSearchUniversity"; // 새 래퍼 훅
+import { useSearchUniversity } from "@/features/search/hooks/useSearchUniversity";
 import { useDebounce } from "@/shared/hooks/useDebounce";
 
-type Mode = "univ" | "prof";
+type Mode = "univ" | "prof" | "dept";
 
-export function useSearchBox({
-  placeholder,
-  onSelectUniv,
-  onSelectProf,
-}: {
+type Params = {
   placeholder?: string;
   onSelectUniv?: (u: UnivSearchResult) => void;
   onSelectProf?: (p: ProfessorSearch) => void;
-}) {
+  onSelectDept?: (d: DepartmentSearch) => void;
+  pageSize?: number;
+};
+
+export function useSearchBox({ onSelectUniv, onSelectProf, onSelectDept, pageSize = 5 }: Params) {
   const [mode, setMode] = useState<Mode>("univ");
   const [query, setQuery] = useState("");
   const dq = useDebounce(query, 300);
 
-  // 자동완성: size=5
-  const { results: univResults } = useSearchUniversity(dq, 0, 5);
-  const { results: profResults } = useSearchProfessor(dq, 0, 5);
+  const univ = useSearchUniversity(dq, 0, pageSize);
+  const prof = useSearchProfessor(dq, 0, pageSize);
+  const dept = useSearchDepartment(dq, 0, pageSize);
 
-  const results = mode === "univ" ? univResults : profResults;
+  const results = mode === "univ" ? univ.results : mode === "prof" ? prof.results : dept.results;
 
-  function handlePick(item: UnivSearchResult | ProfessorSearch) {
+  function handlePick(item: UnivSearchResult | ProfessorSearch | DepartmentSearch) {
     if (mode === "univ") onSelectUniv?.(item as UnivSearchResult);
-    else onSelectProf?.(item as ProfessorSearch);
+    else if (mode === "prof") onSelectProf?.(item as ProfessorSearch);
+    else onSelectDept?.(item as DepartmentSearch);
     setQuery("");
   }
 
-  const dynamicPlaceholder = placeholder ?? (mode === "univ" ? "대학 검색…" : "교수 검색…");
-
-  return { mode, query, setMode, setQuery, results, dynamicPlaceholder, handlePick };
+  return {
+    mode,
+    setMode,
+    query,
+    setQuery,
+    results,
+    handlePick,
+  };
 }
