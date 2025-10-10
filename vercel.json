@@ -5,8 +5,18 @@
       "destination": "http://13.125.1.77:8080/api/$1"
     },
     {
+      "source": "/storybook/(.*)",
+      "destination": "/public/storybook/$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/storybook/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     }
   ]
 }
