@@ -1,9 +1,9 @@
+import { apiClient } from "@/shared/api/apiClient";
+
 import type { ProfSearchRequest } from "@/entities/professor/model/prof-search.request";
 import type { ProfSearchResponse } from "@/entities/professor/model/prof-search.response";
 import type { ProfessorDetailResponse } from "@/entities/professor/model/professor-detail.response";
 import type { ProfessorReviewsResponse } from "@/entities/professor/model/professor-reviews.response";
-
-import { apiClient } from "@/shared/api/apiClient";
 
 export async function fetchProfessorDetail(profSeq: number) {
   const { data } = await apiClient.get<ProfessorDetailResponse>(`/api/prof/${profSeq}`);
