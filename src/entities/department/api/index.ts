@@ -1,9 +1,8 @@
-import { apiClient } from "@/shared/api/apiClient";
-
-import type { DeptSearchRequest } from "@/entities/department/model/dept-search.request";
-import type { DeptSearchResponse } from "@/entities/department/model/dept-search.response";
 import type { DepartmentDetailResponse } from "@/entities/department/model/department-detail.response";
 import type { DepartmentListResponse } from "@/entities/department/model/department-list.response";
+import type { DeptSearchRequest } from "@/entities/department/model/dept-search.request";
+import type { DeptSearchResponse } from "@/entities/department/model/dept-search.response";
+import { apiClient } from "@/shared/api/apiClient";
 
 export async function fetchDepartmentsByCollege(
   collegeSeq: number,
