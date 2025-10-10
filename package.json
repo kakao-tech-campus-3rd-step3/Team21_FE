@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run build:sb && npm run copy:sb && tsc -b && vite build",
-    "build:sb": "storybook build -o storybook-static --base /storybook/",
+    "build:sb": "SB_BASE=/storybook/ storybook build -o storybook-static",
     "copy:sb": "rm -rf public/storybook && mkdir -p public/storybook && cp -R storybook-static/* public/storybook",
     "lint": "eslint .",
     "preview": "vite preview",
