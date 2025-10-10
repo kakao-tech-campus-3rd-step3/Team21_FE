@@ -2,7 +2,8 @@ import axios from "axios";
 
 import { attachAuthInterceptors } from "./interceptors";
 
-const baseURL = import.meta.env.VITE_API_BASE_URL;
+// const baseURL = import.meta.env.VITE_API_BASE_URL;
+const baseURL = "";
 
 if (!baseURL) {
   console.warn("[apiClient] VITE_API_BASE_URL is not defined. Requests will use relative URLs.");

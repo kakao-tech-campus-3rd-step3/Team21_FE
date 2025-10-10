@@ -22,7 +22,7 @@ export function CollegeGrid({ colleges }: Props) {
         {colleges.map((c) => (
           <Link
             key={c.collegeSeq}
-            to={`/college/${100}`}
+            to={`/college/${c.collegeSeq}`}
             className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-xl"
           >
             <Card className="bg-zinc-900/60 border-zinc-800 backdrop-blur hover:bg-zinc-800/70 transition-colors cursor-pointer">

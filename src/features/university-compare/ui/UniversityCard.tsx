@@ -22,15 +22,19 @@ export const UniversityCard = ({ university, onRemove }: Props) => (
     <Button
       variant="ghost"
       size="icon"
+      type="button"
+      aria-label="Remove university"
+      title="Remove university"
       onClick={onRemove}
       className="absolute -top-4 right-2 text-slate-200 hover:text-slate-400 z-10 w-8 h-8 rounded-full"
     >
-      <X size={18} />
+      <X size={18} aria-hidden="true" />
+      <span className="sr-only">Remove university</span>
     </Button>
 
     <div className="flex flex-col items-center text-center -mt-6">
-      <GlassCardHeader className="w-full text-center pb-0">
-        <GlassCardTitle>{university.name}</GlassCardTitle>
+      <GlassCardHeader className="relative z-10 w-full text-center pb-0">
+        <GlassCardTitle className="relative z-10">{university.name}</GlassCardTitle>
         <GlassCardDescription>
           {university.address}
           <br />
@@ -42,20 +46,12 @@ export const UniversityCard = ({ university, onRemove }: Props) => (
         {/* 평점 */}
         <div className="flex items-center gap-2 my-2">
           <StarRating rating={university.rating} />
-          <span className="font-bold text-slate-100">{university.rating.toFixed(1)}</span>
+          <span className="font-bold text-slate-100 relative z-10 text-slate-100">
+            {university.rating.toFixed(1)}
+          </span>
         </div>
 
         {/* 태그 */}
-        <div className="flex flex-wrap gap-2 mt-2 w-full justify-center">
-          {university.tags?.map((tag, i) => (
-            <span
-              key={i}
-              className="px-2 py-1 rounded-full bg-white/20 text-slate-100 text-sm backdrop-blur-sm"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
       </GlassCardContent>
     </div>
   </GlassCard>

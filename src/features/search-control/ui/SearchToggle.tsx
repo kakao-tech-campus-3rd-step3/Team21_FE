@@ -8,7 +8,7 @@ import { Button } from "@/shared/ui/button";
 
 type Props = { className?: string; onSearch?: (q: string) => void };
 
-export default function SearchToggle({ className, onSearch }: Props) {
+export function SearchToggle({ className, onSearch }: Props) {
   const { open, setOpen, q, setQ, inputRef } = useSearchControl(onSearch);
   const navigate = useNavigate();
 
@@ -36,34 +36,35 @@ export default function SearchToggle({ className, onSearch }: Props) {
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
-      <form
-        onSubmit={handleSubmit}
-        className={cn(
-          "absolute top-full left-10 right-10 mt-2 transition-all duration-200",
-          open ? "opacity-100" : "opacity-0 pointer-events-none",
-        )}
-        aria-hidden={!open}
-      >
-        <input
-          ref={inputRef}
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder={SEARCH_CONTROL_TEXT.placeholder}
+      {open && (
+        <form
+          onSubmit={handleSubmit}
           className={cn(
-            "w-full h-10 rounded-xl px-4 pr-10",
-            "bg-white/10 placeholder:zinc-300",
-            "border border-white/20 focus:border-cyan-300/60 outline-none",
-            "backdrop-blur-md text-zinc-50",
+            "absolute top-full left-10 right-10 mt-2 transition-all duration-200",
+            "opacity-100",
           )}
-        />
-        <button
-          type="submit"
-          className="absolute right-2 top-1.5 p-1 rounded-md hover:bg-white/10"
-          aria-label="검색"
         >
-          <IoSearch className="h-6 w-6" />
-        </button>
-      </form>
+          <input
+            ref={inputRef}
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder={SEARCH_CONTROL_TEXT.placeholder}
+            className={cn(
+              "w-full h-10 rounded-xl px-4 pr-10",
+              "bg-white/10 placeholder:zinc-300",
+              "border border-white/20 focus:border-cyan-300/60 outline-none",
+              "backdrop-blur-md text-zinc-50",
+            )}
+          />
+          <button
+            type="submit"
+            className="absolute right-2 top-1.5 p-1 rounded-md hover:bg-white/10"
+            aria-label="검색"
+          >
+            <IoSearch className="h-6 w-6" />
+          </button>
+        </form>
+      )}
 
       {open ? (
         <Button
@@ -87,3 +88,5 @@ export default function SearchToggle({ className, onSearch }: Props) {
     </div>
   );
 }
+
+export default SearchToggle;

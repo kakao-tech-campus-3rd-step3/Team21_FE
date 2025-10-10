@@ -30,7 +30,7 @@ export function SearchProfessorToCompare({
   onPick,
 }: props) {
   return (
-    <GlassCard>
+    <GlassCard shine={false}>
       <GlassCardHeader>
         <GlassCardTitle>{SEARCH_PROFESSOR_TEXTS.cardTitle}</GlassCardTitle>
         <GlassCardDescription>{SEARCH_PROFESSOR_TEXTS.cardDescription}</GlassCardDescription>

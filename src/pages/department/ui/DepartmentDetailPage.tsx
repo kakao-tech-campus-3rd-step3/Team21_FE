@@ -1,42 +1,13 @@
 import { useMemo } from "react";
+import { useParams } from "react-router-dom";
 
 import cnulogo from "@/assets/cnulogo.svg";
+import { useDepartmentDetail } from "@/entities/department/hooks/useDepartmentDetail";
 import { DepartmentContactCard } from "@/entities/department/ui/DepartmentContactCard";
 import { DepartmentHero } from "@/entities/department/ui/DepartmentHero";
 import { DepartmentJobsCard } from "@/entities/department/ui/DepartmentJobsCard";
 import { ProfessorList } from "@/entities/professor/ui/ProfessorList";
 import { useBreadcrumbTrail } from "@/features/nav-trail";
-
-const UNIV_NAME = "충남대학교";
-
-const HERO = {
-  collegeName: "공과대학",
-  departmentName: "컴퓨터융합학부",
-  intro:
-    "컴퓨터공학과 소프트웨어, 인공지능을 융합하여 문제 해결 능력과 실무 역량을 갖춘 인재를 양성합니다.",
-  students: 680,
-  professors: 18,
-  foundedYear: 1992,
-} as const;
-
-const JOB_TAGS = [
-  "백엔드",
-  "프론트엔드",
-  "모바일",
-  "데이터 엔지니어",
-  "ML 엔지니어",
-  "SRE/DevOps",
-  "정보보안",
-  "임베디드",
-  "클라우드",
-  "연구소",
-];
-
-const CONTACT = {
-  tel: "042-821-5600",
-  email: "cse@cnu.ac.kr",
-  address: "공대2호관 학과사무실 3층",
-};
 
 const professors = [
   {
@@ -74,22 +45,48 @@ const professors = [
 ];
 
 export function DepartmentDetailPage() {
+  const { id } = useParams<{ id: string }>();
+  const deptSeq = Number(id);
+  const isInvalid = !Number.isFinite(deptSeq) || deptSeq <= 0;
+
+  const { data, isLoading, isError } = useDepartmentDetail(deptSeq);
+
   const crumbs = useMemo(
-    () => [{ label: UNIV_NAME }, { label: HERO.collegeName }, { label: HERO.departmentName }],
-    [],
+    () => [
+      { label: data?.universityName ?? "" },
+      { label: data?.collegeName ?? "" },
+      { label: data?.departmentName ?? "" },
+    ],
+    [data?.universityName, data?.collegeName, data?.departmentName],
   );
   useBreadcrumbTrail(crumbs);
+
+  if (isInvalid) {
+    return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">잘못된 접근입니다.</main>;
+  }
+
+  if (isLoading) {
+    return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">불러오는 중…</main>;
+  }
+
+  if (isError || !data) {
+    return (
+      <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">
+        학과 정보를 불러오지 못했습니다.
+      </main>
+    );
+  }
 
   return (
     <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
       <DepartmentHero
-        collegeName={HERO.collegeName}
-        departmentName={HERO.departmentName}
-        intro={HERO.intro}
-        students={HERO.students}
-        professors={HERO.professors}
-        foundedYear={HERO.foundedYear}
-        logoUrl={cnulogo}
+        collegeName={data.collegeName}
+        departmentName={data.departmentName}
+        intro={data.intro ?? ""}
+        students={data.students ?? 0}
+        professors={data.professors ?? 0}
+        foundedYear={data.foundedYear ?? 0}
+        logoUrl={cnulogo /* api 외않줌 */}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -98,11 +95,11 @@ export function DepartmentDetailPage() {
         </div>
 
         <div className="space-y-6">
-          <DepartmentJobsCard title="진로/취업 분야" tags={JOB_TAGS} />
+          <DepartmentJobsCard title="진로/취업 분야" tags={data.careerFields ?? []} />
           <DepartmentContactCard
-            tel={CONTACT.tel}
-            email={CONTACT.email}
-            address={CONTACT.address}
+            tel={data.tel ?? ""}
+            email={data.email ?? ""}
+            address={data.address ?? ""}
           />
         </div>
       </div>

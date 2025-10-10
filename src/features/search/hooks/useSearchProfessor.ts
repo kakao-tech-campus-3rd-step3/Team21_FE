@@ -1,37 +1,37 @@
 import { useMemo } from "react";
 
-import { profs } from "@/__MOCK__/mockData";
-import { mapprofessor } from "@/entities/professor/model/mapprofessor";
+import { useSearchProfessorQuery } from "@/entities/professor";
+import type { ProfSearchResult } from "@/entities/professor/model/prof-search.domain";
 import type { ProfessorSearch } from "@/features/professor-search/model/professor-search.domain";
 
-export const useProfessorSearch = (query: string, professors: ProfessorSearch[] = []) => {
-  const professorDataset = useMemo<ProfessorSearch[]>(() => {
-    if (professors.length > 0) return professors;
+function toFeatureType(items: ProfSearchResult[]): ProfessorSearch[] {
+  return items.map((p) => ({
+    id: p.id,
+    name: p.name,
+    univ: p.univ,
+    dept: p.dept,
+  }));
+}
 
-    return profs
-      .map((p) => mapprofessor(p.profSeq))
-      .filter((p): p is NonNullable<ReturnType<typeof mapprofessor>> => !!p)
-      .map<ProfessorSearch>((p) => ({
-        id: String(p.id),
-        name: p.name,
-        univ: p.university ?? "정보 없음",
-        dept: p.department ?? "정보 없음",
-      }));
-  }, [professors]);
+export function useSearchProfessor(
+  keyword: string,
+  page = 0,
+  size = 10,
+): {
+  results: ProfessorSearch[];
+  totalCount: number;
+  isLoading: boolean;
+  isError: boolean;
+} {
+  const { data, isLoading, isError } = useSearchProfessorQuery({ keyword, page, size });
 
-  const filteredResults = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return [];
-
-    return professorDataset
-      .filter((p) => {
-        const name = p.name?.toLowerCase() ?? "";
-        const univ = p.univ?.toLowerCase() ?? "";
-        const dept = p.dept?.toLowerCase() ?? "";
-        return name.includes(q) || univ.includes(q) || dept.includes(q);
-      })
-      .slice(0, 5);
-  }, [professorDataset, query]);
-
-  return filteredResults;
-};
+  return useMemo(
+    () => ({
+      results: toFeatureType(data?.items ?? []),
+      totalCount: data?.totalCount ?? 0,
+      isLoading,
+      isError,
+    }),
+    [data, isLoading, isError],
+  );
+}

@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "npm run build:sb && npm run copy:sb && tsc -b && vite build",
+    "build:sb": "SB_BASE=/storybook/ storybook build -o storybook-static",
+    "copy:sb": "rm -rf public/storybook && mkdir -p public/storybook && cp -a storybook-static/. public/storybook/",
     "lint": "eslint .",
     "preview": "vite preview",
     "format": "prettier --write .",
