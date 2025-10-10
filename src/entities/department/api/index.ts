@@ -22,4 +22,5 @@ export async function searchDepartmentApi(params: DeptSearchRequest) {
   const { data } = await apiClient.get<DeptSearchResponse>("/api/search/dept", {
     params: { keyword, page, size },
   });
+  return data;
 }
