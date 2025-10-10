@@ -1,6 +1,7 @@
 import {
   PolarAngleAxis,
   PolarGrid,
+  PolarRadiusAxis,
   Radar,
   RadarChart,
   ResponsiveContainer,
@@ -51,35 +52,38 @@ export const CompareRaderChart = ({ professors }: props) => {
 
   return (
     <GlassCard shine={false}>
-      <GlassCardHeader className="items-center pb-4">
-        <GlassCardTitle>{COMPARE_RADER_CHART_TEXTS.title}</GlassCardTitle>
-        <GlassCardDescription>{COMPARE_RADER_CHART_TEXTS.description}</GlassCardDescription>
+      <GlassCardHeader className="items-center pb-4 relative z-10">
+        <GlassCardTitle className="inline-block rounded-md px-3 py-1.5 text-white">
+          {COMPARE_RADER_CHART_TEXTS.title}
+        </GlassCardTitle>
+        <GlassCardDescription className="mt-2 inline-block rounded-md px-3 py-1 text-slate-200">
+          {COMPARE_RADER_CHART_TEXTS.description}
+        </GlassCardDescription>
       </GlassCardHeader>
 
       <GlassCardContent className="pb-0">
-        <ChartContainer
-          className="mx-auto aspect-square max-h-[500px] w-full bg-transparent"
-          config={{}}
-        >
-          <ResponsiveContainer width="100%" height="100%">
-            <RadarChart
-              data={chartData}
-              outerRadius="100%"
-              margin={{ top: 30, right: 30, bottom: 30, left: 30 }}
-            >
+        <ChartContainer className="mx-auto aspect-square max-h-[500px] w-full bg-black" config={{}}>
+          <ResponsiveContainer width="100%" height="100%" className="bg-black rounded-lg">
+            <RadarChart data={chartData}>
+              <rect width="100%" height="100%" fill="#000000" />
               <Tooltip
                 cursor={false}
                 contentStyle={{
-                  background: "rgba(24,24,27,0.9)",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  background: "#000000",
+                  border: "1px solid #262626",
                   borderRadius: 10,
-                  color: "#fff",
+                  color: "#ffffff",
                 }}
               />
-              <PolarAngleAxis dataKey="category" />
-              <PolarGrid strokeWidth={1} />
-
-              {/* 교수별 Radar */}
+              <PolarRadiusAxis
+                angle={90}
+                domain={[0, 5]}
+                tickCount={6}
+                stroke="#52525b"
+                tick={{ fill: "#e4e4e7", fontSize: 11, dy: 5 }}
+              />
+              <PolarAngleAxis dataKey="category" tick={{ fill: "#ffffff", fontSize: 15 }} />
+              <PolarGrid strokeWidth={1} stroke="#525252" />
               {professors.map((prof, index) => (
                 <Radar
                   key={prof.id}
@@ -95,17 +99,17 @@ export const CompareRaderChart = ({ professors }: props) => {
         </ChartContainer>
       </GlassCardContent>
 
-      <GlassCardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex items-center gap-4">
+      <GlassCardFooter className="relative z-10 flex-col items-start gap-2 text-sm rounded-md px-3 py-2">
+        <div className="flex items-center gap-4 flex-wrap">
           {professors.map((prof, index) => (
             <div key={prof.id} className="flex items-center gap-1.5">
               <div
                 className="h-2.5 w-2.5 shrink-0 rounded-full"
-                style={{
-                  backgroundColor: colors[index % colors.length],
-                }}
+                style={{ backgroundColor: colors[index % colors.length] }}
               />
-              <span>{prof.name}</span>
+              <span className="inline-block rounded-md px-1.5 py-0.5 text-white leading-tight bg-zinc-900 relative z-20">
+                {prof.name}
+              </span>
             </div>
           ))}
         </div>
