@@ -27,6 +27,8 @@ const config: StorybookConfig = {
       },
     };
 
+    baseConfig.base = "/storybook/";
+
     return baseConfig;
   },
 };
