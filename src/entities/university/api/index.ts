@@ -17,7 +17,7 @@ export async function fetchUniversityReviews(univSeq: number, page: number, size
   );
   return data;
 }
-  
+
 export async function searchUniversityApi(params: UnivSearchRequest) {
   const { keyword, page = 0, size = 10 } = params;
   const { data } = await apiClient.get<UnivSearchResponse>("/api/search/univ", {
