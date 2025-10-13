@@ -9,41 +9,6 @@ import { DepartmentJobsCard } from "@/entities/department/ui/DepartmentJobsCard"
 import { ProfessorList } from "@/entities/professor/ui/ProfessorList";
 import { useBreadcrumbTrail } from "@/features/nav-trail";
 
-const professors = [
-  {
-    name: "김태헌",
-    rankLabel: "교수",
-    degree: "KAIST 전산학 박사",
-    researchAreas: ["인공지능", "머신러닝", "컴퓨터비전"],
-    email: "thkim@cnu.ac.kr",
-    office: "공대2호관 301호",
-  },
-  {
-    name: "이수민",
-    rankLabel: "교수",
-    degree: "Stanford University 컴퓨터과학 박사",
-    researchAreas: ["데이터마이닝", "빅데이터", "분산시스템"],
-    email: "smlee@cnu.ac.kr",
-    office: "공대2호관 302호",
-  },
-  {
-    name: "박지원",
-    rankLabel: "교수",
-    degree: "MIT 전산학 박사",
-    researchAreas: ["소프트웨어공학", "프로그래밍언어", "형식검증"],
-    email: "jwpark@cnu.ac.kr",
-    office: "공대2호관 303호",
-  },
-  {
-    name: "최민호",
-    rankLabel: "조교수",
-    degree: "UC Berkeley 컴퓨터과학 박사",
-    researchAreas: ["네트워크", "시스템", "클라우드컴퓨팅"],
-    email: "minho@cnu.ac.kr",
-    office: "공대2호관 304호",
-  },
-];
-
 export function DepartmentDetailPage() {
   const { id } = useParams<{ id: string }>();
   const deptSeq = Number(id);
@@ -84,14 +49,23 @@ export function DepartmentDetailPage() {
         departmentName={data.departmentName}
         intro={data.intro ?? ""}
         students={data.students ?? 0}
-        professors={data.professors ?? 0}
+        professors={data.professors ?? data.professorList.length ?? 0}
         foundedYear={data.foundedYear ?? 0}
-        logoUrl={cnulogo /* api 외않줌 */}
+        logoUrl={cnulogo /* api 미제공 */}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <ProfessorList title="교수진" items={professors} />
+          <ProfessorList
+            title="교수진"
+            items={data.professorList.map((p) => ({
+              seq: p.seq,
+              name: p.name,
+              rankLabel: p.position,
+              email: p.email,
+              office: p.office,
+            }))}
+          />
         </div>
 
         <div className="space-y-6">
