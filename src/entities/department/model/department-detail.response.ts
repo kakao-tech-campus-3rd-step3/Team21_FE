@@ -13,4 +13,13 @@ export type DepartmentDetailResponse = {
   deptStudentNum: number | null;
   professorCount: number | null;
   careerFields: string[] | null;
+
+  professors: Array<{
+    profSeq: number;
+    profName: string;
+    profEmail: string | null;
+    position: string | null;
+    office: string | null;
+    imageUrl: string | null;
+  }> | null;
 };

@@ -7,6 +7,18 @@ export function toGetDepartmentDetailRequest(deptSeq: number): DepartmentDetailR
 }
 
 export function mapDepartmentDetailResponseToDomain(r: DepartmentDetailResponse): DepartmentDetail {
+  const professorList =
+    (r.professors ?? []).map((p) => ({
+      seq: p.profSeq,
+      name: p.profName,
+      email: p.profEmail ?? undefined,
+      position: p.position ?? undefined,
+      office: p.office ?? undefined,
+      imageUrl: p.imageUrl ?? undefined,
+    })) ?? [];
+
+  const profCountFromArray = professorList.length > 0 ? professorList.length : undefined;
+
   return {
     id: r.deptSeq,
     departmentName: r.deptName,
@@ -21,8 +33,10 @@ export function mapDepartmentDetailResponseToDomain(r: DepartmentDetailResponse)
     email: r.deptEmail || undefined,
     foundedYear: r.deptEstablishedYear ? Number(r.deptEstablishedYear) : undefined,
     students: r.deptStudentNum ?? undefined,
-    professors: r.professorCount ?? undefined,
+
+    professors: r.professorCount ?? profCountFromArray,
 
     careerFields: r.careerFields ?? [],
+    professorList,
   };
 }
