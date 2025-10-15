@@ -3,19 +3,10 @@ import { useParams } from "react-router-dom";
 
 import { useCollegeDetail } from "@/entities/college/hooks/useCollegeDetail";
 import { CollegeContactCard } from "@/entities/college/ui/CollegeContactCard";
-import { CollegeFeatureCard } from "@/entities/college/ui/CollegeFeatureCard";
 import { CollegeHero } from "@/entities/college/ui/CollegeHero";
 import { useDepartmentsByCollege } from "@/entities/department/hooks/useDepartmentsByCollege";
 import { DepartmentList } from "@/entities/department/ui/DepartmentList";
 import { useBreadcrumbTrail } from "@/features/nav-trail";
-
-const FEATURES = [
-  "국가연구·개발사업 다수 수행",
-  "산업체 연계 현장실습 프로그램",
-  "최신 실험실습 장비 보유",
-  "국제공학인증 프로그램 운영",
-  "창업지원센터 운영",
-];
 
 export function CollegeDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -82,7 +73,8 @@ export function CollegeDetailPage() {
         </div>
 
         <div className="space-y-6">
-          <CollegeFeatureCard title="단과대학 키워드" features={FEATURES} />
+          {/* TODO: 고도화 단계에서 이어서 진행 */}
+          {/* <CollegeFeatureCard title="단과대학 키워드" features={FEATURES} /> */}
           <CollegeContactCard tel={college.tel ?? ""} email="" address="" />
         </div>
       </div>
