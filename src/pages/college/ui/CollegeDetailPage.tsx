@@ -82,7 +82,7 @@ export function CollegeDetailPage() {
         </div>
 
         <div className="space-y-6">
-          <CollegeFeatureCard title="주요 특징" features={FEATURES} />
+          <CollegeFeatureCard title="단과대학 키워드" features={FEATURES} />
           <CollegeContactCard tel={college.tel ?? ""} email="" address="" />
         </div>
       </div>

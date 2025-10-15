@@ -69,7 +69,7 @@ export function DepartmentDetailPage() {
         </div>
 
         <div className="space-y-6">
-          <DepartmentJobsCard title="진로/취업 분야" tags={data.careerFields ?? []} />
+          <DepartmentJobsCard title="학과/학부 키워드" tags={data.careerFields ?? []} />
           <DepartmentContactCard
             tel={data.tel ?? ""}
             email={data.email ?? ""}
