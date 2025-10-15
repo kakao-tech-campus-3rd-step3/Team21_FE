@@ -1,7 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+import {
+  useSendEmailCode,
+  useVerifyEmailCode,
+} from "@/features/signup-form/model/emailVerification";
 import { type SignupInput, SignupSchema } from "@/features/signup-form/model/schema";
+// import { useCheckUserId } from "@/features/signup-form/model/useCheckUserId";
 import { useSignup } from "@/features/signup-form/model/useSignup";
 import { Field } from "@/shared/ui/Field";
 
@@ -17,16 +23,69 @@ export function SignupForm({ onGoLogin }: { onGoLogin: () => void }) {
     register,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
+    watch,
   } = useForm<SignupInput>({
     mode: "onChange",
     resolver: zodResolver(SignupSchema),
     defaultValues: { email: "", userId: "", password: "", passwordConfirm: "" },
   });
 
-  const { mutate, isPending } = useSignup(onGoLogin);
+  const { mutate: signupMutate, isPending } = useSignup(onGoLogin);
+  const { mutate: sendCode, isPending: sendingCode } = useSendEmailCode();
+  const { mutate: verifyCode, isPending: verifying } = useVerifyEmailCode();
+  // const { mutate: checkId, isPending: checkingId } = useCheckUserId();
+
+  const [emailVerified, setEmailVerified] = useState(false);
+  // const [idChecked, setIdChecked] = useState(false);
+
+  const email = watch("email");
+  // const userId = watch("userId");
+
+  const handleSendCode = () => {
+    sendCode(email, {
+      onSuccess: () => alert(AUTH_SIGNUP_TEXT.signup.sendCodeSuccess),
+      onError: () => alert(AUTH_SIGNUP_TEXT.signup.sendCodeError),
+    });
+  };
+
+  const handleVerifyCode = () => {
+    const codeInput = (document.querySelector('input[name="code"]') as HTMLInputElement)?.value;
+    verifyCode(
+      { email, code: codeInput },
+      {
+        onSuccess: () => {
+          alert(AUTH_SIGNUP_TEXT.signup.verifySuccess);
+          setEmailVerified(true);
+        },
+        onError: () => alert(AUTH_SIGNUP_TEXT.signup.verifyError),
+      },
+    );
+  };
+
+  // const handleCheckId = () => {
+  //   checkId(userId, {
+  //     onSuccess: () => {
+  //       alert(AUTH_SIGNUP_TEXT.signup.duplicateCheckSuccess);
+  //       setIdChecked(true);
+  //     },
+  //     onError: (err: any) => {
+  //       const status = err?.response?.status;
+  //       if (status === 400 || status === 409) {
+  //         alert(AUTH_SIGNUP_TEXT.signup.duplicateCheckError);
+  //       } else if (status === 403) {
+  //         alert("아이디 확인 요청이 차단되었습니다. (403) 메서드/CSRF 정책을 확인해주세요.");
+  //       } else {
+  //         alert("아이디 확인 중 오류가 발생했습니다.");
+  //       }
+  //       setIdChecked(false);
+  //     },
+  //   });
+  // };
+
   const onSubmit = (v: SignupInput) => {
-    const { email, userId, password } = v;
-    mutate({ email, userId, password });
+    if (!emailVerified) return alert(AUTH_SIGNUP_TEXT.signup.verifyError);
+    // if (!idChecked) return alert(AUTH_SIGNUP_TEXT.signup.duplicateCheckError);
+    signupMutate({ userEmail: v.email, userId: v.userId, userPwd: v.password });
   };
 
   return (
@@ -41,8 +100,15 @@ export function SignupForm({ onGoLogin }: { onGoLogin: () => void }) {
                        text-white placeholder-white/60 outline-none
                        focus:border-white/60 focus:bg-white/15 transition"
           />
-          <button type="button" disabled className={actionBtn}>
-            {AUTH_SIGNUP_TEXT.signup.sendCode}
+          <button
+            type="button"
+            onClick={handleSendCode}
+            disabled={!email || sendingCode}
+            className={actionBtn}
+          >
+            {sendingCode
+              ? AUTH_SIGNUP_TEXT.signup.sendCodePending
+              : AUTH_SIGNUP_TEXT.signup.sendCode}
           </button>
         </div>
         <p className="mt-1 text-[11px] text-white/60">{AUTH_SIGNUP_TEXT.signup.note}</p>
@@ -53,13 +119,17 @@ export function SignupForm({ onGoLogin }: { onGoLogin: () => void }) {
           <input
             name="code"
             placeholder={AUTH_SIGNUP_TEXT.signup.codePlaceholder}
-            disabled
             className="flex-1 rounded-lg border border-white/30 bg-white/10 px-3 py-3
                        text-white placeholder-white/60 outline-none
                        focus:border-white/60 focus:bg-white/15 transition"
           />
-          <button type="button" disabled className={actionBtn}>
-            {AUTH_SIGNUP_TEXT.signup.verify}
+          <button
+            type="button"
+            onClick={handleVerifyCode}
+            disabled={!email || verifying}
+            className={actionBtn}
+          >
+            {verifying ? AUTH_SIGNUP_TEXT.signup.verifyPending : AUTH_SIGNUP_TEXT.signup.verify}
           </button>
         </div>
       </Field>
@@ -73,9 +143,14 @@ export function SignupForm({ onGoLogin }: { onGoLogin: () => void }) {
                        text-white placeholder-white/60 outline-none
                        focus:border-white/60 focus:bg-white/15 transition"
           />
-          <button type="button" disabled className={actionBtn}>
-            {AUTH_SIGNUP_TEXT.signup.duplicateCheck}
-          </button>
+          {/* <button
+            type="button"
+            onClick={handleCheckId}
+            disabled={!userId || checkingId}
+            className={actionBtn}
+          >
+            {checkingId ? "확인 중..." : AUTH_SIGNUP_TEXT.signup.duplicateCheck}
+          </button> */}
         </div>
       </Field>
 
