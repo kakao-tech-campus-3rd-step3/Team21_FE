@@ -1,11 +1,12 @@
 import { useAuthFlow } from "@/features/auth-login/model/useAuthFlow";
 import { AuthDialog } from "@/features/auth-login/ui/AuthDialog";
+import { LogoutButton } from "@/features/auth-logout/ui/LogoutButton";
 import { SignupDialog } from "@/features/auth-signup/ui/SignupDialog";
+import { useAuthSnapshot } from "@/shared/hooks/useAuthSnapshot";
 import { Button } from "@/shared/ui/button";
 
-type Props = { isAuthed?: boolean; userName?: string };
-
-export default function AuthGate({ isAuthed, userName }: Props) {
+export default function AuthGate() {
+  const { isAuthed, userName } = useAuthSnapshot();
   const { loginOpen, signupOpen, openLogin, closeLogin, closeSignup, goSignup, goLogin } =
     useAuthFlow();
 
@@ -35,5 +36,10 @@ export default function AuthGate({ isAuthed, userName }: Props) {
     );
   }
 
-  return <div className="text-sm text-zinc-200">{userName} 님</div>;
+  return (
+    <div className="flex items-center gap-3">
+      <span className="text-sm text-zinc-200">{userName ?? "사용자"} 님</span>
+      <LogoutButton size="sm" variant="outline" className="h-8 border-cyan-300/60 text-zinc-50" />
+    </div>
+  );
 }

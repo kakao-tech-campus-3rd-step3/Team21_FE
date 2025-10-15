@@ -29,7 +29,7 @@ export function AuthDialog({ open, onOpenChange, onGoSignup }: Props) {
         <DialogHeader>
           <DialogTitle>로그인</DialogTitle>
         </DialogHeader>
-        <LoginForm onGoSignup={onGoSignup} />
+        <LoginForm onGoSignup={onGoSignup} onClose={() => onOpenChange(false)} />
       </DialogContent>
     </Dialog>
   );

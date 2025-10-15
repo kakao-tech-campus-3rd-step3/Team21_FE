@@ -24,7 +24,7 @@ export function LoginForm({
   });
 
   const { mutate, isPending } = useLogin(onClose);
-  const onSubmit = (v: LoginInput) => mutate({ userId: v.id, password: v.password });
+  const onSubmit = (v: LoginInput) => mutate({ userId: v.id, userPwd: v.password });
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
