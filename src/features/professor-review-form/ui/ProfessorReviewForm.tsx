@@ -1,5 +1,7 @@
+import type { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
+import { useCreateProfReview } from "@/entities/prof-review";
 import { EvalCard } from "@/features/eval";
 import type { ProfessorEvalForm } from "@/features/professor-review-form/model/schema";
 import { useProfessorEvalForm } from "@/features/professor-review-form/model/useProfessorEvalForm";
@@ -18,9 +20,10 @@ type Props<
     validate: { requiredStar: string };
   },
 > = {
-  profId: string | number;
+  profSeq: number;
+  profName?: string;
   text: TText;
-  onSubmitted?: (data: ProfessorEvalForm & { profId: string | number }) => void;
+  onSubmitted?: (data: ProfessorEvalForm & { profSeq: number }) => void;
 };
 
 export function ProfessorReviewForm<
@@ -32,7 +35,7 @@ export function ProfessorReviewForm<
     paperPlaceholder: string;
     validate: { requiredStar: string };
   },
->({ profId, text, onSubmitted }: Props<TText>) {
+>({ profSeq, profName, text, onSubmitted }: Props<TText>) {
   const {
     handleSubmit,
     register,
@@ -41,20 +44,32 @@ export function ProfessorReviewForm<
   } = useProfessorEvalForm(text);
 
   const navigate = useNavigate();
+  const { mutateAsync, isPending } = useCreateProfReview();
 
   const onSubmit = async (data: ProfessorEvalForm) => {
-    await Promise.resolve(onSubmitted?.({ ...data, profId }));
-    if (!onSubmitted) {
-      console.log("PROF REVIEW SUBMIT", { profId, ...data });
+    await Promise.resolve(onSubmitted?.({ ...data, profSeq }));
+
+    const body = {
+      profSeq,
+      thesisPerformance: data.thesisPerf,
+      researchPerformance: data.labPerf,
+      reviewText: data.thesisReview || undefined,
+    } as const;
+
+    try {
+      await mutateAsync(body);
+      navigate(-1);
+    } catch (err) {
+      const error = err as AxiosError<{ message?: string }>;
+      const msg = error.response?.data?.message ?? "교수 평가 등록에 실패했습니다.";
+      alert(msg);
     }
-    //성공했다고 가정
-    navigate(-1);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <h1 className="text-2xl font-bold">
-        {text.title} · {profId}
+        {text.title} · {profName ?? profSeq}
       </h1>
 
       <EvalCard title={text.paperEval} center>
@@ -88,7 +103,7 @@ export function ProfessorReviewForm<
 
       <Button
         type="submit"
-        disabled={!isValid || isSubmitting}
+        disabled={!isValid || isSubmitting || isPending}
         className="w-full rounded-lg py-3 text-sm font-semibold text-white
                    bg-indigo-500 hover:bg-indigo-500/90
                    shadow-[0_6px_18px_rgba(79,70,229,0.45)]
