@@ -10,5 +10,6 @@ export const ROUTES = {
   COMPARE_UNIVERSITY: (id: string | number = ":id") => `/compare/university/${id}`,
   PROFESSOR_EVAL: (id: string | number = ":id") => `/professor/${id}/evaluate`,
   UNIVERSITY_EVAL: (id: string | number = ":id") => `/university/${id}/evaluate`,
-  COURSE_EVAL: (lecSeq: string | number = ":lecSeq") => `/course/${lecSeq}/evaluate`,
+  COURSE_EVAL: (profSeq: string | number = ":profSeq", lecSeq: string | number = ":lecSeq") =>
+    `/course/${profSeq}/${lecSeq}/evaluate`,
 } as const;
