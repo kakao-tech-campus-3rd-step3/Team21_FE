@@ -9,6 +9,14 @@ import { ProfessorLectureReviewList } from "@/entities/professor/ui/ProfessorLec
 import { ProfessorResearchCard } from "@/entities/professor/ui/ProfessorResearchCard";
 import { useBreadcrumbTrail } from "@/features/nav-trail";
 
+const splitTags = (s?: string) =>
+  s
+    ? s
+        .split(/[,\s/·|/]+/)
+        .map((t) => t.trim())
+        .filter(Boolean)
+    : [];
+
 export function ProfessorDetailPage() {
   const { id } = useParams<{ id: string }>();
   const profSeq = Number(id);
@@ -16,7 +24,7 @@ export function ProfessorDetailPage() {
 
   const { data, isLoading, isError } = useProfessorDetail(profSeq);
 
-  const collegeName = data?.college.name ?? data?.college.name ?? "";
+  const collegeName = data?.college?.name ?? "";
   const crumbs = useMemo(
     () => [
       { label: String(data?.university?.name ?? "") },
@@ -52,6 +60,9 @@ export function ProfessorDetailPage() {
     ratingCount: data.totalReviewCount ?? 0,
   };
 
+  const education = data.degree;
+  const areas = Array.from(new Set([...splitTags(data.major), ...splitTags(data.researchField)]));
+
   return (
     <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
       <ProfessorHero data={heroData} />
@@ -60,8 +71,9 @@ export function ProfessorDetailPage() {
         <div className="lg:col-span-8">
           <ProfessorEvalCard profId={profSeq} />
         </div>
+
         <div className="lg:col-span-4">
-          <ProfessorResearchCard profId={profSeq} />
+          <ProfessorResearchCard education={education} areas={areas} lectures={data.lectures} />
         </div>
       </div>
 
