@@ -35,17 +35,8 @@ export function SearchBox(props: Props) {
   const { mode, query, setMode, setQuery, results, handlePick } = useSearchBox(props);
 
   const handleEnterPick = () => {
-    if (results.length === 0) return;
-    if (mode === "univ") {
-      const list = results as UnivSearchResult[];
-      handlePick(list[0]);
-    } else if (mode === "prof") {
-      const list = results as ProfessorSearch[];
-      handlePick(list[0]);
-    } else {
-      const list = results as DepartmentSearch[];
-      handlePick(list[0]);
-    }
+    if (!results.length) return;
+    handlePick(results[0]);
   };
 
   const TEXTS = {
