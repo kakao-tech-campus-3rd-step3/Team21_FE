@@ -1,24 +1,31 @@
+import { useQueryClient } from "@tanstack/react-query";
+
 import { useProfessorReviews } from "@/entities/professor/hooks/useProfessorReviews";
 import type { LectureReview } from "@/entities/professor/model/lecture-review.vm";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/ui/card";
+import { ErrorView } from "@/shared/ui/ErrorView";
+import { LoadingView } from "@/shared/ui/LoadingView";
 import { Separator } from "@/shared/ui/separator";
 
 type Props = { profId: number };
 
-const PAGE_SIZE = 3; // 한 페이지에 불러올 강의평 개수
+const PAGE_SIZE = 3;
 
-function toSemesterText(sem: string) {
+function toSemesterText(sem?: string) {
   if (!sem) return "";
   const [year, semester] = sem.split("-");
   return semester ? `${year}-${semester}학기` : sem;
 }
 
 export function ProfessorLectureReviewList({ profId }: Props) {
+  const queryClient = useQueryClient();
+
   const {
     data: reviews,
     isLoading,
     isError,
+    refetch,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -41,6 +48,21 @@ export function ProfessorLectureReviewList({ profId }: Props) {
 
   const totalLoaded = rows.length;
 
+  if (isLoading) return <LoadingView message="강의평을 불러오는 중…" />;
+
+  if (isError) {
+    return (
+      <ErrorView
+        title="강의평을 불러오지 못했어요"
+        description="네트워크 상태를 확인하신 뒤 다시 시도해 주세요."
+        onRetry={() => {
+          queryClient.resetQueries({ queryKey: ["professor", "reviews", profId] });
+          refetch();
+        }}
+      />
+    );
+  }
+
   return (
     <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur">
       <CardHeader className="pb-3">
@@ -53,16 +75,9 @@ export function ProfessorLectureReviewList({ profId }: Props) {
       <Separator className="bg-zinc-800/60" />
 
       <CardContent className="p-0 divide-y divide-zinc-800/60">
-        {isLoading && <div className="p-5 text-sm text-zinc-300">불러오는 중…</div>}
-        {isError && !isLoading && (
-          <div className="p-5 text-sm text-red-400">강의평을 불러오지 못했습니다.</div>
-        )}
-        {!isLoading && !isError && rows.length === 0 && (
-          <div className="p-5 text-sm text-zinc-400">등록된 강의평이 없습니다.</div>
-        )}
-
-        {!isLoading &&
-          !isError &&
+        {rows.length === 0 ? (
+          <div className="p-5 text-sm text-zinc-400 text-center">등록된 강의평이 없습니다.</div>
+        ) : (
           rows.map((rv) => (
             <article key={rv.id} className="p-5">
               <div className="flex items-start justify-between gap-4">
@@ -70,7 +85,6 @@ export function ProfessorLectureReviewList({ profId }: Props) {
                   <div className="text-base font-semibold leading-6">{rv.course}</div>
                   <div className="mt-1 text-xs text-muted-foreground">{rv.semesterText}</div>
                 </div>
-                {/* 별점 api 외않쥶 */}
               </div>
 
               <p className="mt-3 text-sm leading-6 whitespace-pre-wrap">{rv.content}</p>
@@ -88,7 +102,8 @@ export function ProfessorLectureReviewList({ profId }: Props) {
                 </div>
               )}
             </article>
-          ))}
+          ))
+        )}
       </CardContent>
 
       {hasNextPage && (

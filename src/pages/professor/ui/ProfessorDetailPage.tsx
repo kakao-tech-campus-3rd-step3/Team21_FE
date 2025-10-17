@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
@@ -8,6 +9,9 @@ import { ProfessorHero } from "@/entities/professor/ui/ProfessorHero";
 import { ProfessorLectureReviewList } from "@/entities/professor/ui/ProfessorLectureReviewList";
 import { ProfessorResearchCard } from "@/entities/professor/ui/ProfessorResearchCard";
 import { useBreadcrumbTrail } from "@/features/nav-trail";
+import { EmptyState } from "@/shared/ui/EmptyState";
+import { ErrorView } from "@/shared/ui/ErrorView";
+import { LoadingView } from "@/shared/ui/LoadingView";
 
 const splitTags = (s?: string) =>
   s
@@ -20,32 +24,54 @@ const splitTags = (s?: string) =>
 export function ProfessorDetailPage() {
   const { id } = useParams<{ id: string }>();
   const profSeq = Number(id);
-  const isInvalid = !Number.isFinite(profSeq) || profSeq <= 0;
+  const invalid = !Number.isFinite(profSeq) || profSeq <= 0;
 
-  const { data, isLoading, isError } = useProfessorDetail(profSeq);
+  const queryClient = useQueryClient();
 
-  const collegeName = data?.college?.name ?? "";
+  const { data, isLoading, isError, refetch } = useProfessorDetail(profSeq);
+
   const crumbs = useMemo(
     () => [
-      { label: String(data?.university?.name ?? "") },
-      { label: String(collegeName) },
-      { label: String(data?.department?.name ?? "") },
-      { label: String(data?.name ? `${data.name} 교수` : "") },
+      { label: data?.university?.name ?? "대학교" },
+      { label: data?.college?.name ?? "단과대학" },
+      { label: data?.department?.name ?? "학과" },
+      { label: data?.name ? `${data.name} 교수` : "교수 상세" },
     ],
-    [data?.university?.name, collegeName, data?.department?.name, data?.name],
+    [data?.university?.name, data?.college?.name, data?.department?.name, data?.name],
   );
   useBreadcrumbTrail(crumbs);
 
-  if (isInvalid) {
-    return <main className="p-6 text-center">잘못된 접근입니다.</main>;
+  if (invalid) {
+    return (
+      <EmptyState
+        title="잘못된 접근입니다"
+        description="요청하신 교수 정보를 확인할 수 없습니다."
+      />
+    );
   }
 
-  if (isLoading) {
-    return <main className="p-6 text-center">불러오는 중…</main>;
+  if (isLoading) return <LoadingView message="교수 정보를 불러오는 중…" />;
+
+  if (isError) {
+    return (
+      <ErrorView
+        title="교수 정보를 불러오지 못했어요"
+        description="네트워크 상태를 확인하신 뒤 다시 시도해 주세요."
+        onRetry={() => {
+          queryClient.resetQueries({ queryKey: ["professor", "detail", profSeq] });
+          refetch();
+        }}
+      />
+    );
   }
 
-  if (isError || !data) {
-    return <main className="p-6 text-center">해당 교수 정보를 찾을 수 없습니다.</main>;
+  if (!data) {
+    return (
+      <EmptyState
+        title="표시할 교수 정보가 없습니다"
+        description="관련 데이터가 아직 등록되지 않았을 수 있습니다."
+      />
+    );
   }
 
   const heroData: ProfessorHeroData = {
@@ -69,12 +95,12 @@ export function ProfessorDetailPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div className="lg:col-span-8">
-          <ProfessorEvalCard profId={profSeq} />
+          <ProfessorEvalCard profId={data.id} />
         </div>
 
         <div className="lg:col-span-4">
           <ProfessorResearchCard
-            profId={profSeq}
+            profId={data.id}
             education={education}
             areas={areas}
             lectures={data.lectures ?? []}
@@ -82,7 +108,7 @@ export function ProfessorDetailPage() {
         </div>
       </div>
 
-      <ProfessorLectureReviewList profId={profSeq} />
+      <ProfessorLectureReviewList profId={data.id} />
     </main>
   );
 }
