@@ -2,6 +2,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 import { PROFESSOR_RESEARCH_TEXT } from "@/pages/professor/text";
+import { ROUTES } from "@/shared/config/routes";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
@@ -14,13 +15,15 @@ type LectureItem = {
 };
 
 type Props = {
+  profId: number;
   education?: string;
   areas?: string[];
   lectures: LectureItem[];
 };
 
-export function ProfessorResearchCard({ education, areas, lectures }: Props) {
+export function ProfessorResearchCard({ profId, education, areas, lectures }: Props) {
   const tags = Array.isArray(areas) ? areas : [];
+  const hasProfId = Number.isFinite(profId) && profId > 0;
 
   return (
     <Card className="relative overflow-hidden bg-zinc-900/60 border-zinc-600/80 backdrop-blur">
@@ -78,15 +81,25 @@ export function ProfessorResearchCard({ education, areas, lectures }: Props) {
                         {lec.semester ?? "학기 정보 없음"}
                       </div>
                     </div>
+
                     <Button
                       asChild
                       size="sm"
                       className="bg-indigo-600 hover:bg-indigo-600/90 flex items-center gap-1.5 text-white"
+                      disabled={!hasProfId}
+                      title={hasProfId ? "강의평 작성" : "교수 정보가 없어 이동할 수 없습니다."}
                     >
-                      <Link to={`/lecture/${lec.id}/evaluate`}>
-                        <FiEdit3 size={16} />
-                        평가하기
-                      </Link>
+                      {hasProfId ? (
+                        <Link to={ROUTES.COURSE_EVAL(profId, lec.id)}>
+                          <FiEdit3 size={16} />
+                          평가하기
+                        </Link>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 opacity-70">
+                          <FiEdit3 size={16} />
+                          평가하기
+                        </span>
+                      )}
                     </Button>
                   </li>
                 ))}

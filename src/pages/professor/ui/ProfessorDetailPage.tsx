@@ -73,7 +73,12 @@ export function ProfessorDetailPage() {
         </div>
 
         <div className="lg:col-span-4">
-          <ProfessorResearchCard education={education} areas={areas} lectures={data.lectures} />
+          <ProfessorResearchCard
+            profId={profSeq}
+            education={education}
+            areas={areas}
+            lectures={data.lectures ?? []}
+          />
         </div>
       </div>
 
