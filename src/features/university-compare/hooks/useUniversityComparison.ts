@@ -1,8 +1,10 @@
 import { useState } from "react";
 
-import { univs } from "@/__MOCK__/mockData";
-import { mapuniversity } from "@/entities/university/model/mapuniversity";
-import { type University } from "@/entities/university/model/university";
+import { fetchUniversitiesForCompare, searchUniversityApi } from "@/entities/university/api";
+import { mapUniversityFromResponse } from "@/entities/university/model/univ-compare.map";
+import { mapUnivSearch } from "@/entities/university/model/univ-search.map";
+import type { UnivSearchRequest } from "@/entities/university/model/univ-search.request";
+import type { University } from "@/entities/university/model/university-compare.domain";
 
 type UniversitySearch = {
   id: string;
@@ -17,36 +19,39 @@ export const useUniversityComparison = () => {
   const [results, setResults] = useState<UniversitySearch[]>([]);
   const [resultsOpen, setResultsOpen] = useState(false);
 
-  const handleSearch = (value: string) => {
+  const handleSearch = async (value: string) => {
     setQuery(value);
     if (!value.trim()) {
       setResults([]);
       return;
     }
-    const lower = value.toLowerCase();
-    const filtered = univs
-      .filter((u) => u.name.toLowerCase().includes(lower))
-      .map((u) => ({
-        id: String(u.univSeq),
-        name: u.name,
-        address: u.address,
-        initials: u.name.slice(0, 2),
-      }));
+    const params: UnivSearchRequest = { keyword: value, page: 0, size: 10 };
+    const res = await searchUniversityApi(params);
+    const { items } = mapUnivSearch(res);
 
-    setResults(filtered);
+    const mapped: UniversitySearch[] = items.map((u) => ({
+      id: u.id,
+      name: u.name,
+      address: u.address,
+      initials: u.name.slice(0, 2),
+    }));
+
+    setResults(mapped);
     setResultsOpen(true);
   };
 
-  const handlePick = (univSearch: UniversitySearch) => {
-    const univ = mapuniversity(Number(univSearch.id));
-    if (!univ) return;
+  const handlePick = async (univSearch: UniversitySearch) => {
+    const idNum = Number(univSearch.id);
+    if (comparedUniversities.some((u) => u.id === idNum)) return;
+    if (comparedUniversities.length >= 2) return;
 
-    setComparedUniversities((prev) => {
-      if (prev.some((u) => u.id === univ.id)) return prev;
-      if (prev.length >= 2) return prev;
+    const apis = await fetchUniversitiesForCompare([idNum]);
+    const pickedApi = apis?.[0];
+    if (!pickedApi) return;
 
-      return [...prev, univ];
-    });
+    const univ = mapUniversityFromResponse(pickedApi);
+
+    setComparedUniversities((prev) => [...prev, univ]);
 
     setQuery("");
     setResults([]);
