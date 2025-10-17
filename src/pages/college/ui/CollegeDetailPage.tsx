@@ -20,11 +20,15 @@ export function CollegeDetailPage() {
     isError: deptError,
   } = useDepartmentsByCollege(collegeSeq);
 
-  const crumbs = useMemo(
-    () => [{ label: college?.universityName ?? "" }, { label: college?.name ?? "" }],
-    [college?.universityName, college?.name],
-  );
+  const crumbs = useMemo(() => {
+    const u = college?.universityName;
+    const c = college?.name;
+    return u && c ? [{ label: u }, { label: c }] : [];
+  }, [college?.universityName, college?.name]);
+
   useBreadcrumbTrail(crumbs);
+
+  const hasDept = (departments?.length ?? 0) > 0;
 
   if (isInvalid) {
     return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">잘못된 접근입니다.</main>;
@@ -41,8 +45,6 @@ export function CollegeDetailPage() {
       </main>
     );
   }
-
-  const hasDept = (departments?.length ?? 0) > 0;
 
   return (
     <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
@@ -73,7 +75,7 @@ export function CollegeDetailPage() {
         </div>
 
         <div className="space-y-6">
-          {/* TODO: 고도화 단계에서 이어서 진행 */}
+          {/* TODO: 고도화 단계에서.. */}
           {/* <CollegeFeatureCard title="단과대학 키워드" features={FEATURES} /> */}
           <CollegeContactCard tel={college.tel ?? ""} email="" address="" />
         </div>
