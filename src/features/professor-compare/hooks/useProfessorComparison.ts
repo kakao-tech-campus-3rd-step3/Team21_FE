@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import { depts, profs } from "@/__MOCK__/mockData";
-import { mapprofessor } from "@/entities/professor/model/mapprofessor";
-import { type Professor } from "@/entities/professor/model/professors";
+import { fetchCompareProfessorsByIds, searchProfessorApi } from "@/entities/professor/api";
+import { mapProfSearch } from "@/entities/professor/model/prof-search.map";
+import type { Professor } from "@/entities/professor/model/professors.domain";
 type ProfessorSearch = {
   id: string;
   name: string;
@@ -17,32 +17,30 @@ export const useProfessorComparison = () => {
   const [results, setResults] = useState<ProfessorSearch[]>([]);
   const [resultsOpen, setResultsOpen] = useState(false);
 
-  const handleSearch = (value: string) => {
+  const handleSearch = async (value: string) => {
     setQuery(value);
-    if (!value.trim()) {
+    const keyword = value.trim();
+    if (!keyword) {
       setResults([]);
       return;
     }
-    const lower = value.toLowerCase();
-    const filtered = profs
-      .filter((p) => p.profName.toLowerCase().includes(lower))
-      .map((p) => {
-        const dept = depts.find((d) => d.deptSeq === p.deptSeq);
-        return {
-          id: String(p.profSeq),
-          name: p.profName,
-          univ: "Uni",
-          dept: dept?.deptName ?? "정보 없음",
-          initials: p.profName.slice(0, 2),
-        };
-      });
+    const res = await searchProfessorApi({ keyword, page: 0, size: 10 });
+    const { items } = mapProfSearch(res);
 
-    setResults(filtered);
+    const mapped: ProfessorSearch[] = items.map((p) => ({
+      id: p.id,
+      name: p.name,
+      univ: p.univ ?? "정보 없음",
+      dept: p.dept ?? "정보 없음",
+      initials: p.name.slice(0, 2),
+    }));
+
+    setResults(mapped);
     setResultsOpen(true);
   };
 
-  const handlePick = (profSearch: ProfessorSearch) => {
-    const prof = mapprofessor(Number(profSearch.id));
+  const handlePick = async (profSearch: ProfessorSearch) => {
+    const [prof] = await fetchCompareProfessorsByIds([Number(profSearch.id)]);
     if (!prof) return;
 
     setComparedProfessors((prev) => {

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useMemo, useState } from "react";
 
 import { chartData } from "@/__MOCK__/mockData";
-import type { Professor } from "@/entities/professor/model/professors";
+import type { Professor } from "@/entities/professor/model/professors.domain";
 import { CompareLineChart } from "@/features/chart-compare/ui/CompareLineChart";
 import { CompareRaderChart } from "@/features/chart-compare/ui/CompareRaderChart";
 import { ProfessorCard } from "@/features/professor-compare/ui/ProfessorCard";

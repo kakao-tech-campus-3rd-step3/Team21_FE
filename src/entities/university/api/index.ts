@@ -1,3 +1,7 @@
+import type {
+  UniversityApi,
+  UniversityTrendApi,
+} from "@/entities/university/model/univ-compare.response";
 import type { UnivSearchRequest } from "@/entities/university/model/univ-search.request";
 import type { UnivSearchResponse } from "@/entities/university/model/univ-search.response";
 import type { UniversityReviewListResponse } from "@/entities/university/model/university-review.response";
@@ -23,5 +27,18 @@ export async function searchUniversityApi(params: UnivSearchRequest) {
   const { data } = await apiClient.get<UnivSearchResponse>("/api/search/univ", {
     params: { keyword, page, size },
   });
+  return data;
+}
+export async function fetchUniversitiesForCompare(univSeqs: number[]) {
+  const { data } = await apiClient.get<UniversityApi[]>("/api/comparison/universities", {
+    params: { univSeqs: univSeqs.join(",") },
+  });
+  return data;
+}
+export async function fetchUniversityRatingTrends(univSeqs: number[]) {
+  const { data } = await apiClient.get<UniversityTrendApi>(
+    "/api/comparison/university-rating-trends",
+    { params: { univSeqs: univSeqs.join(",") } },
+  );
   return data;
 }

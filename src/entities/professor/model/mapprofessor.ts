@@ -1,4 +1,4 @@
-import {
+/*import {
   colleges,
   depts,
   lectureReviews,
@@ -51,3 +51,4 @@ export const mapprofessor = (profSeq: number): Professor | null => {
     researchPerf: parseFloat(avgResearchPerf.toFixed(1)),
   };
 };
+*/
