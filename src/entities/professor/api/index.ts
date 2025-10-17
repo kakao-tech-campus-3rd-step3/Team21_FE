@@ -1,9 +1,7 @@
-import { mapCompareListToDomain } from "@/entities/professor/model/prof-compare.map";
 import type { ProfSearchRequest } from "@/entities/professor/model/prof-search.request";
 import type { ProfSearchResponse } from "@/entities/professor/model/prof-search.response";
 import type { ProfessorDetailResponse } from "@/entities/professor/model/professor-detail.response";
 import type { ProfessorReviewsResponse } from "@/entities/professor/model/professor-reviews.response";
-import type { Professor } from "@/entities/professor/model/professors.domain";
 import type { ProfessorList } from "@/entities/professor/model/professors-compare.response";
 import { apiClient } from "@/shared/api/apiClient";
 
@@ -27,11 +25,9 @@ export async function searchProfessorApi(params: ProfSearchRequest) {
   return data;
 }
 
-export async function fetchCompareProfessorsByIds(profSeqs: number[]): Promise<Professor[]> {
-  if (!Array.isArray(profSeqs) || profSeqs.length === 0) return [];
-  const qs = new URLSearchParams({ profSeqs: profSeqs.join(",") });
-  const { data } = await apiClient.get<ProfessorList>(
-    `/api/comparison/professors?${qs.toString()}`,
-  );
-  return mapCompareListToDomain(data);
+export async function fetchCompareProfessors(profSeqs: number[]) {
+  const { data } = await apiClient.get<ProfessorList>("/api/comparison/professors", {
+    params: { profSeqs: profSeqs.join(",") },
+  });
+  return data;
 }
