@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import type { Professor } from "@/entities/professor/model/professors";
+import type { Professor } from "@/entities/professor/model/professors.domain";
 
 import { ProfessorCard } from "./ProfessorCard";
 
@@ -49,48 +49,12 @@ type Story = StoryObj<typeof ProfessorCard>;
 
 export const Playground: Story = {};
 
-export const NoTags: Story = {
-  args: {
-    professor: makeProf({ tags: [] }),
-  },
-};
-
-export const ManyTags: Story = {
-  args: {
-    professor: makeProf({
-      tags: [
-        "출결 엄격",
-        "과제 多",
-        "시험 난이도 보통",
-        "실습 중심",
-        "자료 풍부",
-        "팀프로젝트",
-        "피드백 빠름",
-        "오픈북",
-      ],
-    }),
-  },
-};
-
-export const LowRating: Story = {
-  args: {
-    professor: makeProf({ rating: 1.7, tags: ["난이도 높음", "평가 깐깐"] }),
-  },
-};
-
-export const PerfectRating: Story = {
-  args: {
-    professor: makeProf({ rating: 5.0, tags: ["명강의", "피드백 최고", "추천"] }),
-  },
-};
-
 export const LongTexts: Story = {
   args: {
     professor: makeProf({
       name: "데이터사이언스·인공지능연구센터-초장문이름교수",
       university: "국립충남대학교-대전광역시유성구대학로-미래융합캠퍼스",
       department: "고성능컴퓨팅·분산시스템·소프트웨어공학융합전공",
-      tags: ["아주 긴 태그 내용으로 줄바꿈 확인"],
     }),
   },
 };

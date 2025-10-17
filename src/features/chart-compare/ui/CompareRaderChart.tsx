@@ -8,7 +8,7 @@ import {
   Tooltip,
 } from "recharts";
 
-import type { Professor } from "@/entities/professor/model/professors";
+import type { Professor } from "@/entities/professor/model/professors.domain";
 import { COMPARE_RADER_CHART_TEXTS } from "@/features/chart-compare/ui/text";
 import { ChartContainer } from "@/shared/ui/chart";
 import {
@@ -28,7 +28,7 @@ type ProfessorStatKey =
   | "homework"
   | "lecDifficulty"
   | "examDifficulty"
-  | "gradeDistribution"
+  | "thesisPerf"
   | "researchPerf";
 
 export const CompareRaderChart = ({ professors }: props) => {
@@ -36,7 +36,7 @@ export const CompareRaderChart = ({ professors }: props) => {
     { key: "homework", label: COMPARE_RADER_CHART_TEXTS.categories.homework },
     { key: "lecDifficulty", label: COMPARE_RADER_CHART_TEXTS.categories.lecDifficulty },
     { key: "examDifficulty", label: COMPARE_RADER_CHART_TEXTS.categories.examDifficulty },
-    { key: "gradeDistribution", label: COMPARE_RADER_CHART_TEXTS.categories.gradeDistribution },
+    { key: "thesisPerf", label: COMPARE_RADER_CHART_TEXTS.categories.thesisPerf },
     { key: "researchPerf", label: COMPARE_RADER_CHART_TEXTS.categories.researchPerf },
   ];
 
@@ -107,9 +107,7 @@ export const CompareRaderChart = ({ professors }: props) => {
                 className="h-2.5 w-2.5 shrink-0 rounded-full"
                 style={{ backgroundColor: colors[index % colors.length] }}
               />
-              <span className="inline-block rounded-md px-1.5 py-0.5 text-white leading-tight bg-zinc-900 relative z-20">
-                {prof.name}
-              </span>
+              <span>{prof.name}</span>
             </div>
           ))}
         </div>

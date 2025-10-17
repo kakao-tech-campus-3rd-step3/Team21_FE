@@ -2,6 +2,7 @@ import type { ProfSearchRequest } from "@/entities/professor/model/prof-search.r
 import type { ProfSearchResponse } from "@/entities/professor/model/prof-search.response";
 import type { ProfessorDetailResponse } from "@/entities/professor/model/professor-detail.response";
 import type { ProfessorReviewsResponse } from "@/entities/professor/model/professor-reviews.response";
+import type { ProfessorList } from "@/entities/professor/model/professors-compare.response";
 import { apiClient } from "@/shared/api/apiClient";
 
 export async function fetchProfessorDetail(profSeq: number) {
@@ -20,6 +21,13 @@ export async function searchProfessorApi(params: ProfSearchRequest) {
   const { keyword, page = 0, size = 10 } = params;
   const { data } = await apiClient.get<ProfSearchResponse>("/api/search/prof", {
     params: { keyword, page, size },
+  });
+  return data;
+}
+
+export async function fetchCompareProfessors(profSeqs: number[]) {
+  const { data } = await apiClient.get<ProfessorList>("/api/comparison/professors", {
+    params: { profSeqs: profSeqs.join(",") },
   });
   return data;
 }

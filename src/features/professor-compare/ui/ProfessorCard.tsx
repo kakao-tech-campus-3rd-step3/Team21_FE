@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 
-import type { Professor } from "@/entities/professor/model/professors";
+import type { Professor } from "@/entities/professor/model/professors.domain";
 import { Button } from "@/shared/ui/button";
 import {
   GlassCard,

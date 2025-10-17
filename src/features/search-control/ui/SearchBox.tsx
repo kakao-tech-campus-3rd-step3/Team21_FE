@@ -35,33 +35,21 @@ export function SearchBox(props: Props) {
   const { mode, query, setMode, setQuery, results, handlePick } = useSearchBox(props);
 
   const handleEnterPick = () => {
-    if (results.length === 0) return;
-    if (mode === "univ") {
-      const list = results as UnivSearchResult[];
-      handlePick(list[0]);
-    } else if (mode === "prof") {
-      const list = results as ProfessorSearch[];
-      handlePick(list[0]);
-    } else {
-      const list = results as DepartmentSearch[];
-      handlePick(list[0]);
-    }
+    if (!results.length) return;
+    handlePick(results[0]);
   };
 
-  const dynamicPlaceholder =
-    props.placeholder ??
-    (mode === "univ"
-      ? SEARCH_CONTROL_TEXT.placeholder
-      : mode === "prof"
-        ? SEARCH_CONTROL_PROF_TEXT.placeholder
-        : SEARCH_CONTROL_DEPT_TEXT.placeholder);
+  const TEXTS = {
+    univ: SEARCH_CONTROL_TEXT,
+    prof: SEARCH_CONTROL_PROF_TEXT,
+    dept: SEARCH_CONTROL_DEPT_TEXT,
+    "univ-dept": SEARCH_CONTROL_UNIV_DEPT_TEXT,
+    "univ-prof": SEARCH_CONTROL_UNIV_PROF_TEXT,
+  } as const;
 
-  const emptyText =
-    mode === "univ"
-      ? SEARCH_CONTROL_DEPT_TEXT.empty
-      : mode === "prof"
-        ? SEARCH_CONTROL_PROF_TEXT.empty
-        : SEARCH_CONTROL_DEPT_TEXT.empty;
+  const dynamicPlaceholder = props.placeholder ?? TEXTS[mode].placeholder;
+
+  const emptyText = TEXTS[mode].empty;
 
   return (
     <Card className="relative rounded-2xl overflow-visible isolate bg-white/5 border border-white/40 backdrop-blur-3xl backdrop-saturate-200 shadow-[0_15px_50px_rgba(0,0,0,0.55)] before:absolute before:inset-0 before:pointer-events-none before:content-none">
