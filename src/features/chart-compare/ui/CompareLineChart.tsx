@@ -27,11 +27,6 @@ type CompareLineChartProps = {
 };
 
 export const CompareLineChart = ({ professors }: CompareLineChartProps) => {
-  console.log(
-    "semesters",
-    professors.map((p) => ({ name: p.name, len: p.semesters?.length })),
-  );
-
   const colors = ["#3b82f6", "#ef4444", "#22c55e"];
 
   const data = useMemo(() => buildSemesterLineChartData(professors), [professors]);

@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-import { fetchCompareProfessorsByIds, searchProfessorApi } from "@/entities/professor/api";
+import { fetchCompareProfessors, searchProfessorApi } from "@/entities/professor/api";
+import { mapCompareListToDomain } from "@/entities/professor/model/prof-compare.map";
 import { mapProfSearch } from "@/entities/professor/model/prof-search.map";
 import type { Professor } from "@/entities/professor/model/professors.domain";
 type ProfessorSearch = {
@@ -40,9 +41,9 @@ export const useProfessorComparison = () => {
   };
 
   const handlePick = async (profSearch: ProfessorSearch) => {
-    const [prof] = await fetchCompareProfessorsByIds([Number(profSearch.id)]);
+    const raw = await fetchCompareProfessors([Number(profSearch.id)]);
+    const [prof] = mapCompareListToDomain(raw);
     if (!prof) return;
-
     setComparedProfessors((prev) => {
       if (prev.some((p) => p.id === prof.id)) return prev;
       if (prev.length >= 3) return prev;
