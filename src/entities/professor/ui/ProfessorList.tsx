@@ -4,7 +4,7 @@ import { ProfessorCard } from "@/entities/professor/ui/ProfessorCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
 type Item = {
-  seq: number | undefined;
+  id: number;
   name: string;
   rankLabel?: string;
   degree?: string;
@@ -42,16 +42,9 @@ export function ProfessorList({ title, items }: Props) {
       </CardHeader>
 
       <CardContent className="space-y-4">
-        {safeItems.map((p, idx) => {
-          const key =
-            (Number.isFinite(p.seq as number) ? `prof-${p.seq}` : null) ??
-            (p.email ? `prof-${p.email}` : null) ??
-            `prof-${p.name}-${idx}`;
-
-          const to =
-            Number.isFinite(p.seq as number) && (p.seq as number) > 0
-              ? `/professor/${p.seq}`
-              : undefined;
+        {safeItems.map((p) => {
+          const to = p.id > 0 ? `/professor/${p.id}` : undefined;
+          const key = `prof-${p.id}`;
 
           return (
             <div key={key} className="relative">
