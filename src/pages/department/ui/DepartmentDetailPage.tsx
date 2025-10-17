@@ -11,7 +11,6 @@ export function DepartmentDetailPage() {
   const { id } = useParams<{ id: string }>();
   const deptSeq = Number(id);
   const { data, isLoading, isError } = useDepartmentDetail(deptSeq);
-  console.log(data, "dd");
 
   const crumbs = data
     ? [
