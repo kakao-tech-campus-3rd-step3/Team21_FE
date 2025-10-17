@@ -1,5 +1,7 @@
+import type { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
+import { useCreateUnivReview } from "@/entities/univ-review";
 import { EvalCard } from "@/features/eval";
 import { StarRatingField } from "@/features/rating-field";
 import type { UniversityEvalForm } from "@/features/university-review-form/model/schema";
@@ -17,9 +19,10 @@ type Props<
     validate: { requiredStar: string };
   },
 > = {
-  univId: string | number;
+  univSeq: number;
+  univName?: string;
   text: TText;
-  onSubmitted?: (data: UniversityEvalForm & { univId: string | number }) => void;
+  onSubmitted?: (data: UniversityEvalForm & { univSeq: number }) => void;
 };
 
 export function UniversityReviewForm<
@@ -30,7 +33,7 @@ export function UniversityReviewForm<
     commentPlaceholder: string;
     validate: { requiredStar: string };
   },
->({ univId, text, onSubmitted }: Props<TText>) {
+>({ univSeq, univName, text, onSubmitted }: Props<TText>) {
   const {
     handleSubmit,
     register,
@@ -39,14 +42,29 @@ export function UniversityReviewForm<
   } = useUniversityEvalForm(text);
 
   const navigate = useNavigate();
+  const { mutateAsync, isPending } = useCreateUnivReview();
 
   const onSubmit = async (data: UniversityEvalForm) => {
-    await Promise.resolve(onSubmitted?.({ ...data, univId }));
-    if (!onSubmitted) {
-      console.log("UNIV REVIEW SUBMIT", { univId, ...data });
+    await Promise.resolve(onSubmitted?.({ ...data, univSeq }));
+
+    const body = {
+      univSeq: univSeq,
+      food: data.food,
+      dormitory: data.dorm,
+      convenience: data.conv,
+      campus: data.campus,
+      welfare: data.overall,
+      reviewText: data.comment || undefined,
+    } as const;
+
+    try {
+      await mutateAsync(body);
+      navigate(-1);
+    } catch (err) {
+      const error = err as AxiosError<{ message?: string }>;
+      const msg = error.response?.data?.message ?? "학교 평가 등록에 실패했습니다.";
+      alert(msg);
     }
-    //성공했다고 가정
-    navigate(-1);
   };
 
   const keys = ["food", "dorm", "conv", "campus", "overall"] as const;
@@ -56,7 +74,7 @@ export function UniversityReviewForm<
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <h1 className="text-2xl font-bold">
-        {text.title} · {univId}
+        {text.title} · {univName ?? univSeq}
       </h1>
 
       {keys.map((k, idx) => (
@@ -79,7 +97,7 @@ export function UniversityReviewForm<
 
       <Button
         type="submit"
-        disabled={!isValid || isSubmitting}
+        disabled={!isValid || isSubmitting || isPending}
         className="w-full rounded-lg py-3 text-sm font-semibold text-white
                    bg-indigo-500 hover:bg-indigo-500/90
                    shadow-[0_6px_18px_rgba(79,70,229,0.45)]
