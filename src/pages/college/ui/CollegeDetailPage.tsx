@@ -1,53 +1,74 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import { useCollegeDetail } from "@/entities/college/hooks/useCollegeDetail";
 import { CollegeContactCard } from "@/entities/college/ui/CollegeContactCard";
-import { CollegeFeatureCard } from "@/entities/college/ui/CollegeFeatureCard";
 import { CollegeHero } from "@/entities/college/ui/CollegeHero";
 import { useDepartmentsByCollege } from "@/entities/department/hooks/useDepartmentsByCollege";
 import { DepartmentList } from "@/entities/department/ui/DepartmentList";
 import { useBreadcrumbTrail } from "@/features/nav-trail";
-
-const FEATURES = [
-  "국가연구·개발사업 다수 수행",
-  "산업체 연계 현장실습 프로그램",
-  "최신 실험실습 장비 보유",
-  "국제공학인증 프로그램 운영",
-  "창업지원센터 운영",
-];
+import { EmptyState } from "@/shared/ui/EmptyState";
+import { ErrorView } from "@/shared/ui/ErrorView";
+import { LoadingView } from "@/shared/ui/LoadingView";
 
 export function CollegeDetailPage() {
   const { id } = useParams<{ id: string }>();
   const collegeSeq = Number(id);
-  const isInvalid = !Number.isFinite(collegeSeq) || collegeSeq <= 0;
+  const invalid = !Number.isFinite(collegeSeq) || collegeSeq <= 0;
 
-  const { data: college, isLoading, isError } = useCollegeDetail(collegeSeq);
+  const queryClient = useQueryClient();
+
+  const {
+    data: college,
+    isLoading,
+    isError,
+    refetch: refetchCollege,
+  } = useCollegeDetail(collegeSeq);
+
   const {
     data: departments,
     isLoading: deptLoading,
     isError: deptError,
+    refetch: refetchDepartments,
   } = useDepartmentsByCollege(collegeSeq);
 
   const crumbs = useMemo(
-    () => [{ label: college?.universityName ?? "" }, { label: college?.name ?? "" }],
+    () => [{ label: college?.universityName ?? "대학교" }, { label: college?.name ?? "단과대학" }],
     [college?.universityName, college?.name],
   );
   useBreadcrumbTrail(crumbs);
 
-  if (isInvalid) {
-    return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">잘못된 접근입니다.</main>;
-  }
-
-  if (isLoading) {
-    return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">불러오는 중…</main>;
-  }
-
-  if (isError || !college) {
+  if (invalid) {
     return (
-      <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">
-        단과대학 정보를 불러오지 못했습니다.
-      </main>
+      <EmptyState
+        title="잘못된 접근입니다"
+        description="요청하신 단과대학 정보를 확인할 수 없습니다."
+      />
+    );
+  }
+
+  if (isLoading) return <LoadingView message="단과대학 정보를 불러오는 중…" />;
+
+  if (isError) {
+    return (
+      <ErrorView
+        title="단과대학 정보를 불러오지 못했어요"
+        description="네트워크 상태를 확인하신 뒤 다시 시도해 주세요."
+        onRetry={() => {
+          queryClient.resetQueries({ queryKey: ["college", "detail", collegeSeq] });
+          refetchCollege();
+        }}
+      />
+    );
+  }
+
+  if (!college) {
+    return (
+      <EmptyState
+        title="표시할 단과대학 정보가 없습니다"
+        description="관련 데이터가 아직 등록되지 않았을 수 있습니다."
+      />
     );
   }
 
@@ -67,9 +88,19 @@ export function CollegeDetailPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          {deptLoading && <div className="text-sm text-zinc-300">학과 정보를 불러오는 중…</div>}
+          {deptLoading && <LoadingView message="학과 정보를 불러오는 중…" />}
+
           {deptError && (
-            <div className="text-sm text-red-400">학과 정보를 불러오지 못했습니다.</div>
+            <ErrorView
+              title="학과 정보를 불러오지 못했어요"
+              description="잠시 후 다시 시도해 주세요."
+              onRetry={() => {
+                queryClient.resetQueries({
+                  queryKey: ["department", "list", "byCollege", collegeSeq],
+                });
+                refetchDepartments();
+              }}
+            />
           )}
 
           {!deptLoading && !deptError && hasDept && (
@@ -77,12 +108,12 @@ export function CollegeDetailPage() {
           )}
 
           {!deptLoading && !deptError && !hasDept && (
-            <div className="text-sm text-zinc-400">등록된 학과 정보가 없습니다.</div>
+            <EmptyState title="등록된 학과 정보가 없습니다" />
           )}
         </div>
 
         <div className="space-y-6">
-          <CollegeFeatureCard title="주요 특징" features={FEATURES} />
+          {/* 키워드/특징 카드는 나중에.. */}
           <CollegeContactCard tel={college.tel ?? ""} email="" address="" />
         </div>
       </div>
