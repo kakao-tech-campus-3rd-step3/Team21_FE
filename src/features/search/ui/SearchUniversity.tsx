@@ -18,7 +18,7 @@ type Props = {
 
 export function SearchUniversity({ query, setQuery, onSubmit }: Props) {
   return (
-    <GlassCard>
+    <GlassCard shine={false}>
       <GlassCardHeader>
         <GlassCardTitle>{UNIVERSITY_SEARCH_TEXTS.pageTitle}</GlassCardTitle>
         <GlassCardDescription>{UNIVERSITY_SEARCH_TEXTS.pageSubtitle}</GlassCardDescription>

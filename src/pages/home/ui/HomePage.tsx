@@ -22,6 +22,7 @@ export function HomePage() {
           <SearchBox
             onSelectUniv={(u) => navigate(ROUTES.UNIVERSITY_DETAIL().replace(":id", String(u.id)))}
             onSelectProf={(p) => navigate(ROUTES.PROFESSOR_DETAIL().replace(":id", String(p.id)))}
+            onSelectDept={(d) => navigate(ROUTES.DEPARTMENT_DETAIL().replace(":id", String(d.id)))}
           />
         </div>
         <HomeFeatureCards />
