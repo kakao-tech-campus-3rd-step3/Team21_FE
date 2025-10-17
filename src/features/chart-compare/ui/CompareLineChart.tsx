@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import {
   CartesianGrid,
   Line,
@@ -8,8 +9,8 @@ import {
   YAxis,
 } from "recharts";
 
-import { chartData } from "@/__MOCK__/mockData";
-import type { Professor } from "@/entities/professor/model/professors";
+import { buildSemesterLineChartData } from "@/entities/professor/model/prof-compare.map";
+import type { Professor } from "@/entities/professor/model/professors.domain";
 import { COMPARE_LINE_CHART_TEXTS } from "@/features/chart-compare/ui/text";
 import { ChartContainer } from "@/shared/ui/chart";
 import {
@@ -26,8 +27,14 @@ type CompareLineChartProps = {
 };
 
 export const CompareLineChart = ({ professors }: CompareLineChartProps) => {
+  console.log(
+    "semesters",
+    professors.map((p) => ({ name: p.name, len: p.semesters?.length })),
+  );
+
   const colors = ["#3b82f6", "#ef4444", "#22c55e"];
 
+  const data = useMemo(() => buildSemesterLineChartData(professors), [professors]);
   return (
     <GlassCard shine={false}>
       <GlassCardHeader>
@@ -43,14 +50,14 @@ export const CompareLineChart = ({ professors }: CompareLineChartProps) => {
         <ChartContainer config={{}} className="h-full rounded-lg bg-black p-4">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
-              data={chartData}
+              data={data}
               margin={{ left: 12, right: 12 }}
               aria-hidden="true"
               role="presentation"
               tabIndex={-1}
             >
               <XAxis
-                dataKey="year"
+                dataKey="semester"
                 allowDecimals={false}
                 scale="point"
                 tickLine={false}
@@ -60,12 +67,13 @@ export const CompareLineChart = ({ professors }: CompareLineChartProps) => {
                 padding={{ left: 20, right: 20 }}
               />
               <YAxis
-                tickCount={6}
-                tickFormatter={(_, index) => String(index)}
+                domain={[0, 5]}
+                ticks={[0, 1, 2, 3, 4, 5]}
                 tick={{ fill: "#ffffff", fontSize: 12 }}
                 axisLine={false}
                 tickLine={false}
               />
+
               {/* 대비 강화 */}
               <CartesianGrid stroke="#525252" strokeDasharray="0" vertical={false} />
 
