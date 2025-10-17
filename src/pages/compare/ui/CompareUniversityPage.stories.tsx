@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useMemo, useState } from "react";
 
-import type { University } from "@/entities/university/model/university";
+import type { University } from "@/entities/university/model/university-compare.domain";
 import { CompareUnivBarChart } from "@/features/chart-compare/ui/CompareUnivBarChart";
 import { CompareUnivRaderChart } from "@/features/chart-compare/ui/CompareUnivRaderChart";
 import { UniversityCard } from "@/features/university-compare/ui/UniversityCard";
@@ -99,7 +99,7 @@ function MockedCompareUniversityPage() {
               <CompareUnivRaderChart universities={compared} />
             </div>
             <div aria-hidden="true" role="presentation" inert>
-              <CompareUnivBarChart universities={compared} />
+              <CompareUnivBarChart universities={compared} rows={[]} />
             </div>
           </>
         )}
