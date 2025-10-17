@@ -1,16 +1,33 @@
 export type DepartmentDetailResponse = {
-  univName: string;
-  collegeName: string;
   deptSeq: number;
   deptName: string;
-  homePage: string | null;
-  deptAddress: string | null;
-  deptTel: string | null;
-  deptFax: string | null;
-  deptEmail: string | null;
-  deptEstablishedYear: string | null;
-  deptIntro: string | null;
-  deptStudentNum: number | null;
-  professorCount: number | null;
-  careerFields: string[] | null;
+  homePage: string;
+  deptAddress: string;
+  deptTel: string;
+  deptFax: string;
+  deptEmail: string;
+  deptEstablishedYear: string;
+  deptIntro: string;
+  univName: string;
+  imageUrl: string;
+  collegeName: string;
+  deptStudentNum: number;
+  professorCount: number;
+
+  careerFields?: CareerFieldResponse[];
+  professors?: ProfessorResponse[];
+};
+
+export type CareerFieldResponse = {
+  careerFieldSeq: number;
+  fieldName: string;
+};
+
+export type ProfessorResponse = {
+  profSeq: number;
+  profName: string;
+  profEmail: string;
+  position: string;
+  office: string;
+  imageUrl: string;
 };

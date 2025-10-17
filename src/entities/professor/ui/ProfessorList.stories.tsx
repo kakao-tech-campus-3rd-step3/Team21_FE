@@ -25,6 +25,7 @@ const meta: Meta<typeof ProfessorList> = {
         researchAreas: ["Distributed Systems", "Edge Computing", "Databases"],
         email: "yslee@example.ac.kr",
         office: "공대 5호관 401호",
+        id: 0,
       },
       {
         name: "김민수",
@@ -33,6 +34,7 @@ const meta: Meta<typeof ProfessorList> = {
         researchAreas: ["Machine Learning", "Natural Language Processing"],
         email: "mskim@example.ac.kr",
         office: "공대 2호관 204호",
+        id: 1,
       },
     ],
   },
@@ -57,6 +59,7 @@ export const ManyItems: Story = {
   args: {
     title: "많은 교수진",
     items: Array.from({ length: 8 }).map((_, i) => ({
+      id: i,
       name: `홍길동 ${i + 1}`,
       rankLabel: "교수",
       degree: `Ph.D. in Engineering ${i + 1}`,
