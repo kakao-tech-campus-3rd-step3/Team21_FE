@@ -1,7 +1,9 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
-import { univChartData } from "@/__MOCK__/mockData";
-import type { University } from "@/entities/university/model/university";
+import type {
+  University,
+  UniversityTrendRow,
+} from "@/entities/university/model/university-compare.domain";
 import { COMPARE_UNIV_LINE_CHART_TEXTS as TEXTS } from "@/features/chart-compare/ui/text";
 import { type ChartConfig, ChartContainer } from "@/shared/ui/chart";
 import {
@@ -12,28 +14,26 @@ import {
   GlassCardTitle,
 } from "@/shared/ui/GlassCard";
 
-type Props = { universities: University[] };
+type Props = { universities: University[]; rows: UniversityTrendRow[] };
 
-export function CompareUnivBarChart({ universities }: Props) {
+export function CompareUnivBarChart({ universities, rows }: Props) {
   const hasU2 = universities.length > 1;
   const u1Name = universities[0]?.name ?? "University 1";
   const u2Name = hasU2 ? (universities[1]?.name ?? "University 2") : undefined;
 
-  const chartData = univChartData.map((d) => ({
-    year: String(d.year),
-    u1: d.u1 ?? 0,
-    u2: d.u2 ?? 0,
+  const chartData = rows.map((r) => ({
+    year: r.year,
+    u1: r.u1 ?? 0,
+    u2: r.u2 ?? 0,
   }));
 
-  const colors = ["#3b82f6", "#ef4444", "#22c55e"];
+  const colors = ["#3b82f6", "#ef4444"];
   const u1Color = colors[0];
   const u2Color = colors[1];
 
   const chartConfig: ChartConfig = hasU2
     ? { u1: { label: u1Name, color: u1Color }, u2: { label: u2Name!, color: u2Color } }
     : { u1: { label: u1Name, color: u1Color } };
-
-  const isTwo = hasU2;
 
   return (
     <GlassCard shine={false}>
@@ -57,7 +57,7 @@ export function CompareUnivBarChart({ universities }: Props) {
               accessibilityLayer
               data={chartData}
               layout="vertical"
-              stackOffset={isTwo ? "expand" : undefined}
+              stackOffset={hasU2 ? "expand" : undefined}
               margin={{ left: 12, right: 0, top: 8, bottom: 8 }}
               barCategoryGap="20%"
               barGap={4}
