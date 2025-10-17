@@ -6,6 +6,8 @@ import { Separator } from "@/shared/ui/separator";
 
 type Props = { profId: number };
 
+const PAGE_SIZE = 3; // 한 페이지에 불러올 강의평 개수
+
 function toSemesterText(sem: string) {
   if (!sem) return "";
   const [year, semester] = sem.split("-");
@@ -20,7 +22,7 @@ export function ProfessorLectureReviewList({ profId }: Props) {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useProfessorReviews(profId, { pageSize: 3 });
+  } = useProfessorReviews(profId, { pageSize: PAGE_SIZE });
 
   const rows: LectureReview[] = (reviews ?? []).map((r) => ({
     id: r.id,
