@@ -7,7 +7,7 @@ import {
   useVerifyEmailCode,
 } from "@/features/signup-form/model/emailVerification";
 import { type SignupInput, SignupSchema } from "@/features/signup-form/model/schema";
-// import { useCheckUserId } from "@/features/signup-form/model/useCheckUserId";
+import { useCheckUserId } from "@/features/signup-form/model/useCheckUserId";
 import { useSignup } from "@/features/signup-form/model/useSignup";
 import { Field } from "@/shared/ui/Field";
 
@@ -33,13 +33,13 @@ export function SignupForm({ onGoLogin }: { onGoLogin: () => void }) {
   const { mutate: signupMutate, isPending } = useSignup(onGoLogin);
   const { mutate: sendCode, isPending: sendingCode } = useSendEmailCode();
   const { mutate: verifyCode, isPending: verifying } = useVerifyEmailCode();
-  // const { mutate: checkId, isPending: checkingId } = useCheckUserId();
+  const { mutate: checkId, isPending: checkingId } = useCheckUserId();
 
   const [emailVerified, setEmailVerified] = useState(false);
-  // const [idChecked, setIdChecked] = useState(false);
+  const [idChecked, setIdChecked] = useState(false);
 
   const email = watch("email");
-  // const userId = watch("userId");
+  const userId = watch("userId");
 
   const handleSendCode = () => {
     sendCode(email, {
@@ -62,29 +62,29 @@ export function SignupForm({ onGoLogin }: { onGoLogin: () => void }) {
     );
   };
 
-  // const handleCheckId = () => {
-  //   checkId(userId, {
-  //     onSuccess: () => {
-  //       alert(AUTH_SIGNUP_TEXT.signup.duplicateCheckSuccess);
-  //       setIdChecked(true);
-  //     },
-  //     onError: (err: any) => {
-  //       const status = err?.response?.status;
-  //       if (status === 400 || status === 409) {
-  //         alert(AUTH_SIGNUP_TEXT.signup.duplicateCheckError);
-  //       } else if (status === 403) {
-  //         alert("아이디 확인 요청이 차단되었습니다. (403) 메서드/CSRF 정책을 확인해주세요.");
-  //       } else {
-  //         alert("아이디 확인 중 오류가 발생했습니다.");
-  //       }
-  //       setIdChecked(false);
-  //     },
-  //   });
-  // };
+  const handleCheckId = () => {
+    checkId(userId, {
+      onSuccess: () => {
+        alert(AUTH_SIGNUP_TEXT.signup.duplicateCheckSuccess);
+        setIdChecked(true);
+      },
+      onError: (err: unknown) => {
+        const status = (err as { response?: { status?: number } })?.response?.status;
+        if (status === 400 || status === 409) {
+          alert(AUTH_SIGNUP_TEXT.signup.duplicateCheckError);
+        } else if (status === 403) {
+          alert("아이디 확인 요청이 차단되었습니다. (403) 메서드/CSRF 정책을 확인해주세요.");
+        } else {
+          alert("아이디 확인 중 오류가 발생했습니다.");
+        }
+        setIdChecked(false);
+      },
+    });
+  };
 
   const onSubmit = (v: SignupInput) => {
     if (!emailVerified) return alert(AUTH_SIGNUP_TEXT.signup.verifyError);
-    // if (!idChecked) return alert(AUTH_SIGNUP_TEXT.signup.duplicateCheckError);
+    if (!idChecked) return alert(AUTH_SIGNUP_TEXT.signup.duplicateCheckError);
     signupMutate({ userEmail: v.email, userId: v.userId, userPwd: v.password });
   };
 
@@ -143,14 +143,14 @@ export function SignupForm({ onGoLogin }: { onGoLogin: () => void }) {
                        text-white placeholder-white/60 outline-none
                        focus:border-white/60 focus:bg-white/15 transition"
           />
-          {/* <button
+          <button
             type="button"
             onClick={handleCheckId}
             disabled={!userId || checkingId}
             className={actionBtn}
           >
             {checkingId ? "확인 중..." : AUTH_SIGNUP_TEXT.signup.duplicateCheck}
-          </button> */}
+          </button>
         </div>
       </Field>
 
