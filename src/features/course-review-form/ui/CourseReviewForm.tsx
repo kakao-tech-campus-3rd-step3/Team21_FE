@@ -1,4 +1,4 @@
-import type { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -92,9 +92,12 @@ export function CourseReviewForm({ lecSeq, lecName, text, onSubmitted }: Props) 
       await mutateAsync(body);
       navigate(-1);
     } catch (err) {
-      const error = err as AxiosError<{ message?: string }>;
-      const msg = error.response?.data?.message ?? "강의 평가 등록에 실패했습니다.";
-      alert(msg);
+      if (err instanceof AxiosError) {
+        const msg = err.response?.data?.message ?? "강의 평가 등록에 실패했습니다.";
+        alert(msg);
+      } else {
+        alert("강의 평가 등록에 실패했습니다.");
+      }
     }
   };
 
