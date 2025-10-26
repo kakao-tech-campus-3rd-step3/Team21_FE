@@ -137,3 +137,25 @@ shared   → 공통 유틸 / UI
   즉, _“지금 당장 필요하지 않은 추상화나 컴포넌트 분리는 하지 않는다.”_  
   불필요한 추상화는 복잡도만 증가시키며,  
   실제 재사용 시점이 올 때 명확한 요구사항에 맞춰 분리하는 것을 원칙으로 한다.
+
+### 3. 📖 Storybook 기반 컴포넌트 문서화
+
+![UniScope - Storybook](./public/README/storybook.png)
+
+모든UI 컴포넌트는 **Storybook**을 통해 문서화되고,  
+디자인 시스템과 상호 작용을 테스트할 수 있도록 관리됩니다.
+
+- **자동 문서화** — 코드 변경 시 Storybook Docs가 자동 갱신되어 개발자·디자이너 간 커뮤니케이션 효율 향상
+- **반응형 뷰포트 테스트** — 다양한 디바이스 해상도에서 컴포넌트 UI 검증 가능
+
+## 🔧 기술 스택
+
+| 분야                           | 기술 스택                                                    |
+| :----------------------------- | :----------------------------------------------------------- |
+| **Frontend**                   | React 19 · TypeScript · Vite · React Router · TanStack Query |
+| **UI / Design System**         | shadcn/ui · Tailwind CSS · Lucide Icons                      |
+| **Form & Validation**          | React Hook Form · Zod                                        |
+| **Chart / Data Visualization** | Recharts(shadcn)                                             |
+| **Code Quality / Test**        | ESLint · Prettier · Vitest · Playwright                      |
+| **Docs / Collaboration**       | Storybook · Chromatic · Husky · lint-staged                  |
+| **CI / CD**                    | GitHub Actions · Vercel (Preview & Production Deploy)        |
