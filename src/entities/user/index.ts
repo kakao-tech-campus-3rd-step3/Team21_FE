@@ -1,5 +1,5 @@
 export {
-  // checkUserIdApi,
+  checkUserIdApi,
   loginApi,
   sendEmailCodeApi,
   signupApi,

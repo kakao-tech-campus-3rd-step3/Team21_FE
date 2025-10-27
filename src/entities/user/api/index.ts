@@ -22,8 +22,7 @@ export async function verifyEmailCodeApi(email: string, code: string) {
   await apiClient.post<void>("/api/users/email/verify-code", { email, code });
 }
 
-// GET 메서드 생기면 추가
-// export async function checkUserIdApi(userId: string) {
-//   const res = await apiClient.get("/api/users/check-id", { params: { userId } });
-//   return res.status;
-// }
+export async function checkUserIdApi(userId: string) {
+  const res = await apiClient.get("/api/users/check-id", { params: { userId } });
+  return res.status;
+}

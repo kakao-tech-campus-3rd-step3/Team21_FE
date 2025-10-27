@@ -1,4 +1,4 @@
-import type { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { useCreateUnivReview } from "@/entities/univ-review";
@@ -61,9 +61,12 @@ export function UniversityReviewForm<
       await mutateAsync(body);
       navigate(-1);
     } catch (err) {
-      const error = err as AxiosError<{ message?: string }>;
-      const msg = error.response?.data?.message ?? "학교 평가 등록에 실패했습니다.";
-      alert(msg);
+      if (err instanceof AxiosError) {
+        const msg = err.response?.data?.message ?? "교수 평가 등록에 실패했습니다.";
+        alert(msg);
+      } else {
+        alert("교수 평가 등록에 실패했습니다.");
+      }
     }
   };
 
