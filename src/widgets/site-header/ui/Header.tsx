@@ -22,7 +22,7 @@ export default function Header({ className }: { className?: string }) {
 
         <div className="ml-auto flex items-center gap-2">
           <SearchToggle />
-          <AuthGate isAuthed={false} />
+          <AuthGate />
         </div>
       </div>
     </header>

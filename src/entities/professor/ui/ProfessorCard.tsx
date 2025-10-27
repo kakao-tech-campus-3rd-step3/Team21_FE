@@ -8,8 +8,8 @@ type Props = {
   rankLabel: string;
   degree: string;
   researchAreas: string[];
-  email: string;
-  office: string;
+  email?: string;
+  office?: string;
   className?: string;
 };
 
@@ -22,6 +22,8 @@ export function ProfessorCard({
   office,
   className,
 }: Props) {
+  const hasEmail = !!email && email.trim().length > 0;
+
   return (
     <Card
       className={cn(
@@ -33,7 +35,6 @@ export function ProfessorCard({
         <div>
           <div className="flex items-center gap-2">
             <span className="text-xl font-semibold">{name}</span>
-
             <span className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800/60 px-2 py-0.5 text-[11px] text-zinc-300">
               {rankLabel}
             </span>
@@ -45,9 +46,9 @@ export function ProfessorCard({
 
       {!!researchAreas?.length && (
         <div className="mt-3 flex flex-wrap gap-1.5">
-          {researchAreas.map((tag) => (
+          {researchAreas.map((tag, idx) => (
             <span
-              key={tag}
+              key={tag || idx}
               className="inline-flex items-center rounded-full bg-emerald-900/20 border border-emerald-400/30 px-2.5 py-1 text-[11px] font-medium text-emerald-300"
             >
               {tag}
@@ -57,15 +58,19 @@ export function ProfessorCard({
       )}
 
       <div className="mt-3 grid gap-1.5 text-xs text-zinc-300">
-        <div className="flex items-center gap-2">
-          <Mail className="h-4 w-4 text-indigo-500" />
-          <a href={`mailto:${email}`} className="hover:underline">
-            {email}
-          </a>
+        <div className="flex items-center gap-2 min-w-0">
+          <Mail className="h-4 w-4 text-indigo-500 shrink-0" />
+          {hasEmail ? (
+            <a href={`mailto:${email}`} className="hover:underline truncate">
+              {email}
+            </a>
+          ) : (
+            <span className="text-zinc-400">이메일 정보 없음</span>
+          )}
         </div>
-        <div className="flex items-center gap-2">
-          <MapPin className="h-4 w-4 text-indigo-500" />
-          <span>{office}</span>
+        <div className="flex items-center gap-2 min-w-0">
+          <MapPin className="h-4 w-4 text-indigo-500 shrink-0" />
+          <span className="truncate">{office || "연구실 정보 없음"}</span>
         </div>
       </div>
     </Card>

@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import type { Professor } from "@/entities/professor/model/professors";
+import type { Professor } from "@/entities/professor/model/professors.domain";
 
 import { CompareRaderChart } from "./CompareRaderChart";
 
 type ScoreFields = Pick<
   Professor,
-  "homework" | "lecDifficulty" | "examDifficulty" | "gradeDistribution" | "researchPerf"
+  "homework" | "lecDifficulty" | "examDifficulty" | "thesisPerf" | "researchPerf"
 >;
 
 const makeProf = (id: number, name: string, scores?: Partial<ScoreFields>) =>
@@ -41,14 +41,14 @@ const meta: Meta<typeof CompareRaderChart> = {
         homework: 4.5,
         lecDifficulty: 3.5,
         examDifficulty: 4,
-        gradeDistribution: 2.5,
+        thesisPerf: 2.5,
         researchPerf: 4,
       }),
       makeProf(2, "Professor B", {
         homework: 2.5,
         lecDifficulty: 4,
         examDifficulty: 3,
-        gradeDistribution: 4.5,
+        thesisPerf: 4.5,
         researchPerf: 3.5,
       }),
     ],
@@ -86,7 +86,7 @@ export const SingleProfessor: Story = {
         homework: 4,
         lecDifficulty: 4,
         examDifficulty: 3,
-        gradeDistribution: 5,
+        thesisPerf: 5,
         researchPerf: 4,
       }),
     ],
@@ -106,14 +106,14 @@ export const LongNames: Story = {
         homework: 5,
         lecDifficulty: 4,
         examDifficulty: 3,
-        gradeDistribution: 2,
+        thesisPerf: 2,
         researchPerf: 5,
       }),
       makeProf(2, "고성능컴퓨팅-분산시스템-박분산교수(초장문테스트)", {
         homework: 2,
         lecDifficulty: 3,
         examDifficulty: 4,
-        gradeDistribution: 5,
+        thesisPerf: 5,
         researchPerf: 3,
       }),
     ],
@@ -128,14 +128,14 @@ export const EdgeValues: Story = {
         homework: 5,
         lecDifficulty: 5,
         examDifficulty: 5,
-        gradeDistribution: 5,
+        thesisPerf: 5,
         researchPerf: 5,
       }),
       makeProf(2, "All Min (0)", {
         homework: 0,
         lecDifficulty: 0,
         examDifficulty: 0,
-        gradeDistribution: 0,
+        thesisPerf: 0,
         researchPerf: 0,
       }),
     ],

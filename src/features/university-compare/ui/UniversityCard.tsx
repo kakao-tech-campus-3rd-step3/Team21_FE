@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 
-import type { University } from "@/entities/university/model/university";
+import type { University } from "@/entities/university/model/university-compare.domain";
 import { Button } from "@/shared/ui/button";
 import {
   GlassCard,

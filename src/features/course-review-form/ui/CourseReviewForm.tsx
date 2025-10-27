@@ -1,6 +1,8 @@
+import type { AxiosError } from "axios";
 import { Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
+import { useCreateLectureReview } from "@/entities/lecture-review";
 import type { CourseEvalForm } from "@/features/course-review-form/model/schema";
 import { useCourseEvalForm } from "@/features/course-review-form/model/useCourseEvalForm";
 import { EvalCard } from "@/features/eval";
@@ -45,12 +47,21 @@ type CourseEvalTextShape = {
 };
 
 type Props = {
-  lecSeq: string | number;
+  lecSeq: number;
+  lecName?: string;
   text: CourseEvalTextShape;
-  onSubmitted?: (data: CourseEvalForm & { lecSeq: string | number; semesterKey: string }) => void;
+  onSubmitted?: (data: CourseEvalForm & { lecSeq: number; semesterKey: string }) => void;
 };
 
-export function CourseReviewForm({ lecSeq, text, onSubmitted }: Props) {
+const HOMEWORK_MAP: Record<string, number> = {
+  "very-few": 1,
+  few: 2,
+  normal: 3,
+  many: 4,
+  "very-many": 5,
+};
+
+export function CourseReviewForm({ lecSeq, lecName, text, onSubmitted }: Props) {
   const {
     register,
     handleSubmit,
@@ -59,21 +70,38 @@ export function CourseReviewForm({ lecSeq, text, onSubmitted }: Props) {
   } = useCourseEvalForm(text);
 
   const navigate = useNavigate();
+  const { mutateAsync, isPending } = useCreateLectureReview();
 
   const onSubmit = async (data: CourseEvalForm) => {
     const semesterKey = `${data.year}-${data.term}`; // 예: 2025-1
     await Promise.resolve(onSubmitted?.({ ...data, lecSeq, semesterKey }));
-    if (!onSubmitted) {
-      console.log("COURSE REVIEW SUBMIT", { lecSeq, semesterKey, ...data });
+
+    const body = {
+      lecSeq,
+      year: data.year,
+      semester: data.term,
+      lecDifficulty: data.lectureSkill,
+      gradeDistribution: data.gradeKindness,
+      examDifficulty: data.examDifficulty,
+      homework: HOMEWORK_MAP[data.taskAmount],
+      groupProjReq: data.teamProject === "yes" ? "Y" : "N",
+      overallReview: data.comment || undefined,
+    } as const;
+
+    try {
+      await mutateAsync(body);
+      navigate(-1);
+    } catch (err) {
+      const error = err as AxiosError<{ message?: string }>;
+      const msg = error.response?.data?.message ?? "강의 평가 등록에 실패했습니다.";
+      alert(msg);
     }
-    //성공했다고 가정
-    navigate(-1);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <h1 className="text-2xl font-bold">
-        {text.title} · {lecSeq}
+        {text.title} · {lecName ?? lecSeq}
       </h1>
 
       <EvalCard title={text.semesterLabel}>
@@ -182,7 +210,7 @@ export function CourseReviewForm({ lecSeq, text, onSubmitted }: Props) {
 
       <Button
         type="submit"
-        disabled={!isValid || isSubmitting}
+        disabled={!isValid || isSubmitting || isPending}
         className="w-full rounded-lg py-3 text-sm font-semibold text-white
                    bg-indigo-500 hover:bg-indigo-500/90
                    shadow-[0_6px_18px_rgba(79,70,229,0.45)]

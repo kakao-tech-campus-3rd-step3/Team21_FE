@@ -8,7 +8,7 @@ import {
   Tooltip,
 } from "recharts";
 
-import type { University } from "@/entities/university/model/university";
+import type { University } from "@/entities/university/model/university-compare.domain";
 import { COMPARE_UNIV_RADER_CHART_TEXTS } from "@/features/chart-compare/ui/text";
 import { ChartContainer } from "@/shared/ui/chart";
 import {

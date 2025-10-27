@@ -1,3 +1,4 @@
+/*
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import type { University } from "@/entities/university/model/university";
@@ -98,3 +99,18 @@ export const MissingInfo: Story = {
     }),
   },
 };
+*/
+//임시시
+import type { Meta, StoryObj } from "@storybook/react-vite";
+
+const meta: Meta = {
+  title: "Disabled/UniversityCard",
+  parameters: {
+    layout: "centered",
+    docs: { description: { component: "이 스토리는 임시 비활성화 상태입니다." } },
+  },
+};
+export default meta;
+
+type Story = StoryObj<Record<string, unknown>>;
+export const Disabled: Story = {};

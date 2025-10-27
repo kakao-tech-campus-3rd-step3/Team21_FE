@@ -5,7 +5,7 @@ export const COMPARE_RADER_CHART_TEXTS = {
     homework: "과제",
     lecDifficulty: "강의 난이도",
     examDifficulty: "시험 난이도",
-    gradeDistribution: "성적 분포",
+    thesisPerf: "성적 분포",
     researchPerf: "연구 실적",
   },
 };

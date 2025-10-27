@@ -1,3 +1,8 @@
+import { useEffect, useState } from "react";
+
+import { fetchUniversityRatingTrends } from "@/entities/university/api";
+import { mapTrendsToRows } from "@/entities/university/model/univ-compare.map";
+import type { UniversityTrendRow } from "@/entities/university/model/university-compare.domain";
 import { CompareUnivBarChart } from "@/features/chart-compare/ui/CompareUnivBarChart";
 import { CompareUnivRaderChart } from "@/features/chart-compare/ui/CompareUnivRaderChart";
 import { useUniversityComparison } from "@/features/university-compare/hooks/useUniversityComparison";
@@ -16,6 +21,26 @@ export const CompareUniversityPage = () => {
     handlePick,
     handleRemoveUniversity,
   } = useUniversityComparison();
+  const [trendRows, setTrendRows] = useState<UniversityTrendRow[]>([]);
+  const u1Seq = comparedUniversities[0]?.id;
+  const u2Seq = comparedUniversities[1]?.id;
+  useEffect(() => {
+    const load = async () => {
+      if (!u1Seq) {
+        setTrendRows([]);
+        return;
+      }
+      try {
+        const seqs = u2Seq ? [u1Seq, u2Seq] : [u1Seq];
+        const api = await fetchUniversityRatingTrends(seqs);
+        const rows = mapTrendsToRows(api, u1Seq, u2Seq);
+        setTrendRows(rows);
+      } catch {
+        setTrendRows([]);
+      }
+    };
+    load();
+  }, [u1Seq, u2Seq]);
 
   return (
     <div className="mx-auto max-w-4xl p-4 sm:p-8">
@@ -57,7 +82,7 @@ export const CompareUniversityPage = () => {
             <CompareUnivRaderChart universities={comparedUniversities} />
 
             {/* 직선 비교 차트 */}
-            <CompareUnivBarChart universities={comparedUniversities} />
+            <CompareUnivBarChart universities={comparedUniversities} rows={trendRows} />
           </>
         )}
       </div>

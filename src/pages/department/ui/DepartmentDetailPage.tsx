@@ -1,81 +1,93 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
-import cnulogo from "@/assets/cnulogo.svg";
 import { useDepartmentDetail } from "@/entities/department/hooks/useDepartmentDetail";
 import { DepartmentContactCard } from "@/entities/department/ui/DepartmentContactCard";
 import { DepartmentHero } from "@/entities/department/ui/DepartmentHero";
 import { DepartmentJobsCard } from "@/entities/department/ui/DepartmentJobsCard";
 import { ProfessorList } from "@/entities/professor/ui/ProfessorList";
 import { useBreadcrumbTrail } from "@/features/nav-trail";
-
-const professors = [
-  {
-    name: "김태헌",
-    rankLabel: "교수",
-    degree: "KAIST 전산학 박사",
-    researchAreas: ["인공지능", "머신러닝", "컴퓨터비전"],
-    email: "thkim@cnu.ac.kr",
-    office: "공대2호관 301호",
-  },
-  {
-    name: "이수민",
-    rankLabel: "교수",
-    degree: "Stanford University 컴퓨터과학 박사",
-    researchAreas: ["데이터마이닝", "빅데이터", "분산시스템"],
-    email: "smlee@cnu.ac.kr",
-    office: "공대2호관 302호",
-  },
-  {
-    name: "박지원",
-    rankLabel: "교수",
-    degree: "MIT 전산학 박사",
-    researchAreas: ["소프트웨어공학", "프로그래밍언어", "형식검증"],
-    email: "jwpark@cnu.ac.kr",
-    office: "공대2호관 303호",
-  },
-  {
-    name: "최민호",
-    rankLabel: "조교수",
-    degree: "UC Berkeley 컴퓨터과학 박사",
-    researchAreas: ["네트워크", "시스템", "클라우드컴퓨팅"],
-    email: "minho@cnu.ac.kr",
-    office: "공대2호관 304호",
-  },
-];
+import { EmptyState } from "@/shared/ui/EmptyState";
+import { ErrorView } from "@/shared/ui/ErrorView";
+import { LoadingView } from "@/shared/ui/LoadingView";
 
 export function DepartmentDetailPage() {
   const { id } = useParams<{ id: string }>();
   const deptSeq = Number(id);
-  const isInvalid = !Number.isFinite(deptSeq) || deptSeq <= 0;
+  const invalid = !Number.isFinite(deptSeq) || deptSeq <= 0;
 
-  const { data, isLoading, isError } = useDepartmentDetail(deptSeq);
+  const queryClient = useQueryClient();
 
-  const crumbs = useMemo(
-    () => [
-      { label: data?.universityName ?? "" },
-      { label: data?.collegeName ?? "" },
-      { label: data?.departmentName ?? "" },
-    ],
-    [data?.universityName, data?.collegeName, data?.departmentName],
-  );
+  const { data, isLoading, isError, refetch } = useDepartmentDetail(deptSeq);
+
+  const crumbs = useMemo(() => {
+    if (!data) return [{ label: "학과" }];
+    return [
+      { label: data.universityName || "대학교" },
+      { label: data.collegeName || "단과대학" },
+      { label: data.departmentName || "학과" },
+    ];
+  }, [data]);
+
   useBreadcrumbTrail(crumbs);
 
-  if (isInvalid) {
-    return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">잘못된 접근입니다.</main>;
-  }
-
-  if (isLoading) {
-    return <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">불러오는 중…</main>;
-  }
-
-  if (isError || !data) {
+  if (invalid) {
     return (
-      <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6">
-        학과 정보를 불러오지 못했습니다.
-      </main>
+      <EmptyState
+        title="잘못된 접근입니다"
+        description="요청하신 학과 정보를 확인할 수 없습니다."
+      />
     );
   }
+
+  if (isLoading) return <LoadingView message="학과 정보를 불러오는 중…" />;
+
+  if (isError) {
+    return (
+      <ErrorView
+        title="학과 정보를 불러오지 못했어요"
+        description="네트워크 상태를 확인하신 뒤 다시 시도해 주세요."
+        onRetry={() => {
+          queryClient.resetQueries({ queryKey: ["department", "detail", deptSeq] });
+          refetch();
+        }}
+      />
+    );
+  }
+
+  if (!data) {
+    return (
+      <EmptyState
+        title="표시할 학과 정보가 없습니다"
+        description="관련 데이터가 아직 등록되지 않았을 수 있습니다."
+      />
+    );
+  }
+
+  const professorCount = Number.isFinite(data.professors)
+    ? (data.professors as number)
+    : (data.professorList?.length ?? 0);
+
+  const professorItems =
+    data.professorList?.map((p) => ({
+      id: p.seq,
+      name: p.name,
+      rankLabel: p.position ?? "",
+      email: p.email ?? "",
+      office: p.office ?? "",
+      imageUrl: p.imageUrl,
+      degree: "",
+      researchAreas: [],
+    })) ?? [];
+
+  const foundedYear =
+    typeof data.foundedYear === "number" && Number.isFinite(data.foundedYear)
+      ? data.foundedYear
+      : 0;
+
+  const students =
+    typeof data.students === "number" && Number.isFinite(data.students) ? data.students : 0;
 
   return (
     <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
@@ -83,19 +95,23 @@ export function DepartmentDetailPage() {
         collegeName={data.collegeName}
         departmentName={data.departmentName}
         intro={data.intro ?? ""}
-        students={data.students ?? 0}
-        professors={data.professors ?? 0}
-        foundedYear={data.foundedYear ?? 0}
-        logoUrl={cnulogo /* api 외않줌 */}
+        students={students}
+        professors={professorCount}
+        foundedYear={foundedYear}
+        logoUrl={data.logoUrl}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <ProfessorList title="교수진" items={professors} />
+          {professorItems.length > 0 ? (
+            <ProfessorList title="교수진" items={professorItems} />
+          ) : (
+            <EmptyState title="등록된 교수 정보가 없습니다" />
+          )}
         </div>
 
         <div className="space-y-6">
-          <DepartmentJobsCard title="진로/취업 분야" tags={data.careerFields ?? []} />
+          <DepartmentJobsCard title="학과/학부 키워드" tags={data.careerFields ?? []} />
           <DepartmentContactCard
             tel={data.tel ?? ""}
             email={data.email ?? ""}

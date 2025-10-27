@@ -1,3 +1,12 @@
+export type ProfessorSummary = {
+  seq: number;
+  name: string;
+  email?: string;
+  position?: string;
+  office?: string;
+  imageUrl?: string;
+};
+
 export type DepartmentDetail = {
   id: number;
   departmentName: string;
@@ -15,4 +24,6 @@ export type DepartmentDetail = {
 
   careerFields: string[];
   logoUrl?: string;
+
+  professorList: ProfessorSummary[];
 };

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { chartData } from "@/__MOCK__/mockData";
-import type { Professor } from "@/entities/professor/model/professors";
+import type { Professor } from "@/entities/professor/model/professors.domain";
 
 import { CompareLineChart } from "./CompareLineChart";
 
