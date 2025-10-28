@@ -10,24 +10,20 @@ import {
 } from "recharts";
 import type { ValueType } from "recharts/types/component/DefaultTooltipContent";
 
-import { profEvalAvg, profEvals } from "@/__MOCK__/mockData";
 import { PROFESSOR_EVAL_AXES, type ProfessorEvalRow } from "@/entities/professor/model/eval.vm";
 import { PROFESSOR_EVAL_TEXT } from "@/entities/professor/text";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
-type Props = { profId: number };
+type Props = {
+  ratingBreakdown?: Record<string, number>;
+  departmentAverage?: Record<string, number>;
+};
 
-export function ProfessorEvalCard({ profId }: Props) {
-  // TODO: api hook
-  const src: Record<string, number> | undefined =
-    profEvals.profId === profId ? profEvals : undefined;
-
-  const avgSrc: Record<string, number> = profEvalAvg;
-
+export function ProfessorEvalCard({ ratingBreakdown, departmentAverage }: Props) {
   const data: ProfessorEvalRow[] = PROFESSOR_EVAL_AXES.map(({ key, label }) => ({
     axis: label,
-    value: Number(src?.[key] ?? 0),
-    avg: Number(avgSrc?.[key] ?? 0),
+    value: Number(ratingBreakdown?.[key] ?? 0) * 2,
+    avg: Number(departmentAverage?.[key] ?? 0) * 2,
   }));
 
   return (

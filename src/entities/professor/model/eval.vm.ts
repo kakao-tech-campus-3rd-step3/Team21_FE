@@ -1,16 +1,16 @@
 export type ProfessorEvalMetricKey =
-  | "lecture"
-  | "studentAvg"
-  | "labPerf"
+  | "thesisPerformance"
+  | "researchPerformance"
   | "homework"
-  | "paperWork";
+  | "lectureDifficulty"
+  | "examDifficulty";
 
 export const PROFESSOR_EVAL_AXES = [
-  { key: "lecture", label: "강의 평점" },
-  { key: "studentAvg", label: "학생 평균 성적" },
-  { key: "labPerf", label: "연구실 실적" },
+  { key: "thesisPerformance", label: "논문 실적" },
+  { key: "researchPerformance", label: "연구 실적" },
   { key: "homework", label: "과제량" },
-  { key: "paperWork", label: "논문 실적" },
+  { key: "lectureDifficulty", label: "강의 난이도" },
+  { key: "examDifficulty", label: "시험 난이도" },
 ] as const;
 
 export type ProfessorEvalRow = {
