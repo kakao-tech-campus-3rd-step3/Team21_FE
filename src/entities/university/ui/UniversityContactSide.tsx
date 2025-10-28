@@ -1,5 +1,10 @@
-import type { UniversitySideContact } from "@/entities/university/model/university-contact.vm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+
+type UniversitySideContact = {
+  tel?: string;
+  web?: string;
+  email?: string;
+};
 
 export function UniversityContactSide({ data }: { data: UniversitySideContact }) {
   const rows = [

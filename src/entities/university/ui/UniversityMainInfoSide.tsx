@@ -1,5 +1,11 @@
-import type { UniversityMainInfo } from "@/entities/university/model/university-maininfo.vm";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+
+type UniversityMainInfo = {
+  campuses: number;
+  colleges: number;
+  departments: number;
+  students: number;
+};
 
 export function UniversityMainInfoSide({ data }: { data: UniversityMainInfo }) {
   const items = [
