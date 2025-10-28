@@ -8,6 +8,7 @@ import { DepartmentHero } from "@/entities/department/ui/DepartmentHero";
 import { DepartmentJobsCard } from "@/entities/department/ui/DepartmentJobsCard";
 import { ProfessorList } from "@/entities/professor/ui/ProfessorList";
 import { useBreadcrumbTrail } from "@/features/nav-trail";
+import { usePageTitle } from "@/shared/hooks/usePageTitle";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { ErrorView } from "@/shared/ui/ErrorView";
 import { LoadingView } from "@/shared/ui/LoadingView";
@@ -20,6 +21,8 @@ export function DepartmentDetailPage() {
   const queryClient = useQueryClient();
 
   const { data, isLoading, isError, refetch } = useDepartmentDetail(deptSeq);
+
+  usePageTitle(data?.departmentName ?? "학과");
 
   const crumbs = useMemo(() => {
     if (!data) return [{ label: "학과" }];

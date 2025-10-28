@@ -9,6 +9,7 @@ import { ProfessorHero } from "@/entities/professor/ui/ProfessorHero";
 import { ProfessorLectureReviewList } from "@/entities/professor/ui/ProfessorLectureReviewList";
 import { ProfessorResearchCard } from "@/entities/professor/ui/ProfessorResearchCard";
 import { useBreadcrumbTrail } from "@/features/nav-trail";
+import { usePageTitle } from "@/shared/hooks/usePageTitle";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { ErrorView } from "@/shared/ui/ErrorView";
 import { LoadingView } from "@/shared/ui/LoadingView";
@@ -29,6 +30,8 @@ export function ProfessorDetailPage() {
   const queryClient = useQueryClient();
 
   const { data, isLoading, isError, refetch } = useProfessorDetail(profSeq);
+
+  usePageTitle(data?.name ? `${data.name} 교수` : "교수 상세");
 
   const crumbs = useMemo(
     () => [

@@ -8,6 +8,7 @@ import { CollegeHero } from "@/entities/college/ui/CollegeHero";
 import { useDepartmentsByCollege } from "@/entities/department/hooks/useDepartmentsByCollege";
 import { DepartmentList } from "@/entities/department/ui/DepartmentList";
 import { useBreadcrumbTrail } from "@/features/nav-trail";
+import { usePageTitle } from "@/shared/hooks/usePageTitle";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { ErrorView } from "@/shared/ui/ErrorView";
 import { LoadingView } from "@/shared/ui/LoadingView";
@@ -32,6 +33,8 @@ export function CollegeDetailPage() {
     isError: deptError,
     refetch: refetchDepartments,
   } = useDepartmentsByCollege(collegeSeq);
+
+  usePageTitle(college?.name ?? "단과대학");
 
   const crumbs = useMemo(
     () => [{ label: college?.universityName ?? "대학교" }, { label: college?.name ?? "단과대학" }],

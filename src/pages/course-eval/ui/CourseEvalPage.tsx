@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useProfessorDetail } from "@/entities/professor/hooks/useProfessorDetail";
 import { CourseReviewForm } from "@/features/course-review-form";
 import { COURSE_EVAL_TEXT } from "@/pages/course-eval/text";
+import { usePageTitle } from "@/shared/hooks/usePageTitle";
 
 export function CourseEvalPage() {
   const { lecSeq, profSeq } = useParams<{ lecSeq: string; profSeq: string }>();
@@ -12,6 +13,7 @@ export function CourseEvalPage() {
   const { data: prof } = useProfessorDetail(profId);
 
   const lectureName = prof?.lectures.find((lec) => lec.id === seq)?.name;
+  usePageTitle(lectureName ? `${lectureName} 평가` : "강의 평가");
 
   return (
     <main className="max-w-2xl mx-auto p-4 md:p-6 space-y-6">
