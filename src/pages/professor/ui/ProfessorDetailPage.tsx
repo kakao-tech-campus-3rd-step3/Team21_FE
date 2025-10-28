@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import { useProfessorDetail } from "@/entities/professor/hooks/useProfessorDetail";
-import type { ProfessorHeroData } from "@/entities/professor/model/professor-hero.vm";
+import type { ProfessorHeroData } from "@/entities/professor/model/types";
 import { ProfessorEvalCard } from "@/entities/professor/ui/ProfessorEvalRadar";
 import { ProfessorHero } from "@/entities/professor/ui/ProfessorHero";
 import { ProfessorLectureReviewList } from "@/entities/professor/ui/ProfessorLectureReviewList";

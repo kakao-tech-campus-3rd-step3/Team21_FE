@@ -10,13 +10,24 @@ import {
   UniversityReviewList,
 } from "@/entities/university";
 import { useUniversityDetail } from "@/entities/university/hooks/useUniversityDetail";
-import type { UniversityHeroData } from "@/entities/university/model/hero.vm";
-import type { UniversitySideContact } from "@/entities/university/model/university-contact.vm";
-import type { UniversityMainInfo } from "@/entities/university/model/university-maininfo.vm";
+import type { UniversityHeroData } from "@/entities/university/model/types";
 import { useBreadcrumbTrail } from "@/features/nav-trail";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { ErrorView } from "@/shared/ui/ErrorView";
 import { LoadingView } from "@/shared/ui/LoadingView";
+
+type UniversityMainInfo = {
+  campuses: number;
+  colleges: number;
+  departments: number;
+  students: number;
+};
+
+type UniversitySideContact = {
+  tel?: string;
+  web?: string;
+  email?: string;
+};
 
 export function UniversityDetailPage() {
   const { id } = useParams<{ id: string }>();
