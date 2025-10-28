@@ -1,3 +1,5 @@
+import { Building2, GraduationCap, School, Users } from "lucide-react";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
 type UniversityMainInfo = {
@@ -9,29 +11,29 @@ type UniversityMainInfo = {
 
 export function UniversityMainInfoSide({ data }: { data: UniversityMainInfo }) {
   const items = [
-    { label: "캠퍼스 수", value: data.campuses },
-    { label: "단과대학 수", value: data.colleges },
-    { label: "학과 수", value: data.departments },
-    { label: "재학생", value: data.students },
+    { label: "캠퍼스 수", value: data.campuses, icon: Building2 },
+    { label: "단과대학 수", value: data.colleges, icon: School },
+    { label: "학과 수", value: data.departments, icon: GraduationCap },
+    { label: "재학생", value: data.students, icon: Users },
   ];
 
   return (
-    <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur">
-      <CardHeader>
-        <CardTitle className="text-xl">주요 정보</CardTitle>
+    <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur shadow-md">
+      <CardHeader className="pb-2">
+        <CardTitle className="text-base">주요 정보</CardTitle>
       </CardHeader>
-      <CardContent className="grid grid-cols-2 gap-4">
-        {items.map((it) => (
-          <div
-            key={it.label}
-            className="rounded-lg border border-zinc-800 px-3 py-2 bg-zinc-950/40"
-          >
-            <div className="text-xs text-muted-foreground">{it.label}</div>
-            <div className="mt-1 text-lg font-semibold">
-              {typeof it.value === "number" ? it.value.toLocaleString() : it.value}
+      <CardContent className="space-y-3 text-sm">
+        {items.map((it) => {
+          const Icon = it.icon;
+          return (
+            <div key={it.label} className="flex items-center gap-2">
+              <Icon className="h-4 w-4 text-indigo-500" />
+              <span>
+                {it.label}: {typeof it.value === "number" ? it.value.toLocaleString() : it.value}
+              </span>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </CardContent>
     </Card>
   );
