@@ -1,5 +1,5 @@
-import type { ProfessorDetail } from "./professor-detail.domain";
-import type { ProfessorDetailResponse } from "./professor-detail.response";
+import type { ProfessorDetail } from "@/entities/professor/model/professor-detail.domain";
+import type { ProfessorDetailResponse } from "@/entities/professor/model/professor-detail.response";
 
 export function mapProfessorDetailResponseToDomain(r: ProfessorDetailResponse): ProfessorDetail {
   const p = r.professor;

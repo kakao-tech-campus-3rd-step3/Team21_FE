@@ -1,6 +1,6 @@
-import type { DepartmentDetail } from "./department-detail.domain";
-import type { DepartmentDetailRequest } from "./department-detail.request";
-import type { DepartmentDetailResponse } from "./department-detail.response";
+import type { DepartmentDetail } from "@/entities/department/model/department-detail.domain";
+import type { DepartmentDetailRequest } from "@/entities/department/model/department-detail.request";
+import type { DepartmentDetailResponse } from "@/entities/department/model/department-detail.response";
 
 export function toGetDepartmentDetailRequest(deptSeq: number): DepartmentDetailRequest {
   return { deptSeq };

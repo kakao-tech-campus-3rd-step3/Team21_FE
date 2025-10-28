@@ -3,12 +3,11 @@ import { FiEdit3, FiUser } from "react-icons/fi";
 import { HiArrowsRightLeft } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
 
+import type { ProfessorHeroData } from "@/entities/professor/model/types";
 import { PROFESSOR_TEXT } from "@/pages/professor/text";
 import { Button } from "@/shared/ui/button";
 import { Card } from "@/shared/ui/card";
 import { RatingStars } from "@/shared/ui/RatingStars";
-
-import type { ProfessorHeroData } from "../model/types";
 
 type Props = { data: ProfessorHeroData };
 
