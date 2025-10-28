@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import type { ProfessorHeroData } from "../model/professor-hero.vm";
+import type { ProfessorHeroData } from "../model/types";
 import { ProfessorHero } from "./ProfessorHero";
 
 const meta: Meta<typeof ProfessorHero> = {

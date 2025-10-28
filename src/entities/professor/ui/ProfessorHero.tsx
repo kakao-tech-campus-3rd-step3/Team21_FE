@@ -8,7 +8,7 @@ import { Button } from "@/shared/ui/button";
 import { Card } from "@/shared/ui/card";
 import { RatingStars } from "@/shared/ui/RatingStars";
 
-import type { ProfessorHeroData } from "../model/professor-hero.vm";
+import type { ProfessorHeroData } from "../model/types";
 
 type Props = { data: ProfessorHeroData };
 

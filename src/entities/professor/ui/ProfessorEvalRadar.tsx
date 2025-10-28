@@ -10,9 +10,22 @@ import {
 } from "recharts";
 import type { ValueType } from "recharts/types/component/DefaultTooltipContent";
 
-import { PROFESSOR_EVAL_AXES, type ProfessorEvalRow } from "@/entities/professor/model/eval.vm";
 import { PROFESSOR_EVAL_TEXT } from "@/entities/professor/text";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+
+const PROFESSOR_EVAL_AXES = [
+  { key: "thesisPerformance", label: "논문 실적" },
+  { key: "researchPerformance", label: "연구 실적" },
+  { key: "homework", label: "과제량" },
+  { key: "lectureDifficulty", label: "강의 난이도" },
+  { key: "examDifficulty", label: "시험 난이도" },
+] as const;
+
+type ProfessorEvalRow = {
+  axis: (typeof PROFESSOR_EVAL_AXES)[number]["label"];
+  value: number;
+  avg: number;
+};
 
 type Props = {
   ratingBreakdown?: Record<string, number>;
