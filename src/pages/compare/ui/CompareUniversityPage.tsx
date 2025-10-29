@@ -9,8 +9,10 @@ import { useUniversityComparison } from "@/features/university-compare/hooks/use
 import { UniversityCard } from "@/features/university-compare/ui/UniversityCard";
 import { SearchUniversityToCompare } from "@/features/university-search/ui/SearchUniversityToCompare";
 import { COMPARE_UNIVERSITY_TEXTS } from "@/pages/compare/text";
+import { usePageTitle } from "@/shared/hooks/usePageTitle";
 
 export const CompareUniversityPage = () => {
+  usePageTitle("대학교 비교");
   const {
     comparedUniversities,
     query,

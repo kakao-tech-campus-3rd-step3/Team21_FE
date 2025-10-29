@@ -5,8 +5,10 @@ import { getGridColClass } from "@/features/professor-compare/lib/getGridColClas
 import { ProfessorCard } from "@/features/professor-compare/ui/ProfessorCard";
 import { SearchProfessorToCompare } from "@/features/professor-search/ui/SearchProfessorToCompare";
 import { COMPARE_PROFESSOR_TEXTS } from "@/pages/compare/text";
+import { usePageTitle } from "@/shared/hooks/usePageTitle";
 
 export const CompareProfessorPage = () => {
+  usePageTitle("교수 비교");
   const {
     comparedProfessors,
     query,

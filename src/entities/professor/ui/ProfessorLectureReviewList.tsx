@@ -1,12 +1,20 @@
 import { useQueryClient } from "@tanstack/react-query";
 
 import { useProfessorReviews } from "@/entities/professor/hooks/useProfessorReviews";
-import type { LectureReview } from "@/entities/professor/model/lecture-review.vm";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/ui/card";
 import { ErrorView } from "@/shared/ui/ErrorView";
 import { LoadingView } from "@/shared/ui/LoadingView";
 import { Separator } from "@/shared/ui/separator";
+
+type LectureReview = {
+  id: number;
+  course: string;
+  semesterText: string;
+  rating?: number;
+  content: string;
+  chips: string[];
+};
 
 type Props = { profId: number };
 

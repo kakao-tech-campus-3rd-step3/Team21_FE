@@ -13,7 +13,7 @@ import { globalIgnores } from "eslint/config";
 
 export default tseslint.config(
   [
-    globalIgnores(["dist", "storybook-static"]),
+    globalIgnores(["dist", "storybook-static", "public/storybook/**"]),
     {
       files: ["**/*.{ts,tsx}"],
       extends: [

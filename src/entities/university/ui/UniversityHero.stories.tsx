@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import logo from "@/assets/cnulogo.svg";
-import type { UniversityHeroData } from "@/entities/university/model/hero.vm";
+import type { UniversityHeroData } from "@/entities/university/model/types";
 
 import { UniversityHero } from "./UniversityHero";
 

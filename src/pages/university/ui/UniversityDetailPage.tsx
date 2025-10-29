@@ -10,13 +10,25 @@ import {
   UniversityReviewList,
 } from "@/entities/university";
 import { useUniversityDetail } from "@/entities/university/hooks/useUniversityDetail";
-import type { UniversityHeroData } from "@/entities/university/model/hero.vm";
-import type { UniversitySideContact } from "@/entities/university/model/university-contact.vm";
-import type { UniversityMainInfo } from "@/entities/university/model/university-maininfo.vm";
+import type { UniversityHeroData } from "@/entities/university/model/types";
 import { useBreadcrumbTrail } from "@/features/nav-trail";
+import { usePageTitle } from "@/shared/hooks/usePageTitle";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { ErrorView } from "@/shared/ui/ErrorView";
 import { LoadingView } from "@/shared/ui/LoadingView";
+
+type UniversityMainInfo = {
+  campuses: number;
+  colleges: number;
+  departments: number;
+  students: number;
+};
+
+type UniversitySideContact = {
+  tel?: string;
+  web?: string;
+  email?: string;
+};
 
 export function UniversityDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -26,6 +38,8 @@ export function UniversityDetailPage() {
   const queryClient = useQueryClient();
 
   const { data, isLoading, isError, refetch } = useUniversityDetail(univSeq);
+
+  usePageTitle(data?.name ?? "대학교");
 
   const crumbs = useMemo(() => [{ label: data?.name ?? "대학교" }], [data?.name]);
   useBreadcrumbTrail(crumbs);

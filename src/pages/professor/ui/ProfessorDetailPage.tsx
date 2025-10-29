@@ -3,12 +3,13 @@ import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import { useProfessorDetail } from "@/entities/professor/hooks/useProfessorDetail";
-import type { ProfessorHeroData } from "@/entities/professor/model/professor-hero.vm";
+import type { ProfessorHeroData } from "@/entities/professor/model/types";
 import { ProfessorEvalCard } from "@/entities/professor/ui/ProfessorEvalRadar";
 import { ProfessorHero } from "@/entities/professor/ui/ProfessorHero";
 import { ProfessorLectureReviewList } from "@/entities/professor/ui/ProfessorLectureReviewList";
 import { ProfessorResearchCard } from "@/entities/professor/ui/ProfessorResearchCard";
 import { useBreadcrumbTrail } from "@/features/nav-trail";
+import { usePageTitle } from "@/shared/hooks/usePageTitle";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { ErrorView } from "@/shared/ui/ErrorView";
 import { LoadingView } from "@/shared/ui/LoadingView";
@@ -29,6 +30,8 @@ export function ProfessorDetailPage() {
   const queryClient = useQueryClient();
 
   const { data, isLoading, isError, refetch } = useProfessorDetail(profSeq);
+
+  usePageTitle(data?.name ? `${data.name} 교수` : "교수 상세");
 
   const crumbs = useMemo(
     () => [
@@ -95,7 +98,10 @@ export function ProfessorDetailPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div className="lg:col-span-8">
-          <ProfessorEvalCard profId={data.id} />
+          <ProfessorEvalCard
+            ratingBreakdown={data.ratingBreakdown}
+            departmentAverage={data.departmentAverage}
+          />
         </div>
 
         <div className="lg:col-span-4">

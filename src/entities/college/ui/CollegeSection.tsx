@@ -1,6 +1,6 @@
 import { CollegeGrid } from "@/entities/college";
 import { useCollegesByUniversity } from "@/entities/college/hooks/useCollegesByUniversity";
-import type { CollegeCard } from "@/entities/college/model/college-card.vm";
+import type { CollegeCard } from "@/entities/college/model/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { ErrorView } from "@/shared/ui/ErrorView";
