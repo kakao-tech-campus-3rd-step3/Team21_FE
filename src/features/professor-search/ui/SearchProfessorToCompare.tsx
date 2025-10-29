@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 import type { ProfessorSearch } from "@/features/professor-search/model/professor-search.domain";
@@ -39,32 +39,20 @@ export function SearchProfessorToCompare({
     }
   }, [resultsOpen]);
 
-  useEffect(() => {
-    if (!resultsOpen) return;
-    const update = () => {
-      if (inputRef.current) setRect(inputRef.current.getBoundingClientRect());
-    };
-    window.addEventListener("resize", update);
-    document.addEventListener("scroll", update, true);
-    return () => {
-      window.removeEventListener("resize", update);
-      document.removeEventListener("scroll", update, true);
-    };
-  }, [resultsOpen]);
-
   const dropdown =
     resultsOpen && results.length > 0 && rect
       ? createPortal(
           <div
             style={{
-              position: "fixed",
-              left: rect.left,
-              top: rect.bottom + 8,
-              width: rect.width,
-              zIndex: 9999,
+              position: "absolute",
+              left: Math.round(rect.left + window.scrollX),
+              top: Math.round(rect.bottom + window.scrollY) + 8,
+              width: Math.round(rect.width),
+              zIndex: 2147483647,
             }}
+            onMouseDown={(e) => e.preventDefault()}
           >
-            <div className="max-h-[70vh] overflow-auto rounded-lg border border-neutral-800 bg-black text-white shadow-lg p-2 space-y-2 scroll-py-1 isolate mix-blend-normal backdrop-filter-none">
+            <div className="max-h-[70vh] overflow-auto rounded-lg border border-neutral-800 bg-black text-white shadow-lg p-2 space-y-2">
               {results.map((p) => (
                 <Button
                   key={p.id}
