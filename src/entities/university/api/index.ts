@@ -4,10 +4,9 @@ import type {
 } from "@/entities/university/model/univ-compare.response";
 import type { UnivSearchRequest } from "@/entities/university/model/univ-search.request";
 import type { UnivSearchResponse } from "@/entities/university/model/univ-search.response";
+import type { UniversityDetailResponse } from "@/entities/university/model/university-detail.response";
 import type { UniversityReviewListResponse } from "@/entities/university/model/university-review.response";
 import { apiClient } from "@/shared/api/apiClient";
-
-import type { UniversityDetailResponse } from "../model/university-detail.response";
 
 export async function fetchUniversityDetail(univSeq: number) {
   const { data } = await apiClient.get<UniversityDetailResponse>(`/api/univ/${univSeq}`);

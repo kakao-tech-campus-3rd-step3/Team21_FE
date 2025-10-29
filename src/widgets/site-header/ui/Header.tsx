@@ -2,8 +2,9 @@ import { Link } from "react-router-dom";
 
 import logo from "@/assets/uniscope-logo.png";
 import { AuthGate } from "@/features/auth-login";
-import { SearchToggle } from "@/features/search-control";
 import { cn } from "@/shared/lib/utils";
+
+import { CompareShortcuts } from "./CompareShortcuts";
 
 export default function Header({ className }: { className?: string }) {
   return (
@@ -20,9 +21,9 @@ export default function Header({ className }: { className?: string }) {
           <span className="sr-only">UniScope 홈</span>
         </Link>
 
-        <div className="ml-auto flex items-center gap-2">
-          <SearchToggle />
-          <AuthGate isAuthed={false} />
+        <div className="ml-auto flex items-center gap-3">
+          <CompareShortcuts />
+          <AuthGate />
         </div>
       </div>
     </header>

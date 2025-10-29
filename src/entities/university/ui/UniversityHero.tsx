@@ -3,7 +3,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { HiArrowsRightLeft } from "react-icons/hi2";
 import { Link, useNavigate } from "react-router-dom";
 
-import type { UniversityHeroData } from "@/entities/university/model/hero.vm";
+import type { UniversityHeroData } from "@/entities/university/model/types";
 import { UNIVERSITY_TEXT } from "@/entities/university/text";
 import { formatNumber } from "@/shared/lib/format";
 import { Button } from "@/shared/ui/button";

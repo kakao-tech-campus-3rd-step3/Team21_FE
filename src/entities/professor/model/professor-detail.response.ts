@@ -4,12 +4,15 @@ export type ProfessorDetailResponse = {
     name: string;
     university: { id: number; name: string };
     college: { id: number; name: string };
-    department: { id: number; name: string; homepage: string | null };
-    email: string | null;
-    imageUrl: string | null;
-    office: string | null;
-    position: string | null;
-    overallRating: number | null;
+    department: { id: number; name: string; homepage?: string };
+    email?: string;
+    imageUrl?: string;
+    office?: string;
+    position?: string;
+    major?: string;
+    researchField?: string;
+    degree?: string;
+    overallRating: number;
     ratingBreakdown: {
       thesisPerformance: number;
       researchPerformance: number;
@@ -24,15 +27,26 @@ export type ProfessorDetailResponse = {
       lectureDifficulty: number;
       examDifficulty: number;
     };
-    lectures: Array<{ id: number; name: string; code?: string | null; semester?: string | null }>;
+    lectures: Array<{
+      id: number;
+      name: string;
+      engLecYn?: string;
+      pnf?: string;
+      relYn?: string;
+      reviewCount: number;
+    }>;
     totalReviewCount: number;
   };
   recentLectureReviews: Array<{
     id: number;
-    lectureId: number;
-    lectureName: string;
-    rating: number;
-    comment?: string | null;
-    createdAt?: string | null;
+    courseTitle: string;
+    semester?: string;
+    homework: number;
+    lecDifficulty: number;
+    gradeDistribution: number;
+    examDifficulty: number;
+    groupProjReq: string;
+    content: string;
+    createdDate: string;
   }>;
 };

@@ -4,8 +4,10 @@ import { SearchBox } from "@/features/search-control";
 import { HOME_TEXT } from "@/pages/home/text";
 import { HomeFeatureCards } from "@/pages/home/ui/HomeFeatureCards";
 import { ROUTES } from "@/shared/config/routes";
+import { usePageTitle } from "@/shared/hooks/usePageTitle";
 
 export function HomePage() {
+  usePageTitle("홈");
   const navigate = useNavigate();
   return (
     <div className="flex flex-col items-center px-4 py-16">

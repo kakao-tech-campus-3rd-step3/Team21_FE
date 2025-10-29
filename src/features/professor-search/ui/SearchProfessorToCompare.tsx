@@ -59,8 +59,9 @@ export function SearchProfessorToCompare({
               width: pagePos.width,
               zIndex: 9999,
             }}
+            onMouseDown={(e) => e.preventDefault()}
           >
-            <div className="max-h-[70vh] overflow-auto rounded-lg border border-neutral-800 bg-black text-white shadow-lg p-2 space-y-2 scroll-py-1 isolate mix-blend-normal backdrop-filter-none">
+            <div className="max-h-[70vh] overflow-auto rounded-lg border border-neutral-800 bg-black text-white shadow-lg p-2 space-y-2">
               {results.map((p) => (
                 <Button
                   type="button"

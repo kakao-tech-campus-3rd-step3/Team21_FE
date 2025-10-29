@@ -1,41 +1,29 @@
 import { FiEdit3 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
-import { profResearch } from "@/__MOCK__/mockData";
-import type { ProfessorResearchInfo } from "@/entities/professor/model/research.vm";
 import { PROFESSOR_RESEARCH_TEXT } from "@/pages/professor/text";
+import { ROUTES } from "@/shared/config/routes";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
-type Props = { profId: number };
+type LectureItem = {
+  id: number;
+  name: string;
+  code?: string;
+  semester?: string;
+  reviewCount?: number;
+};
 
-export function ProfessorResearchCard({ profId }: Props) {
-  // TODO: api hook
-  const prof = (profResearch as ProfessorResearchInfo[]).find((p) => p.id === profId);
-  const profCourses = [
-    { id: 1, profId: 100, title: "컴퓨터네트워크", semester: "2023-1학기" },
-    { id: 2, profId: 100, title: "운영체제", semester: "2023-2학기" },
-    { id: 3, profId: 100, title: "자료구조", semester: "2023-1학기" },
-    { id: 4, profId: 100, title: "알고리즘", semester: "2023-2학기" },
-    { id: 5, profId: 100, title: "데이터베이스", semester: "2023-1학기" },
-  ];
+type Props = {
+  profId: number;
+  education?: string;
+  areas?: string[];
+  lectures: LectureItem[];
+};
 
-  if (!prof) {
-    return (
-      <Card className="relative overflow-hidden bg-zinc-900/60 border-zinc-800 backdrop-blur">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_80%_at_70%_50%,rgba(99,102,241,0.08),transparent_60%)]" />
-        <CardHeader>
-          <CardTitle className="text-base">{PROFESSOR_RESEARCH_TEXT.title}</CardTitle>
-        </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
-          해당 교수의 연구 정보가 없습니다.
-        </CardContent>
-      </Card>
-    );
-  }
-
-  const education = prof.education ?? prof.degree ?? undefined;
-  const areas = Array.isArray(prof.researchAreas) ? prof.researchAreas : [];
+export function ProfessorResearchCard({ profId, education, areas, lectures }: Props) {
+  const tags = Array.isArray(areas) ? areas : [];
+  const hasProfId = Number.isFinite(profId) && profId > 0;
 
   return (
     <Card className="relative overflow-hidden bg-zinc-900/60 border-zinc-600/80 backdrop-blur">
@@ -57,13 +45,13 @@ export function ProfessorResearchCard({ profId }: Props) {
             <div className="mb-2 text-xs text-muted-foreground">
               {PROFESSOR_RESEARCH_TEXT.mainAreas}
             </div>
-            {areas.length > 0 ? (
+            {tags.length > 0 ? (
               <div className="flex flex-wrap gap-2">
-                {areas.map((tag) => (
+                {tags.map((tag) => (
                   <span
                     key={tag}
                     className="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium
-                             bg-violet-500/15 text-violet-300 border border-violet-500/20"
+                               bg-violet-500/15 text-violet-300 border border-violet-500/20"
                   >
                     {tag}
                   </span>
@@ -76,29 +64,45 @@ export function ProfessorResearchCard({ profId }: Props) {
 
           <section>
             <div className="mb-2 text-xs text-muted-foreground">개설 강의</div>
-            {profCourses.filter((c) => c.profId === profId).length > 0 ? (
+            {lectures.length > 0 ? (
               <ul className="space-y-3">
-                {profCourses
-                  .filter((c) => c.profId === profId)
-                  .map((course) => (
-                    <li key={course.id} className="flex items-center justify-between">
-                      <div>
-                        <div className="font-medium">{course.title}</div>
-                        <div className="text-xs text-muted-foreground">{course.semester}</div>
+                {lectures.map((lec) => (
+                  <li key={lec.id} className="flex items-center justify-between">
+                    <div>
+                      <div className="font-medium">
+                        {lec.name}
+                        {typeof lec.reviewCount === "number" && (
+                          <span className="ml-2 text-xs text-muted-foreground">
+                            ({lec.reviewCount} 리뷰)
+                          </span>
+                        )}
                       </div>
-                      <Button
-                        asChild
-                        size="sm"
-                        className="bg-indigo-600 hover:bg-indigo-600/90 flex items-center gap-1.5 text-white"
-                      >
-                        {/* TODO: api 호출 */}
-                        <Link to={`/course/${100}/evaluate`}>
+                      <div className="text-xs text-muted-foreground">
+                        {lec.semester ?? "학기 정보 없음"}
+                      </div>
+                    </div>
+
+                    <Button
+                      asChild
+                      size="sm"
+                      className="bg-indigo-600 hover:bg-indigo-600/90 flex items-center gap-1.5 text-white"
+                      disabled={!hasProfId}
+                      title={hasProfId ? "강의평 작성" : "교수 정보가 없어 이동할 수 없습니다."}
+                    >
+                      {hasProfId ? (
+                        <Link to={ROUTES.COURSE_EVAL(profId, lec.id)}>
                           <FiEdit3 size={16} />
                           평가하기
                         </Link>
-                      </Button>
-                    </li>
-                  ))}
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 opacity-70">
+                          <FiEdit3 size={16} />
+                          평가하기
+                        </span>
+                      )}
+                    </Button>
+                  </li>
+                ))}
               </ul>
             ) : (
               <div className="text-sm text-muted-foreground">등록된 강의가 없습니다.</div>

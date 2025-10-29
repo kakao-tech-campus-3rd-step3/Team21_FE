@@ -1,6 +1,6 @@
-import type { UniversityDetail } from "./university-detail.domain";
-import type { UniversityDetailRequest } from "./university-detail.request";
-import type { UniversityDetailResponse } from "./university-detail.response";
+import type { UniversityDetail } from "@/entities/university/model/university-detail.domain";
+import type { UniversityDetailRequest } from "@/entities/university/model/university-detail.request";
+import type { UniversityDetailResponse } from "@/entities/university/model/university-detail.response";
 
 export function toGetDetailRequest(univSeq: number): UniversityDetailRequest {
   return { univSeq };

@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useEffect } from "react";
 
-import { CourseReviewForm } from "./CourseReviewForm";
+import { CourseReviewForm } from "@/features/course-review-form/ui/CourseReviewForm";
 
 function DisableBackNav({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -44,8 +45,6 @@ const TEXT = {
   totalComment: "강의 총평을 작성해 주세요. (선택)",
   commentPlaceholder: "강의에 대한 총평을 작성해 주세요.",
 
-  actions: { submit: "제출하기" },
-
   validate: {
     yearRequired: "연도를 입력해주세요.",
     yearInvalid: "연도는 정수여야 합니다.",
@@ -55,34 +54,49 @@ const TEXT = {
     requiredStar: "별점을 선택해주세요.",
     selectRequired: "옵션을 선택해주세요.",
   },
+} as const;
+
+const withQueryClient = (Story: React.ComponentType) => {
+  const qc = new QueryClient();
+  return (
+    <QueryClientProvider client={qc}>
+      <Story />
+    </QueryClientProvider>
+  );
 };
+
+const withDisableBackNav = (Story: React.ComponentType) => (
+  <DisableBackNav>
+    <Story />
+  </DisableBackNav>
+);
 
 const meta: Meta<typeof CourseReviewForm> = {
   title: "Features/Course-Review-Form/CourseReviewForm",
   component: CourseReviewForm,
+  decorators: [withQueryClient, withDisableBackNav],
   tags: ["autodocs"],
-  decorators: [
-    (Story) => (
-      <DisableBackNav>
-        <Story />
-      </DisableBackNav>
-    ),
-  ],
   parameters: {
     layout: "centered",
     docs: {
       description: {
-        component: "강의 리뷰를 위한 Star Rating Field, 텍스트 에리어를 포함한 폼을 표시합니다",
+        component: "강의 리뷰를 위한 Star Rating Field, 텍스트 에리어를 포함한 폼을 표시합니다.",
       },
     },
   },
+
   args: {
-    lecSeq: "CSE101-001",
+    lecSeq: 101,
+    lecName: "자료구조",
     text: TEXT,
-    onSubmitted: (data) => console.log("[CourseReviewForm] submit", data),
+    onSubmitted: (data) => {
+      console.log("[CourseReviewForm] submit", data);
+      alert("제출 성공 (mock)");
+    },
   },
   argTypes: {
-    lecSeq: { control: "text" },
+    lecSeq: { control: { type: "number" } },
+    lecName: { control: { type: "text" } },
     text: { control: false },
     onSubmitted: { control: false },
   },

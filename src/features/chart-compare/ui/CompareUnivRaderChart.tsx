@@ -26,8 +26,7 @@ type Props = {
 
 export const CompareUnivRaderChart = ({ universities }: Props) => {
   const colors = ["#3b82f6", "#ef4444", "#22c55e"];
-  const u1Color = colors[0];
-  const u2Color = colors[1];
+  const [u1Color, u2Color] = colors;
   const u1Name = universities[0]?.name ?? "University 1";
   const u2Name = universities[1]?.name ?? "University 2";
 

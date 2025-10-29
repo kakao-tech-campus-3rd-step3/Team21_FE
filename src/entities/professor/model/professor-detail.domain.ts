@@ -8,8 +8,14 @@ export type ProfessorDetail = {
   imageUrl?: string;
   office?: string;
   position?: string;
+
+  degree?: string;
+  major?: string;
+  researchField?: string;
+
   overallRating: number;
   totalReviewCount: number;
+
   ratingBreakdown: {
     thesisPerformance: number;
     researchPerformance: number;
@@ -24,13 +30,27 @@ export type ProfessorDetail = {
     lectureDifficulty: number;
     examDifficulty: number;
   };
-  lectures: Array<{ id: number; name: string; code?: string; semester?: string }>;
+
+  lectures: Array<{
+    id: number;
+    name: string;
+    code?: string;
+    semester?: string;
+    reviewCount?: number;
+  }>;
+
   recentLectureReviews: Array<{
     id: number;
-    lectureId: number;
+    lectureId?: number;
     lectureName: string;
-    rating: number;
+    rating?: number;
     comment?: string;
     createdAt?: string;
+    semester?: string;
+    homework?: number;
+    lectureDifficulty?: number;
+    gradeDistribution?: number;
+    examDifficulty?: number;
+    groupProjectRequired?: boolean;
   }>;
 };

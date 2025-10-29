@@ -1,17 +1,18 @@
 import { useMutation } from "@tanstack/react-query";
 
-import { loginApi } from "@/features/auth/api/auth";
+import { loginApi, mapLogin } from "@/entities/user";
 import { authStorage } from "@/shared/lib/authStorage";
 
 export function useLogin(onSuccessClose?: () => void) {
   return useMutation({
     mutationFn: loginApi,
-    onSuccess: (data, variables) => {
-      if (data.success) {
-        authStorage.set({ isAuthed: true, userName: variables.userId });
+    onSuccess: (res, variables) => {
+      const mapped = mapLogin(res);
+      if (mapped.ok && mapped.token) {
+        authStorage.set({ token: mapped.token, userName: variables.userId, isAuthed: true });
         onSuccessClose?.();
       } else {
-        console.warn(data.message);
+        console.warn(mapped.message);
       }
     },
     onError: (e) => console.error(e),

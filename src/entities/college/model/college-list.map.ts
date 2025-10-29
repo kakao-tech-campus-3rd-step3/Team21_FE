@@ -1,6 +1,6 @@
-import type { College } from "./college.domain";
-import type { CollegesRequest } from "./college-list.request";
-import type { CollegeListResponse } from "./college-list.response";
+import type { College } from "@/entities/college/model/college.domain";
+import type { CollegesRequest } from "@/entities/college/model/college-list.request";
+import type { CollegeListResponse } from "@/entities/college/model/college-list.response";
 
 export function toGetCollegesRequest(univSeq: number): CollegesRequest {
   return { univSeq };

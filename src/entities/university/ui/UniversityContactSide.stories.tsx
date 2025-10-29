@@ -1,8 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import type { UniversitySideContact } from "@/entities/university/model/university-contact.vm";
-
 import { UniversityContactSide } from "./UniversityContactSide";
+
+type UniversitySideContact = {
+  tel?: string;
+  web?: string;
+  email?: string;
+};
 
 const meta: Meta<typeof UniversityContactSide> = {
   title: "Entities/University/UniversityContactSide",

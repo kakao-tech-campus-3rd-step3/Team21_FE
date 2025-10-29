@@ -1,7 +1,7 @@
 import { FiChevronRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
-import type { CollegeCard } from "@/entities/college/model/college-card.vm";
+import type { CollegeCard } from "@/entities/college/model/types";
 import { Card, CardContent } from "@/shared/ui/card";
 
 type Props = { colleges: CollegeCard[] };
