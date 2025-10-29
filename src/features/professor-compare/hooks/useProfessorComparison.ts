@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { fetchCompareProfessors, searchProfessorApi } from "@/entities/professor/api";
-import { mapCompareListToDomain } from "@/entities/professor/model/prof-compare.map";
 import { mapProfSearch } from "@/entities/professor/model/prof-search.map";
 import type { Professor } from "@/entities/professor/model/professors.domain";
 type ProfessorSearch = {
