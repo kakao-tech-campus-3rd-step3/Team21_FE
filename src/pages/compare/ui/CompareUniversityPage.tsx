@@ -22,8 +22,7 @@ export const CompareUniversityPage = () => {
     handleRemoveUniversity,
   } = useUniversityComparison();
   const [trendRows, setTrendRows] = useState<UniversityTrendRow[]>([]);
-  const u1Seq = comparedUniversities[0]?.id;
-  const u2Seq = comparedUniversities[1]?.id;
+  const [u1Seq, u2Seq] = comparedUniversities.slice(0, 2).map((u) => u.id);
   useEffect(() => {
     const load = async () => {
       if (!u1Seq) {

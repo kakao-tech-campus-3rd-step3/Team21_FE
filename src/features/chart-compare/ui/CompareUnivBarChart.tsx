@@ -28,8 +28,7 @@ export function CompareUnivBarChart({ universities, rows }: Props) {
   }));
 
   const colors = ["#3b82f6", "#ef4444"];
-  const u1Color = colors[0];
-  const u2Color = colors[1];
+  const [u1Color, u2Color] = colors;
 
   const chartConfig: ChartConfig = hasU2
     ? { u1: { label: u1Name, color: u1Color }, u2: { label: u2Name!, color: u2Color } }
