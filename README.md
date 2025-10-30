@@ -148,6 +148,17 @@ shared   → 공통 유틸 / UI
 - **자동 문서화** — 코드 변경 시 Storybook Docs가 자동 갱신되어 개발자·디자이너 간 커뮤니케이션 효율 향상
 - **반응형 뷰포트 테스트** — 다양한 디바이스 해상도에서 컴포넌트 UI 검증 가능
 
+### 4. 🧪 E2E 테스트 (Playwright)
+
+**Playwright**를 활용하여 실제 사용자 플로우를 검증하는 E2E 테스트를 구축했습니다.
+
+- **API 연동 테스트** — 실제 API 호출과 응답을 검증하여 백엔드 통합 확인
+- **크로스 브라우저 테스트** — GitHub Actions matrix 전략으로 Chromium, Firefox, WebKit에서 병렬 실행
+- **리팩토링 친화적** — Semantic Selector(`getByRole`, `getByText`) 사용으로 HTML 구조 변경 테스트
+- **자동화된 CI/CD** — PR 생성 시 자동으로 E2E 테스트 실행 및 실패 시 관련 스크린샷 업로드
+
+자세한 내용은 [E2E 테스트 가이드](./e2e/README.md)를 참고.
+
 ## 🔧 기술 스택
 
 | 분야                           | 기술 스택                                                    |
@@ -156,6 +167,6 @@ shared   → 공통 유틸 / UI
 | **UI / Design System**         | shadcn/ui · Tailwind CSS · Lucide Icons                      |
 | **Form & Validation**          | React Hook Form · Zod                                        |
 | **Chart / Data Visualization** | Recharts(shadcn)                                             |
-| **Code Quality / Test**        | ESLint · Prettier · Vitest · Playwright                      |
+| **Code Quality / Test**        | ESLint · Prettier · Vitest(Unit) · Playwright(E2E)           |
 | **Docs / Collaboration**       | Storybook · Chromatic · Husky · lint-staged                  |
 | **CI / CD**                    | GitHub Actions · Vercel (Preview & Production Deploy)        |
