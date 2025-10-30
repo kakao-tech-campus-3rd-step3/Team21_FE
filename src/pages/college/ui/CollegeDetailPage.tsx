@@ -116,7 +116,7 @@ export function CollegeDetailPage() {
         </div>
 
         <div className="space-y-6">
-          {/* 키워드/특징 카드는 나중에.. */}
+          {/* TODO: 키워드/특징 카드는 나중에.. */}
           <CollegeContactCard tel={college.tel ?? ""} email="" address="" />
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { BadgeCheck, Mail, MapPin } from "lucide-react";
 
+import { isNonEmptyString } from "@/shared/lib/string-utils";
 import { cn } from "@/shared/lib/utils";
 import { Card } from "@/shared/ui/card";
 
@@ -22,7 +23,8 @@ export function ProfessorCard({
   office,
   className,
 }: Props) {
-  const hasEmail = !!email && email.trim().length > 0;
+  const hasEmail = isNonEmptyString(email);
+  const validResearchAreas = researchAreas.filter(isNonEmptyString);
 
   return (
     <Card
@@ -44,11 +46,11 @@ export function ProfessorCard({
         <BadgeCheck className="h-4 w-4 text-indigo-500" />
       </div>
 
-      {!!researchAreas?.length && (
+      {validResearchAreas.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-1.5">
-          {researchAreas.map((tag, idx) => (
+          {validResearchAreas.map((tag) => (
             <span
-              key={tag || idx}
+              key={tag}
               className="inline-flex items-center rounded-full bg-emerald-900/20 border border-emerald-400/30 px-2.5 py-1 text-[11px] font-medium text-emerald-300"
             >
               {tag}
