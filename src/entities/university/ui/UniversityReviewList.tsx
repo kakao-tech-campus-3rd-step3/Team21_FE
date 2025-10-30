@@ -3,9 +3,7 @@ import { useState } from "react";
 import { useUniversityReviews } from "@/entities/university/hooks/useUniversityReviews";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/ui/card";
-import { EmptyState } from "@/shared/ui/EmptyState";
-import { ErrorView } from "@/shared/ui/ErrorView";
-import { LoadingView } from "@/shared/ui/LoadingView";
+import { DataSection } from "@/shared/ui/DataSection";
 import { RatingStars } from "@/shared/ui/RatingStars";
 import { Separator } from "@/shared/ui/separator";
 
@@ -21,47 +19,26 @@ export function UniversityReviewList({ univSeq }: Props) {
 
   if (invalid) {
     return (
-      <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-xl">학생 평가</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <EmptyState
-            title="잘못된 접근입니다"
-            description="요청하신 대학 정보를 확인할 수 없습니다."
-          />
-        </CardContent>
-      </Card>
+      <DataSection.Empty
+        title="학생 평가"
+        emptyTitle="잘못된 접근입니다"
+        emptyDescription="요청하신 대학 정보를 확인할 수 없습니다."
+      />
     );
   }
 
   if (isLoading) {
-    return (
-      <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-xl">학생 평가</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <LoadingView message="리뷰를 불러오는 중…" />
-        </CardContent>
-      </Card>
-    );
+    return <DataSection.Loading title="학생 평가" message="리뷰를 불러오는 중…" />;
   }
 
   if (isError) {
     return (
-      <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-xl">학생 평가</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ErrorView
-            title="리뷰 정보를 불러오지 못했어요"
-            description="네트워크 상태를 확인하신 뒤 다시 시도해 주세요."
-            onRetry={refetch}
-          />
-        </CardContent>
-      </Card>
+      <DataSection.Error
+        title="학생 평가"
+        errorTitle="리뷰 정보를 불러오지 못했어요"
+        errorDescription="네트워크 상태를 확인하신 뒤 다시 시도해 주세요."
+        onRetry={refetch}
+      />
     );
   }
 
@@ -79,10 +56,10 @@ export function UniversityReviewList({ univSeq }: Props) {
         </CardHeader>
         <Separator className="bg-zinc-800/60" />
         <CardContent>
-          <EmptyState
-            title="아직 등록된 평가가 없습니다"
-            description="첫 번째 평가를 남겨보세요."
-          />
+          <div className="text-center py-8">
+            <p className="text-sm font-medium">아직 등록된 평가가 없습니다</p>
+            <p className="text-sm text-muted-foreground mt-1">첫 번째 평가를 남겨보세요.</p>
+          </div>
         </CardContent>
       </Card>
     );
