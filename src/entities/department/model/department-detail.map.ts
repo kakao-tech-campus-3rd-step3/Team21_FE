@@ -1,7 +1,7 @@
 import type { DepartmentDetail } from "@/entities/department/model/department-detail.domain";
 import type { DepartmentDetailRequest } from "@/entities/department/model/department-detail.request";
 import type { DepartmentDetailResponse } from "@/entities/department/model/department-detail.response";
-import { toNumberOrUndef, toUndefIfEmpty } from "@/shared/lib/string-utils";
+import { isNonEmptyString, toNumberOrUndef, toUndefIfEmpty } from "@/shared/lib/string-utils";
 
 export function toGetDepartmentDetailRequest(deptSeq: number): DepartmentDetailRequest {
   return { deptSeq };
@@ -9,9 +9,7 @@ export function toGetDepartmentDetailRequest(deptSeq: number): DepartmentDetailR
 
 export function mapDepartmentDetailResponseToDomain(r: DepartmentDetailResponse): DepartmentDetail {
   const careerFields =
-    r.careerFields
-      ?.map((c) => c.fieldName?.trim())
-      .filter((v): v is string => !!v && v.length > 0) ?? [];
+    r.careerFields?.map((c) => c.fieldName?.trim()).filter(isNonEmptyString) ?? [];
 
   const professorList =
     r.professors?.map((p) => ({

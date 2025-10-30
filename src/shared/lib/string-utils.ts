@@ -9,3 +9,7 @@ export function toUndefIfEmpty(s: string | undefined): string | undefined {
   const t = s.trim();
   return t.length ? t : undefined;
 }
+
+export function isNonEmptyString(s: string | undefined | null): s is string {
+  return typeof s === "string" && s.trim().length > 0;
+}
