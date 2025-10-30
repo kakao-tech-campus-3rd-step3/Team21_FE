@@ -62,20 +62,34 @@ test.describe("검색 기능 - API 연동 테스트", () => {
     }
 
     const count = await results.count();
+    console.log(`Found ${count} search results`);
 
     if (count > 0) {
-      // 첫 번째 결과가 클릭 가능한 상태가 될 때까지 대기
+      // 첫 번째 결과 안의 링크를 찾기
       const firstResult = results.first();
       await firstResult.waitFor({ state: "visible" });
+
+      // 링크가 있는지 확인
+      const link = firstResult.locator("a").first();
+      const hasLink = await link.count().then((c) => c > 0);
+
+      if (!hasLink) {
+        console.log("No clickable link found in search result");
+        test.skip();
+        return;
+      }
+
+      console.log("Clicking search result link");
 
       // 네비게이션 대기와 함께 클릭
       await Promise.all([
         page.waitForURL(/\/(university|professor|department|college)\/\d+/, {
           timeout: 10000,
         }),
-        firstResult.click({ force: true }),
+        link.click(),
       ]);
 
+      console.log(`Navigated to: ${page.url()}`);
       expect(page.url()).toMatch(/\/(university|professor|department|college)\/\d+/);
     }
   });

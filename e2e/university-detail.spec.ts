@@ -27,9 +27,17 @@ test.describe("대학 상세 페이지 - API 연동 테스트", () => {
   test("대학 정보가 정상적으로 로드된다", async ({ page }) => {
     // API 응답 모니터링
     let apiStatus: number | null = null;
-    page.on("response", (response) => {
+    let apiBody: unknown = null;
+
+    page.on("response", async (response) => {
       if (response.url().includes("/api/univ/1")) {
         apiStatus = response.status();
+        try {
+          apiBody = await response.json();
+          console.log("API Response:", JSON.stringify(apiBody, null, 2));
+        } catch {
+          console.log("Failed to parse API response");
+        }
       }
     });
 
@@ -45,8 +53,15 @@ test.describe("대학 상세 페이지 - API 연동 테스트", () => {
       return;
     }
 
+    console.log(`API Status: ${apiStatus}`);
+
     // API가 성공했는지 확인
     if (apiStatus === 200) {
+      // 응답 구조 확인
+      if (!apiBody || !(apiBody as Record<string, unknown>).university) {
+        console.log("API response missing 'university' field");
+      }
+
       // 최종적으로 데이터가 표시되는지 확인
       await expect(page.locator("h1, h2").first()).toBeVisible({ timeout: 10000 });
 
@@ -55,6 +70,13 @@ test.describe("대학 상세 페이지 - API 연동 테스트", () => {
         .getByText(/불러오지 못했어요|에러/i)
         .isVisible()
         .catch(() => false);
+
+      if (hasError) {
+        console.log("Error message found on page despite 200 response");
+        // 페이지 스크린샷 찍기
+        await page.screenshot({ path: "debug-university-error.png", fullPage: true });
+      }
+
       expect(hasError).toBeFalsy();
     } else {
       // API가 실패한 경우, 에러 메시지가 표시되어야 함
