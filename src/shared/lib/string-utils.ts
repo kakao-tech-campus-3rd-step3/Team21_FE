@@ -13,3 +13,11 @@ export function toUndefIfEmpty(s: string | undefined): string | undefined {
 export function isNonEmptyString(s: string | undefined | null): s is string {
   return typeof s === "string" && s.trim().length > 0;
 }
+
+export function splitTags(s?: string): string[] {
+  if (!s) return [];
+  return s
+    .split(/[,\s/·|/]+/)
+    .map((t) => t.trim())
+    .filter(Boolean);
+}
