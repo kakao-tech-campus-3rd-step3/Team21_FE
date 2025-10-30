@@ -1,3 +1,4 @@
+import { ErrorBoundary } from "react-error-boundary";
 import {
   PolarAngleAxis,
   PolarGrid,
@@ -11,6 +12,7 @@ import {
 import type { Professor } from "@/entities/professor/model/professors.domain";
 import { COMPARE_RADER_CHART_TEXTS } from "@/features/chart-compare/ui/text";
 import { ChartContainer } from "@/shared/ui/chart";
+import { ErrorView } from "@/shared/ui/ErrorView";
 import {
   GlassCard,
   GlassCardContent,
@@ -19,6 +21,7 @@ import {
   GlassCardHeader,
   GlassCardTitle,
 } from "@/shared/ui/GlassCard";
+import { LoadingView } from "@/shared/ui/LoadingView";
 
 type props = {
   professors: Professor[];
@@ -62,56 +65,72 @@ export const CompareRaderChart = ({ professors }: props) => {
       </GlassCardHeader>
 
       <GlassCardContent className="pb-0">
-        <ChartContainer className="mx-auto aspect-square max-h-[500px] w-full bg-black" config={{}}>
-          <ResponsiveContainer width="100%" height="100%" className="bg-black rounded-lg">
-            <RadarChart data={chartData}>
-              <rect width="100%" height="100%" fill="#000000" />
-              <Tooltip
-                cursor={false}
-                contentStyle={{
-                  background: "#000000",
-                  border: "1px solid #262626",
-                  borderRadius: 10,
-                  color: "#ffffff",
-                }}
-              />
-              <PolarRadiusAxis
-                angle={90}
-                domain={[0, 5]}
-                tickCount={6}
-                stroke="#52525b"
-                tick={{ fill: "#e4e4e7", fontSize: 11, dy: 5 }}
-              />
-              <PolarAngleAxis dataKey="category" tick={{ fill: "#ffffff", fontSize: 15 }} />
-              <PolarGrid strokeWidth={1} stroke="#525252" />
-              {professors.map((prof, index) => (
-                <Radar
-                  key={prof.id}
-                  dataKey={prof.name}
-                  name={prof.name}
-                  stroke={colors[index % colors.length]}
-                  fill={colors[index % colors.length]}
-                  fillOpacity={0.4}
-                />
-              ))}
-            </RadarChart>
-          </ResponsiveContainer>
-        </ChartContainer>
+        <ErrorBoundary
+          resetKeys={[professors]}
+          fallbackRender={({ resetErrorBoundary }) => (
+            <ErrorView title="Failed to render chart" onRetry={resetErrorBoundary} />
+          )}
+        >
+          {professors.length === 0 ? (
+            <LoadingView message="Loading chart..." />
+          ) : (
+            <ChartContainer
+              className="mx-auto aspect-square max-h-[500px] w-full bg-black"
+              config={{}}
+            >
+              <ResponsiveContainer width="100%" height="100%" className="bg-black rounded-lg">
+                <RadarChart data={chartData}>
+                  <rect width="100%" height="100%" fill="#000000" />
+                  <Tooltip
+                    cursor={false}
+                    contentStyle={{
+                      background: "#000000",
+                      border: "1px solid #262626",
+                      borderRadius: 10,
+                      color: "#ffffff",
+                    }}
+                  />
+                  <PolarRadiusAxis
+                    angle={90}
+                    domain={[0, 5]}
+                    tickCount={6}
+                    stroke="#52525b"
+                    tick={{ fill: "#e4e4e7", fontSize: 11, dy: 5 }}
+                  />
+                  <PolarAngleAxis dataKey="category" tick={{ fill: "#ffffff", fontSize: 15 }} />
+                  <PolarGrid strokeWidth={1} stroke="#525252" />
+                  {professors.map((prof, index) => (
+                    <Radar
+                      key={prof.id}
+                      dataKey={prof.name}
+                      name={prof.name}
+                      stroke={colors[index % colors.length]}
+                      fill={colors[index % colors.length]}
+                      fillOpacity={0.4}
+                    />
+                  ))}
+                </RadarChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          )}
+        </ErrorBoundary>
       </GlassCardContent>
 
-      <GlassCardFooter className="relative z-10 flex-col items-start gap-2 text-sm rounded-md px-3 py-2">
-        <div className="flex items-center gap-4 flex-wrap">
-          {professors.map((prof, index) => (
-            <div key={prof.id} className="flex items-center gap-1.5">
-              <div
-                className="h-2.5 w-2.5 shrink-0 rounded-full"
-                style={{ backgroundColor: colors[index % colors.length] }}
-              />
-              <span>{prof.name}</span>
-            </div>
-          ))}
-        </div>
-      </GlassCardFooter>
+      {professors.length > 0 && (
+        <GlassCardFooter className="relative z-10 flex-col items-start gap-2 text-sm rounded-md px-3 py-2">
+          <div className="flex items-center gap-4 flex-wrap">
+            {professors.map((prof, index) => (
+              <div key={prof.id} className="flex items-center gap-1.5">
+                <div
+                  className="h-2.5 w-2.5 shrink-0 rounded-full"
+                  style={{ backgroundColor: colors[index % colors.length] }}
+                />
+                <span>{prof.name}</span>
+              </div>
+            ))}
+          </div>
+        </GlassCardFooter>
+      )}
     </GlassCard>
   );
 };
