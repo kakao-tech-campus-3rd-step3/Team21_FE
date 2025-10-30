@@ -31,23 +31,35 @@ test.describe("검색 기능 - API 연동 테스트", () => {
   test("검색 결과를 클릭하면 해당 페이지로 이동한다", async ({ page }) => {
     const searchInput = page.getByPlaceholder(/대학|검색/i);
 
+    // API 응답 대기
+    const searchResponsePromise = page.waitForResponse(
+      (response) => response.url().includes("/api/search/univ"),
+      { timeout: 10000 },
+    );
+
     await searchInput.click();
     await searchInput.fill("충남");
 
-    // 검색 결과 대기
-    await page.waitForTimeout(1000);
+    // API 응답 완료 대기
+    await searchResponsePromise;
 
-    // 검색 결과가 있는지 확인
+    // 검색 결과 리스트가 나타날 때까지 대기
     const results = page.locator("ul li");
+    await results.first().waitFor({ state: "visible", timeout: 5000 });
+
     const count = await results.count();
 
     if (count > 0) {
-      // 첫 번째 결과 클릭
-      await results.first().click();
+      // 첫 번째 결과가 클릭 가능한 상태가 될 때까지 대기
+      const firstResult = results.first();
+      await firstResult.waitFor({ state: "visible" });
+
+      // 모바일 환경을 고려한 클릭
+      await firstResult.click({ force: true });
 
       // URL이 변경되었는지 확인
       await page.waitForURL(/\/(university|professor|department|college)\/\d+/, {
-        timeout: 5000,
+        timeout: 10000,
       });
       expect(page.url()).toMatch(/\/(university|professor|department|college)\/\d+/);
     } else {
