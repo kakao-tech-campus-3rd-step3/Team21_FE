@@ -54,13 +54,18 @@ test.describe("검색 기능 - API 연동 테스트", () => {
       const firstResult = results.first();
       await firstResult.waitFor({ state: "visible" });
 
-      // 모바일 환경을 고려한 클릭
+      // 네비게이션 대기와 함께 클릭
+      const navigationPromise = page.waitForURL(
+        /\/(university|professor|department|college)\/\d+/,
+        {
+          timeout: 10000,
+        },
+      );
+
       await firstResult.click({ force: true });
 
-      // URL이 변경되었는지 확인
-      await page.waitForURL(/\/(university|professor|department|college)\/\d+/, {
-        timeout: 10000,
-      });
+      // 네비게이션 완료 대기
+      await navigationPromise;
       expect(page.url()).toMatch(/\/(university|professor|department|college)\/\d+/);
     } else {
       // 검색 결과가 없으면 테스트 통과
