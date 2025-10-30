@@ -10,17 +10,10 @@ import { ProfessorLectureReviewList } from "@/entities/professor/ui/ProfessorLec
 import { ProfessorResearchCard } from "@/entities/professor/ui/ProfessorResearchCard";
 import { useBreadcrumbTrail } from "@/features/nav-trail";
 import { usePageTitle } from "@/shared/hooks/usePageTitle";
+import { splitTags } from "@/shared/lib/string-utils";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { ErrorView } from "@/shared/ui/ErrorView";
 import { LoadingView } from "@/shared/ui/LoadingView";
-
-const splitTags = (s?: string) =>
-  s
-    ? s
-        .split(/[,\s/·|/]+/)
-        .map((t) => t.trim())
-        .filter(Boolean)
-    : [];
 
 export function ProfessorDetailPage() {
   const { id } = useParams<{ id: string }>();

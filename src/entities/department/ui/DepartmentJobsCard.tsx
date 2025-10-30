@@ -1,7 +1,8 @@
+import { isNonEmptyString } from "@/shared/lib/string-utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
 export function DepartmentJobsCard({ title, tags }: { title: string; tags: string[] }) {
-  const validTags = tags.filter((t) => t && t.trim().length > 0);
+  const validTags = tags.filter(isNonEmptyString);
 
   return (
     <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur shadow-md">

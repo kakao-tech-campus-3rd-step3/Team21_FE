@@ -1,5 +1,6 @@
 import type { ProfessorDetail } from "@/entities/professor/model/professor-detail.domain";
 import type { ProfessorDetailResponse } from "@/entities/professor/model/professor-detail.response";
+import { toUndefIfEmpty } from "@/shared/lib/string-utils";
 
 export function mapProfessorDetailResponseToDomain(r: ProfessorDetailResponse): ProfessorDetail {
   const p = r.professor;
@@ -10,14 +11,14 @@ export function mapProfessorDetailResponseToDomain(r: ProfessorDetailResponse): 
     university: p.university,
     college: p.college,
     department: p.department,
-    email: p.email,
-    imageUrl: p.imageUrl,
-    office: p.office,
-    position: p.position,
+    email: toUndefIfEmpty(p.email),
+    imageUrl: toUndefIfEmpty(p.imageUrl),
+    office: toUndefIfEmpty(p.office),
+    position: toUndefIfEmpty(p.position),
 
-    degree: p.degree,
-    major: p.major,
-    researchField: p.researchField,
+    degree: toUndefIfEmpty(p.degree),
+    major: toUndefIfEmpty(p.major),
+    researchField: toUndefIfEmpty(p.researchField),
 
     overallRating: p.overallRating,
     totalReviewCount: p.totalReviewCount,
@@ -33,7 +34,7 @@ export function mapProfessorDetailResponseToDomain(r: ProfessorDetailResponse): 
     recentLectureReviews: (r.recentLectureReviews ?? []).map((rv) => ({
       id: rv.id,
       lectureName: rv.courseTitle,
-      semester: rv.semester,
+      semester: toUndefIfEmpty(rv.semester),
       comment: rv.content,
       createdAt: rv.createdDate,
       homework: rv.homework,

@@ -1,5 +1,7 @@
 import { Mail, MapPin, Phone } from "lucide-react";
+import type { ReactNode } from "react";
 
+import { isNonEmptyString } from "@/shared/lib/string-utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
 type Props = {
@@ -8,12 +10,21 @@ type Props = {
   address?: string;
 };
 
+interface ContactRow {
+  icon: ReactNode;
+  value?: string;
+}
+
+function hasValidValue(row: ContactRow): row is Required<ContactRow> {
+  return isNonEmptyString(row.value);
+}
+
 export function DepartmentContactCard({ tel, email, address }: Props) {
   const rows = [
     { icon: <Phone className="h-4 w-4 text-indigo-500 shrink-0" />, value: tel },
     { icon: <Mail className="h-4 w-4 text-indigo-500 shrink-0" />, value: email },
     { icon: <MapPin className="h-4 w-4 text-indigo-500 shrink-0" />, value: address },
-  ].filter((r) => !!r.value && r.value.trim().length > 0);
+  ].filter(hasValidValue);
 
   return (
     <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur shadow-md">
