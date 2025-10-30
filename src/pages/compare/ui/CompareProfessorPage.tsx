@@ -1,9 +1,8 @@
-import { CompareLineChart } from "@/features/chart-compare/ui/CompareLineChart";
-import { CompareRaderChart } from "@/features/chart-compare/ui/CompareRaderChart";
+import { CompareLineChart, CompareRaderChart } from "@/features/chart-compare";
 import { useProfessorComparison } from "@/features/professor-compare/hooks/useProfessorComparison";
 import { getGridColClass } from "@/features/professor-compare/lib/getGridColClass";
 import { ProfessorCard } from "@/features/professor-compare/ui/ProfessorCard";
-import { SearchProfessorToCompare } from "@/features/professor-search/ui/SearchProfessorToCompare";
+import { SearchProfessorToCompare } from "@/features/professor-search";
 import { COMPARE_PROFESSOR_TEXTS } from "@/pages/compare/text";
 import { usePageTitle } from "@/shared/hooks/usePageTitle";
 
