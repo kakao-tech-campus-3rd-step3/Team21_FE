@@ -41,7 +41,7 @@ export const createCourseEvalSchema = <
     .int({ message: V.termInvalid })
     .refine((v) => v === 1 || v === 2, { message: V.termInvalid });
 
-  const star = z.number().refine((v) => v >= 0.5, { message: V.requiredStar });
+  const star = z.number().refine((v) => v >= 0.25, { message: V.requiredStar });
 
   return z.object({
     year,
