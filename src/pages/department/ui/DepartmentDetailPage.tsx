@@ -68,9 +68,8 @@ export function DepartmentDetailPage() {
     );
   }
 
-  const professorCount = Number.isFinite(data.professors)
-    ? (data.professors as number)
-    : (data.professorList?.length ?? 0);
+  const professorCount =
+    typeof data.professors === "number" ? data.professors : (data.professorList?.length ?? 0);
 
   const professorItems =
     data.professorList?.map((p) => ({
@@ -84,13 +83,8 @@ export function DepartmentDetailPage() {
       researchAreas: [],
     })) ?? [];
 
-  const foundedYear =
-    typeof data.foundedYear === "number" && Number.isFinite(data.foundedYear)
-      ? data.foundedYear
-      : 0;
-
-  const students =
-    typeof data.students === "number" && Number.isFinite(data.students) ? data.students : 0;
+  const foundedYear = data.foundedYear ?? 0;
+  const students = data.students ?? 0;
 
   return (
     <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
