@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone } from "lucide-react";
+import { type LucideProps, Mail, MapPin, Phone } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 
@@ -8,12 +8,21 @@ type Props = {
   address?: string;
 };
 
+interface CollegeContactCardItem {
+  icon: React.ForwardRefExoticComponent<LucideProps>;
+  label?: string;
+}
+
+function hasValidLabel(item: CollegeContactCardItem): item is Required<CollegeContactCardItem> {
+  return !!item.label && item.label.trim().length > 0;
+}
+
 export function CollegeContactCard({ tel, email, address }: Props) {
   const items = [
     { icon: Phone, label: tel },
     { icon: Mail, label: email },
     { icon: MapPin, label: address },
-  ].filter((item) => !!item.label && item.label.trim().length > 0);
+  ].filter(hasValidLabel);
 
   return (
     <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur shadow-md">
