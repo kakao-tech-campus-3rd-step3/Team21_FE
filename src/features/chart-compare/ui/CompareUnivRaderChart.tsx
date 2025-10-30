@@ -1,3 +1,4 @@
+import { ErrorBoundary } from "react-error-boundary";
 import {
   PolarAngleAxis,
   PolarGrid,
@@ -11,6 +12,7 @@ import {
 import type { University } from "@/entities/university/model/university-compare.domain";
 import { COMPARE_UNIV_RADER_CHART_TEXTS } from "@/features/chart-compare/ui/text";
 import { ChartContainer } from "@/shared/ui/chart";
+import { ErrorView } from "@/shared/ui/ErrorView";
 import {
   GlassCard,
   GlassCardContent,
@@ -19,6 +21,7 @@ import {
   GlassCardHeader,
   GlassCardTitle,
 } from "@/shared/ui/GlassCard";
+import { LoadingView } from "@/shared/ui/LoadingView";
 
 type Props = {
   universities: University[];
@@ -71,62 +74,75 @@ export const CompareUnivRaderChart = ({ universities }: Props) => {
       </GlassCardHeader>
 
       <GlassCardContent className="pb-0">
-        <ChartContainer
-          className="mx-auto aspect-square max-h-[500px] w-full rounded-lg bg-black p-3"
-          config={chartConfig}
+        <ErrorBoundary
+          resetKeys={[universities]}
+          fallbackRender={({ resetErrorBoundary }) => (
+            <ErrorView title="Failed to render chart" onRetry={resetErrorBoundary} />
+          )}
         >
-          <ResponsiveContainer width="100%" height="100%">
-            <RadarChart data={chartData}>
-              <rect width="100%" height="100%" fill="#000000" />
-              <Tooltip
-                cursor={false}
-                contentStyle={{
-                  background: "#000000",
-                  border: "1px solid #262626",
-                  borderRadius: 10,
-                  color: "#ffffff",
-                }}
-              />
-              <PolarRadiusAxis
-                angle={90}
-                domain={[0, 5]}
-                tickCount={6}
-                stroke="#52525b"
-                tick={{ fill: "#e4e4e7", fontSize: 11, dy: 6 }}
-              />
-              <PolarAngleAxis dataKey="category" tick={{ fill: "#ffffff", fontSize: 15 }} />
-              <PolarGrid strokeWidth={1} stroke="#3f3f46" />
+          {universities.length === 0 ? (
+            <LoadingView message="Loading chart..." />
+          ) : (
+            <ChartContainer
+              className="mx-auto aspect-square max-h-[500px] w-full rounded-lg bg-black p-3"
+              config={chartConfig}
+            >
+              <ResponsiveContainer width="100%" height="100%">
+                <RadarChart data={chartData}>
+                  <rect width="100%" height="100%" fill="#000000" />
+                  <Tooltip
+                    cursor={false}
+                    contentStyle={{
+                      background: "#000000",
+                      border: "1px solid #262626",
+                      borderRadius: 10,
+                      color: "#ffffff",
+                    }}
+                  />
+                  <PolarRadiusAxis
+                    angle={90}
+                    domain={[0, 5]}
+                    tickCount={6}
+                    stroke="#52525b"
+                    tick={{ fill: "#e4e4e7", fontSize: 11, dy: 6 }}
+                  />
+                  <PolarAngleAxis dataKey="category" tick={{ fill: "#ffffff", fontSize: 15 }} />
+                  <PolarGrid strokeWidth={1} stroke="#3f3f46" />
 
-              {universities.slice(0, 2).map((univ, index) => (
-                <Radar
-                  key={univ.id}
-                  dataKey={`u${index + 1}`}
-                  name={univ.name}
-                  stroke={index === 0 ? u1Color : u2Color}
-                  fill={index === 0 ? u1Color : u2Color}
-                  fillOpacity={0.5}
-                />
-              ))}
-            </RadarChart>
-          </ResponsiveContainer>
-        </ChartContainer>
+                  {universities.slice(0, 2).map((univ, index) => (
+                    <Radar
+                      key={univ.id}
+                      dataKey={`u${index + 1}`}
+                      name={univ.name}
+                      stroke={index === 0 ? u1Color : u2Color}
+                      fill={index === 0 ? u1Color : u2Color}
+                      fillOpacity={0.5}
+                    />
+                  ))}
+                </RadarChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          )}
+        </ErrorBoundary>
       </GlassCardContent>
 
-      <GlassCardFooter className="relative z-30 flex-col items-start gap-2 text-sm px-3 py-2">
-        <div className="flex items-center gap-4 flex-wrap">
-          {universities.slice(0, 2).map((univ, index) => (
-            <div key={univ.id} className="flex items-center gap-1.5">
-              <div
-                className="h-2.5 w-2.5 shrink-0 rounded-full"
-                style={{ backgroundColor: index === 0 ? u1Color : u2Color }}
-              />
-              <span className="inline-block rounded-md px-1.5 py-0.5 text-white leading-tight">
-                {univ.name}
-              </span>
-            </div>
-          ))}
-        </div>
-      </GlassCardFooter>
+      {universities.length > 0 && (
+        <GlassCardFooter className="relative z-30 flex-col items-start gap-2 text-sm px-3 py-2">
+          <div className="flex items-center gap-4 flex-wrap">
+            {universities.slice(0, 2).map((univ, index) => (
+              <div key={univ.id} className="flex items-center gap-1.5">
+                <div
+                  className="h-2.5 w-2.5 shrink-0 rounded-full"
+                  style={{ backgroundColor: index === 0 ? u1Color : u2Color }}
+                />
+                <span className="inline-block rounded-md px-1.5 py-0.5 text-white leading-tight">
+                  {univ.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </GlassCardFooter>
+      )}
     </GlassCard>
   );
 };

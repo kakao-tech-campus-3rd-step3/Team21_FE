@@ -1,8 +1,8 @@
 import { Search } from "lucide-react";
 
+import { UniversityResultList } from "@/features/university-search";
 import type { UniversitySearch } from "@/features/university-search/model/universitysearch";
 import { SEARCH_UNIVERSITY_TEXTS } from "@/features/university-search/text";
-import { UniversityResultList } from "@/features/university-search/ui/UniversityResultList";
 import { Button } from "@/shared/ui/button";
 import {
   GlassCard,

@@ -3,11 +3,10 @@ import { useEffect, useState } from "react";
 import { fetchUniversityRatingTrends } from "@/entities/university/api";
 import { mapTrendsToRows } from "@/entities/university/model/univ-compare.map";
 import type { UniversityTrendRow } from "@/entities/university/model/university-compare.domain";
-import { CompareUnivBarChart } from "@/features/chart-compare/ui/CompareUnivBarChart";
-import { CompareUnivRaderChart } from "@/features/chart-compare/ui/CompareUnivRaderChart";
+import { CompareUnivBarChart, CompareUnivRaderChart } from "@/features/chart-compare";
+import { UniversityCard } from "@/features/university-compare";
 import { useUniversityComparison } from "@/features/university-compare/hooks/useUniversityComparison";
-import { UniversityCard } from "@/features/university-compare/ui/UniversityCard";
-import { SearchUniversityToCompare } from "@/features/university-search/ui/SearchUniversityToCompare";
+import { SearchUniversityToCompare } from "@/features/university-search";
 import { COMPARE_UNIVERSITY_TEXTS } from "@/pages/compare/text";
 import { usePageTitle } from "@/shared/hooks/usePageTitle";
 
