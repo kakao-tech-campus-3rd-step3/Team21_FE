@@ -32,7 +32,7 @@ export const createCourseEvalSchema = <
     .number({ message: V.yearRequired })
     .refine((v) => Number.isFinite(v), { message: V.yearRequired })
     .int({ message: V.yearInvalid })
-    .min(1900, { message: V.yearRange })
+    .min(2010, { message: V.yearRange })
     .max(2100, { message: V.yearRange });
 
   const term = z
