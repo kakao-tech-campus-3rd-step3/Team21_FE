@@ -1,0 +1,10 @@
+# UniScope - Robots.txt
+User-agent: *
+Allow: /
+
+# Disallow admin or private paths if any
+Disallow: /admin/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://uniscope-git-develop-i3months-projects.vercel.app/sitemap.xml
