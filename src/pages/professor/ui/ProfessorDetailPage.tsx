@@ -8,7 +8,13 @@ import { ProfessorEvalCard } from "@/entities/professor/ui/ProfessorEvalRadar";
 import { ProfessorHero } from "@/entities/professor/ui/ProfessorHero";
 import { ProfessorLectureReviewList } from "@/entities/professor/ui/ProfessorLectureReviewList";
 import { ProfessorResearchCard } from "@/entities/professor/ui/ProfessorResearchCard";
-import { useBreadcrumbTrail } from "@/features/nav-trail";
+import {
+  collegeCrumb,
+  deptCrumb,
+  profCrumb,
+  univCrumb,
+  useBreadcrumbTrail,
+} from "@/features/nav-trail";
 import { usePageTitle } from "@/shared/hooks/usePageTitle";
 import { splitTags } from "@/shared/lib/string-utils";
 import { EmptyState } from "@/shared/ui/EmptyState";
@@ -28,12 +34,20 @@ export function ProfessorDetailPage() {
 
   const crumbs = useMemo(
     () => [
-      { label: data?.university?.name ?? "대학교" },
-      { label: data?.college?.name ?? "단과대학" },
-      { label: data?.department?.name ?? "학과" },
-      { label: data?.name ? `${data.name} 교수` : "교수 상세" },
+      univCrumb(data?.university?.name, data?.university?.id),
+      collegeCrumb(data?.college?.name, data?.college?.id),
+      deptCrumb(data?.department?.name, data?.department?.id),
+      profCrumb(data?.name),
     ],
-    [data?.university?.name, data?.college?.name, data?.department?.name, data?.name],
+    [
+      data?.university?.name,
+      data?.university?.id,
+      data?.college?.name,
+      data?.college?.id,
+      data?.department?.name,
+      data?.department?.id,
+      data?.name,
+    ],
   );
   useBreadcrumbTrail(crumbs);
 

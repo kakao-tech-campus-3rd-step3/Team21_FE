@@ -136,7 +136,7 @@ export function CourseReviewForm({ lecSeq, lecName, text, onSubmitted }: Props) 
                 placeholder={text.yearPlaceholder}
                 className="border p-2 rounded-md w-32"
                 value={field.value ?? ""}
-                min={1900}
+                min={2010}
                 max={2100}
                 onChange={(e) => {
                   const v = e.target.value;
