@@ -7,7 +7,7 @@ import { CollegeContactCard } from "@/entities/college/ui/CollegeContactCard";
 import { CollegeHero } from "@/entities/college/ui/CollegeHero";
 import { useDepartmentsByCollege } from "@/entities/department/hooks/useDepartmentsByCollege";
 import { DepartmentList } from "@/entities/department/ui/DepartmentList";
-import { useBreadcrumbTrail } from "@/features/nav-trail";
+import { collegeCrumb, univCrumb, useBreadcrumbTrail } from "@/features/nav-trail";
 import { usePageTitle } from "@/shared/hooks/usePageTitle";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { ErrorView } from "@/shared/ui/ErrorView";
@@ -37,8 +37,8 @@ export function CollegeDetailPage() {
   usePageTitle(college?.name ?? "단과대학");
 
   const crumbs = useMemo(
-    () => [{ label: college?.universityName ?? "대학교" }, { label: college?.name ?? "단과대학" }],
-    [college?.universityName, college?.name],
+    () => [univCrumb(college?.universityName), collegeCrumb(college?.name, college?.id)],
+    [college?.universityName, college?.name, college?.id],
   );
   useBreadcrumbTrail(crumbs);
 

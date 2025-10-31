@@ -1,4 +1,10 @@
 export {
+  collegeCrumb,
+  deptCrumb,
+  profCrumb,
+  univCrumb,
+} from "@/features/nav-trail/lib/buildCrumbs";
+export {
   BreadcrumbProvider,
   useBreadcrumbTrail,
 } from "@/features/nav-trail/model/BreadcrumbProvider";
