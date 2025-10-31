@@ -1,5 +1,6 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
+import { HelmetProvider } from "react-helmet-async";
 
 import { ErrorView } from "@/shared/ui/ErrorView";
 
@@ -17,8 +18,10 @@ function RootErrorFallback({ resetErrorBoundary }: { resetErrorBoundary: () => v
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ErrorBoundary FallbackComponent={RootErrorFallback}>{children}</ErrorBoundary>
-    </QueryClientProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <ErrorBoundary FallbackComponent={RootErrorFallback}>{children}</ErrorBoundary>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 }
