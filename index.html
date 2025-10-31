@@ -3,7 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href="/uniscope-logo.ico" />
+    <link rel="apple-touch-icon" href="/uniscope-logo.ico" />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Primary Meta Tags -->
     <title>UniScope - 한국형 RateMyProfessor | 전국 대학 강의·교수 정보 플랫폼</title>
@@ -15,6 +21,7 @@
       name="description"
       content="전국 모든 대학의 강의, 교수, 학교 정보를 한눈에 비교하세요. 학생 리뷰 기반 대학 정보 통합 플랫폼 UniScope에서 더 나은 선택을 시작하세요."
     />
+    <meta name="google-site-verification" content="" />
     <meta
       name="keywords"
       content="대학 정보, 교수 평가, 강의 리뷰, 대학 비교, RateMyProfessor, 한국 대학, 학점 교류, 대학원 진학, 대입 정보"
@@ -77,13 +84,39 @@
       }
     </script>
 
+    <!-- Additional Structured Data for Organization -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "UniScope",
+        "url": "https://uniscope-git-develop-i3months-projects.vercel.app/",
+        "logo": "https://uniscope-git-develop-i3months-projects.vercel.app/README/uniscope-logo.png",
+        "description": "한국형 RateMyProfessor - 전국 대학 강의·교수 정보 플랫폼",
+        "sameAs": []
+      }
+    </script>
+
     <!-- Theme Color -->
     <meta name="theme-color" content="#000000" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- Additional SEO Meta Tags -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/app/main.tsx"></script>
+
+    <!-- Noscript fallback for SEO -->
+    <noscript>
+      <div style="text-align: center; padding: 50px">
+        <h1>UniScope - 한국형 RateMyProfessor</h1>
+        <p>전국 모든 대학의 강의, 교수, 학교 정보를 한눈에 비교하세요.</p>
+        <p>이 사이트를 이용하려면 JavaScript를 활성화해주세요.</p>
+      </div>
+    </noscript>
   </body>
 </html>

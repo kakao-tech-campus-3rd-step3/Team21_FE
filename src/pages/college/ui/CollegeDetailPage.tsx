@@ -12,6 +12,7 @@ import { usePageTitle } from "@/shared/hooks/usePageTitle";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { ErrorView } from "@/shared/ui/ErrorView";
 import { LoadingView } from "@/shared/ui/LoadingView";
+import { SEO } from "@/shared/ui/SEO";
 
 export function CollegeDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -78,48 +79,56 @@ export function CollegeDetailPage() {
   const hasDept = (departments?.length ?? 0) > 0;
 
   return (
-    <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
-      <CollegeHero
-        collegeName={college.name}
-        universityName={college.universityName ?? ""}
-        intro={college.intro ?? ""}
-        students={college.students ?? 0}
-        professors={college.professors ?? 0}
-        foundedYear={college.foundedYear ?? 0}
-        logoUrl={college.logoUrl}
+    <>
+      <SEO
+        title={`${college.name} - ${college.universityName ?? ""}`}
+        description={`${college.universityName ?? ""} ${college.name}의 학과 정보와 리뷰를 확인하세요. 재학생: ${college.students ?? 0}명, 교수: ${college.professors ?? 0}명`}
+        keywords={`${college.name}, ${college.universityName}, 단과대학, 학과 정보, 대학 리뷰`}
+        url={`https://uniscope-git-develop-i3months-projects.vercel.app/college/${college.id}`}
       />
+      <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
+        <CollegeHero
+          collegeName={college.name}
+          universityName={college.universityName ?? ""}
+          intro={college.intro ?? ""}
+          students={college.students ?? 0}
+          professors={college.professors ?? 0}
+          foundedYear={college.foundedYear ?? 0}
+          logoUrl={college.logoUrl}
+        />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          {deptLoading && <LoadingView message="학과 정보를 불러오는 중…" />}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-6">
+            {deptLoading && <LoadingView message="학과 정보를 불러오는 중…" />}
 
-          {deptError && (
-            <ErrorView
-              title="학과 정보를 불러오지 못했어요"
-              description="잠시 후 다시 시도해 주세요."
-              onRetry={() => {
-                queryClient.resetQueries({
-                  queryKey: ["department", "list", "byCollege", collegeSeq],
-                });
-                refetchDepartments();
-              }}
-            />
-          )}
+            {deptError && (
+              <ErrorView
+                title="학과 정보를 불러오지 못했어요"
+                description="잠시 후 다시 시도해 주세요."
+                onRetry={() => {
+                  queryClient.resetQueries({
+                    queryKey: ["department", "list", "byCollege", collegeSeq],
+                  });
+                  refetchDepartments();
+                }}
+              />
+            )}
 
-          {!deptLoading && !deptError && hasDept && (
-            <DepartmentList title="학과 및 학부" items={departments!} />
-          )}
+            {!deptLoading && !deptError && hasDept && (
+              <DepartmentList title="학과 및 학부" items={departments!} />
+            )}
 
-          {!deptLoading && !deptError && !hasDept && (
-            <EmptyState title="등록된 학과 정보가 없습니다" />
-          )}
+            {!deptLoading && !deptError && !hasDept && (
+              <EmptyState title="등록된 학과 정보가 없습니다" />
+            )}
+          </div>
+
+          <div className="space-y-6">
+            {/* TODO: 키워드/특징 카드는 나중에.. */}
+            <CollegeContactCard tel={college.tel ?? ""} email="" address="" />
+          </div>
         </div>
-
-        <div className="space-y-6">
-          {/* TODO: 키워드/특징 카드는 나중에.. */}
-          <CollegeContactCard tel={college.tel ?? ""} email="" address="" />
-        </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
