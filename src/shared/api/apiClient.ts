@@ -3,7 +3,8 @@ import axios from "axios";
 import { attachAuthInterceptors } from "./interceptors";
 
 // CI 환경에서는 환경변수 사용, 프로덕션에서는 상대 경로 (Vercel 프록시)
-const baseURL = import.meta.env.VITE_API_BASE_URL || "";
+// const baseURL = import.meta.env.VITE_API_BASE_URL || "";
+const baseURL = "";
 
 if (!baseURL) {
   console.warn("[apiClient] VITE_API_BASE_URL is not defined. Using relative URLs (Vercel proxy).");
