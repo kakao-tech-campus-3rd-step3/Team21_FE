@@ -32,9 +32,15 @@ Thumbs.db
 # Test coverage
 /coverage
 
+# Playwright test results
+/test-results
+/playwright-report
+
 # misc
 *.swp
 *.swo
 
 *storybook.log
 storybook-static
+
+public/storybook/*

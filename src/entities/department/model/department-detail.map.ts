@@ -1,28 +1,15 @@
-import type { DepartmentDetail } from "./department-detail.domain";
-import type { DepartmentDetailRequest } from "./department-detail.request";
-import type { DepartmentDetailResponse } from "./department-detail.response";
+import type { DepartmentDetail } from "@/entities/department/model/department-detail.domain";
+import type { DepartmentDetailRequest } from "@/entities/department/model/department-detail.request";
+import type { DepartmentDetailResponse } from "@/entities/department/model/department-detail.response";
+import { isNonEmptyString, toNumberOrUndef, toUndefIfEmpty } from "@/shared/lib/string-utils";
 
 export function toGetDepartmentDetailRequest(deptSeq: number): DepartmentDetailRequest {
   return { deptSeq };
 }
 
-function toNumberOrUndef(s: string | undefined): number | undefined {
-  if (typeof s !== "string") return undefined;
-  const n = Number(s);
-  return Number.isFinite(n) ? n : undefined;
-}
-
-function toUndefIfEmpty(s: string | undefined): string | undefined {
-  if (typeof s !== "string") return undefined;
-  const t = s.trim();
-  return t.length ? t : undefined;
-}
-
 export function mapDepartmentDetailResponseToDomain(r: DepartmentDetailResponse): DepartmentDetail {
   const careerFields =
-    r.careerFields
-      ?.map((c) => c.fieldName?.trim())
-      .filter((v): v is string => !!v && v.length > 0) ?? [];
+    r.careerFields?.map((c) => c.fieldName?.trim()).filter(isNonEmptyString) ?? [];
 
   const professorList =
     r.professors?.map((p) => ({

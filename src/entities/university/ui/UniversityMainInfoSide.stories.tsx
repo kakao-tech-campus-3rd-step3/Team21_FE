@@ -1,8 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import type { UniversityMainInfo } from "@/entities/university/model/university-maininfo.vm";
-
 import { UniversityMainInfoSide } from "./UniversityMainInfoSide";
+
+type UniversityMainInfo = {
+  campuses: number;
+  colleges: number;
+  departments: number;
+  students: number;
+};
 
 const meta: Meta<typeof UniversityMainInfoSide> = {
   title: "Entities/University/UniversityMainInfoSide",

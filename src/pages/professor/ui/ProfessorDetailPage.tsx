@@ -3,23 +3,24 @@ import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import { useProfessorDetail } from "@/entities/professor/hooks/useProfessorDetail";
-import type { ProfessorHeroData } from "@/entities/professor/model/professor-hero.vm";
+import type { ProfessorHeroData } from "@/entities/professor/model/types";
 import { ProfessorEvalCard } from "@/entities/professor/ui/ProfessorEvalRadar";
 import { ProfessorHero } from "@/entities/professor/ui/ProfessorHero";
 import { ProfessorLectureReviewList } from "@/entities/professor/ui/ProfessorLectureReviewList";
 import { ProfessorResearchCard } from "@/entities/professor/ui/ProfessorResearchCard";
-import { useBreadcrumbTrail } from "@/features/nav-trail";
+import {
+  collegeCrumb,
+  deptCrumb,
+  profCrumb,
+  univCrumb,
+  useBreadcrumbTrail,
+} from "@/features/nav-trail";
+import { usePageTitle } from "@/shared/hooks/usePageTitle";
+import { splitTags } from "@/shared/lib/string-utils";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { ErrorView } from "@/shared/ui/ErrorView";
 import { LoadingView } from "@/shared/ui/LoadingView";
-
-const splitTags = (s?: string) =>
-  s
-    ? s
-        .split(/[,\s/·|/]+/)
-        .map((t) => t.trim())
-        .filter(Boolean)
-    : [];
+import { SEO } from "@/shared/ui/SEO";
 
 export function ProfessorDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -30,14 +31,24 @@ export function ProfessorDetailPage() {
 
   const { data, isLoading, isError, refetch } = useProfessorDetail(profSeq);
 
+  usePageTitle(data?.name ? `${data.name} 교수` : "교수 상세");
+
   const crumbs = useMemo(
     () => [
-      { label: data?.university?.name ?? "대학교" },
-      { label: data?.college?.name ?? "단과대학" },
-      { label: data?.department?.name ?? "학과" },
-      { label: data?.name ? `${data.name} 교수` : "교수 상세" },
+      univCrumb(data?.university?.name, data?.university?.id),
+      collegeCrumb(data?.college?.name, data?.college?.id),
+      deptCrumb(data?.department?.name, data?.department?.id),
+      profCrumb(data?.name),
     ],
-    [data?.university?.name, data?.college?.name, data?.department?.name, data?.name],
+    [
+      data?.university?.name,
+      data?.university?.id,
+      data?.college?.name,
+      data?.college?.id,
+      data?.department?.name,
+      data?.department?.id,
+      data?.name,
+    ],
   );
   useBreadcrumbTrail(crumbs);
 
@@ -90,25 +101,36 @@ export function ProfessorDetailPage() {
   const areas = Array.from(new Set([...splitTags(data.major), ...splitTags(data.researchField)]));
 
   return (
-    <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
-      <ProfessorHero data={heroData} />
+    <>
+      <SEO
+        title={`${data.name} 교수 - ${data.department?.name ?? ""} | ${data.university?.name ?? ""}`}
+        description={`${data.university?.name ?? ""} ${data.department?.name ?? ""} ${data.name} 교수의 강의 평가와 리뷰를 확인하세요. 평점: ${data.overallRating ?? 0}/5, 리뷰 ${data.totalReviewCount ?? 0}개`}
+        keywords={`${data.name}, ${data.university?.name}, ${data.department?.name}, 교수 평가, 강의 리뷰, ${areas.join(", ")}`}
+        url={`https://uniscope-git-develop-i3months-projects.vercel.app/professor/${data.id}`}
+      />
+      <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
+        <ProfessorHero data={heroData} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div className="lg:col-span-8">
-          <ProfessorEvalCard profId={data.id} />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="lg:col-span-8">
+            <ProfessorEvalCard
+              ratingBreakdown={data.ratingBreakdown}
+              departmentAverage={data.departmentAverage}
+            />
+          </div>
+
+          <div className="lg:col-span-4">
+            <ProfessorResearchCard
+              profId={data.id}
+              education={education}
+              areas={areas}
+              lectures={data.lectures ?? []}
+            />
+          </div>
         </div>
 
-        <div className="lg:col-span-4">
-          <ProfessorResearchCard
-            profId={data.id}
-            education={education}
-            areas={areas}
-            lectures={data.lectures ?? []}
-          />
-        </div>
-      </div>
-
-      <ProfessorLectureReviewList profId={data.id} />
-    </main>
+        <ProfessorLectureReviewList profId={data.id} />
+      </main>
+    </>
   );
 }

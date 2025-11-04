@@ -1,12 +1,18 @@
 import { useQueryClient } from "@tanstack/react-query";
 
 import { useProfessorReviews } from "@/entities/professor/hooks/useProfessorReviews";
-import type { LectureReview } from "@/entities/professor/model/lecture-review.vm";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/shared/ui/card";
-import { ErrorView } from "@/shared/ui/ErrorView";
-import { LoadingView } from "@/shared/ui/LoadingView";
 import { Separator } from "@/shared/ui/separator";
+
+type LectureReview = {
+  id: number;
+  course: string;
+  semesterText: string;
+  rating?: number;
+  content: string;
+  chips: string[];
+};
 
 type Props = { profId: number };
 
@@ -48,18 +54,46 @@ export function ProfessorLectureReviewList({ profId }: Props) {
 
   const totalLoaded = rows.length;
 
-  if (isLoading) return <LoadingView message="강의평을 불러오는 중…" />;
+  if (isLoading) {
+    return (
+      <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-xl">최근 강의평</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-center py-8 text-sm text-muted-foreground">
+            강의평을 불러오는 중…
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   if (isError) {
     return (
-      <ErrorView
-        title="강의평을 불러오지 못했어요"
-        description="네트워크 상태를 확인하신 뒤 다시 시도해 주세요."
-        onRetry={() => {
-          queryClient.resetQueries({ queryKey: ["professor", "reviews", profId] });
-          refetch();
-        }}
-      />
+      <Card className="bg-zinc-900/60 border-zinc-600/80 backdrop-blur">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-xl">최근 강의평</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center py-8">
+            <p className="text-sm font-medium">강의평을 불러오지 못했어요</p>
+            <p className="text-sm text-muted-foreground mt-1">
+              네트워크 상태를 확인하신 뒤 다시 시도해 주세요.
+            </p>
+            <Button
+              variant="secondary"
+              className="mt-4"
+              onClick={() => {
+                queryClient.resetQueries({ queryKey: ["professor", "reviews", profId] });
+                refetch();
+              }}
+            >
+              다시 시도
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 

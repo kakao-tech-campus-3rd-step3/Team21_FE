@@ -1,6 +1,6 @@
-import type { UniversityReviewPage } from "./university-review.domain";
-import type { GetUniversityReviewsRequest } from "./university-review.request";
-import type { UniversityReviewListResponse } from "./university-review.response";
+import type { UniversityReviewPage } from "@/entities/university/model/university-review.domain";
+import type { GetUniversityReviewsRequest } from "@/entities/university/model/university-review.request";
+import type { UniversityReviewListResponse } from "@/entities/university/model/university-review.response";
 
 export function toGetUniversityReviewsRequest(
   univSeq: number,

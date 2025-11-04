@@ -1,6 +1,7 @@
-import type { AxiosError } from "axios";
+import { useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { Controller } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { useCreateLectureReview } from "@/entities/lecture-review";
 import type { CourseEvalForm } from "@/features/course-review-form/model/schema";
@@ -8,6 +9,7 @@ import { useCourseEvalForm } from "@/features/course-review-form/model/useCourse
 import { EvalCard } from "@/features/eval";
 import { StarRatingField } from "@/features/rating-field";
 import { ControlledSelect } from "@/features/select-field";
+import { ROUTES } from "@/shared/config/routes";
 import { Button } from "@/shared/ui/button";
 import { Label } from "@/shared/ui/label";
 import { Textarea } from "@/shared/ui/textarea";
@@ -70,6 +72,9 @@ export function CourseReviewForm({ lecSeq, lecName, text, onSubmitted }: Props) 
   } = useCourseEvalForm(text);
 
   const navigate = useNavigate();
+  const qc = useQueryClient();
+  const { profSeq: profSeqParam } = useParams();
+  const profSeq = Number(profSeqParam);
   const { mutateAsync, isPending } = useCreateLectureReview();
 
   const onSubmit = async (data: CourseEvalForm) => {
@@ -90,11 +95,26 @@ export function CourseReviewForm({ lecSeq, lecName, text, onSubmitted }: Props) 
 
     try {
       await mutateAsync(body);
-      navigate(-1);
+
+      await Promise.all([
+        qc.invalidateQueries({
+          predicate: (q) => Array.isArray(q.queryKey) && q.queryKey.includes(lecSeq),
+        }),
+        Number.isFinite(profSeq)
+          ? qc.invalidateQueries({
+              predicate: (q) => Array.isArray(q.queryKey) && q.queryKey.includes(profSeq),
+            })
+          : Promise.resolve(),
+      ]);
+
+      navigate(Number.isFinite(profSeq) ? ROUTES.PROFESSOR_DETAIL(profSeq) : ROUTES.HOME);
     } catch (err) {
-      const error = err as AxiosError<{ message?: string }>;
-      const msg = error.response?.data?.message ?? "강의 평가 등록에 실패했습니다.";
-      alert(msg);
+      if (err instanceof AxiosError) {
+        const msg = err.response?.data?.message ?? "강의 평가 등록에 실패했습니다.";
+        alert(msg);
+      } else {
+        alert("강의 평가 등록에 실패했습니다.");
+      }
     }
   };
 
@@ -116,7 +136,7 @@ export function CourseReviewForm({ lecSeq, lecName, text, onSubmitted }: Props) 
                 placeholder={text.yearPlaceholder}
                 className="border p-2 rounded-md w-32"
                 value={field.value ?? ""}
-                min={1900}
+                min={2010}
                 max={2100}
                 onChange={(e) => {
                   const v = e.target.value;

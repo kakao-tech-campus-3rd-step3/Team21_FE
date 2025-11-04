@@ -9,7 +9,7 @@ function parseSemesterOrder(label: string): number {
   return (year - 1) * 2 + (sem === 2 ? 2 : 1);
 }
 
-function to1(x: number | undefined) {
+function toSafeFixed1(x: number | undefined) {
   return typeof x === "number" ? Number(x.toFixed(1)) : undefined;
 }
 
@@ -32,11 +32,11 @@ export function mapCompareItemToDomain(dto: CompareProfessor): Professor {
     university: dto.univName,
     department: dto.deptName,
     rating,
-    homework: to1(dto.scores.homework),
-    lecDifficulty: to1(dto.scores.lectureDifficulty),
-    examDifficulty: to1(dto.scores.examDifficulty),
-    researchPerf: to1(dto.scores.researchPerformance),
-    thesisPerf: to1(dto.scores.theisPerformance),
+    homework: toSafeFixed1(dto.scores.homework),
+    lecDifficulty: toSafeFixed1(dto.scores.lectureDifficulty),
+    examDifficulty: toSafeFixed1(dto.scores.examDifficulty),
+    researchPerf: toSafeFixed1(dto.scores.researchPerformance),
+    thesisPerf: toSafeFixed1(dto.scores.theisPerformance),
     semesters,
   };
 }

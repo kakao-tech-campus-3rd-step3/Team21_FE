@@ -1,0 +1,19 @@
+{
+  "name": "UniScope - 한국형 RateMyProfessor",
+  "short_name": "UniScope",
+  "description": "전국 모든 대학의 강의, 교수, 학교 정보를 한눈에 비교하세요",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/uniscope-logo.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ],
+  "lang": "ko",
+  "dir": "ltr"
+}

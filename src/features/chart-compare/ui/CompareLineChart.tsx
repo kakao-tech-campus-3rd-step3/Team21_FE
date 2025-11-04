@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import {
   CartesianGrid,
   Line,
@@ -13,6 +14,7 @@ import { buildSemesterLineChartData } from "@/entities/professor/model/prof-comp
 import type { Professor } from "@/entities/professor/model/professors.domain";
 import { COMPARE_LINE_CHART_TEXTS } from "@/features/chart-compare/ui/text";
 import { ChartContainer } from "@/shared/ui/chart";
+import { ErrorView } from "@/shared/ui/ErrorView";
 import {
   GlassCard,
   GlassCardContent,
@@ -21,6 +23,7 @@ import {
   GlassCardHeader,
   GlassCardTitle,
 } from "@/shared/ui/GlassCard";
+import { LoadingView } from "@/shared/ui/LoadingView";
 
 type CompareLineChartProps = {
   professors: Professor[];
@@ -42,75 +45,88 @@ export const CompareLineChart = ({ professors }: CompareLineChartProps) => {
       </GlassCardHeader>
 
       <GlassCardContent className="h-80">
-        <ChartContainer config={{}} className="h-full rounded-lg bg-black p-4">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              data={data}
-              margin={{ left: 12, right: 12 }}
-              aria-hidden="true"
-              role="presentation"
-              tabIndex={-1}
-            >
-              <XAxis
-                dataKey="semester"
-                allowDecimals={false}
-                scale="point"
-                tickLine={false}
-                axisLine={false}
-                interval={0}
-                tick={{ fill: "#ffffff", fontSize: 12 }}
-                padding={{ left: 20, right: 20 }}
-              />
-              <YAxis
-                domain={[0, 5]}
-                ticks={[0, 1, 2, 3, 4, 5]}
-                tick={{ fill: "#ffffff", fontSize: 12 }}
-                axisLine={false}
-                tickLine={false}
-              />
+        <ErrorBoundary
+          resetKeys={[professors]}
+          fallbackRender={({ resetErrorBoundary }) => (
+            <ErrorView title="Failed to render chart" onRetry={resetErrorBoundary} />
+          )}
+        >
+          {professors.length === 0 ? (
+            <LoadingView message="Loading chart..." />
+          ) : (
+            <ChartContainer config={{}} className="h-full rounded-lg bg-black p-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart
+                  data={data}
+                  margin={{ left: 12, right: 12 }}
+                  aria-hidden="true"
+                  role="presentation"
+                  tabIndex={-1}
+                >
+                  <XAxis
+                    dataKey="semester"
+                    allowDecimals={false}
+                    scale="point"
+                    tickLine={false}
+                    axisLine={false}
+                    interval={0}
+                    tick={{ fill: "#ffffff", fontSize: 12 }}
+                    padding={{ left: 20, right: 20 }}
+                  />
+                  <YAxis
+                    domain={[0, 5]}
+                    ticks={[0, 1, 2, 3, 4, 5]}
+                    tick={{ fill: "#ffffff", fontSize: 12 }}
+                    axisLine={false}
+                    tickLine={false}
+                  />
 
-              {/* 대비 강화 */}
-              <CartesianGrid stroke="#525252" strokeDasharray="0" vertical={false} />
+                  {/* 대비 강화 */}
+                  <CartesianGrid stroke="#525252" strokeDasharray="0" vertical={false} />
 
-              <Tooltip
-                cursor={false}
-                contentStyle={{
-                  background: "#000000",
-                  border: "1px solid #262626",
-                  borderRadius: 10,
-                  color: "#ffffff",
-                }}
-              />
+                  <Tooltip
+                    cursor={false}
+                    contentStyle={{
+                      background: "#000000",
+                      border: "1px solid #262626",
+                      borderRadius: 10,
+                      color: "#ffffff",
+                    }}
+                  />
 
-              {professors.map((prof, index) => (
-                <Line
-                  key={prof.id}
-                  dataKey={prof.name}
-                  name={prof.name}
-                  type="linear"
-                  stroke={colors[index % colors.length]}
-                  strokeWidth={2}
-                  dot={false}
-                />
-              ))}
-            </LineChart>
-          </ResponsiveContainer>
-        </ChartContainer>
+                  {professors.map((prof, index) => (
+                    <Line
+                      key={prof.id}
+                      dataKey={prof.name}
+                      name={prof.name}
+                      type="linear"
+                      stroke={colors[index % colors.length]}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                  ))}
+                </LineChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          )}
+        </ErrorBoundary>
       </GlassCardContent>
 
-      <GlassCardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex items-center gap-4">
-          {professors.map((prof, index) => (
-            <div key={prof.id} className="relative z-10 flex items-center gap-1.5">
-              <div
-                className="h-2.5 w-2.5 shrink-0 rounded-full"
-                style={{ backgroundColor: colors[index % colors.length] }}
-              />
-              <span>{prof.name}</span>
-            </div>
-          ))}
-        </div>
-      </GlassCardFooter>
+      {professors.length > 0 && (
+        <GlassCardFooter className="flex-col items-start gap-2 text-sm">
+          <div className="flex items-center gap-4">
+            {professors.map((prof, index) => (
+              <div key={prof.id} className="relative z-10 flex items-center gap-1.5">
+                <div
+                  className="h-2.5 w-2.5 shrink-0 rounded-full"
+                  style={{ backgroundColor: colors[index % colors.length] }}
+                />
+                <span>{prof.name}</span>
+              </div>
+            ))}
+          </div>
+        </GlassCardFooter>
+      )}
     </GlassCard>
   );
 };

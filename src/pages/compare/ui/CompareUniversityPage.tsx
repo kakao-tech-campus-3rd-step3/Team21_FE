@@ -3,14 +3,16 @@ import { useEffect, useState } from "react";
 import { fetchUniversityRatingTrends } from "@/entities/university/api";
 import { mapTrendsToRows } from "@/entities/university/model/univ-compare.map";
 import type { UniversityTrendRow } from "@/entities/university/model/university-compare.domain";
-import { CompareUnivBarChart } from "@/features/chart-compare/ui/CompareUnivBarChart";
-import { CompareUnivRaderChart } from "@/features/chart-compare/ui/CompareUnivRaderChart";
+import { CompareUnivBarChart, CompareUnivRaderChart } from "@/features/chart-compare";
+import { UniversityCard } from "@/features/university-compare";
 import { useUniversityComparison } from "@/features/university-compare/hooks/useUniversityComparison";
-import { UniversityCard } from "@/features/university-compare/ui/UniversityCard";
-import { SearchUniversityToCompare } from "@/features/university-search/ui/SearchUniversityToCompare";
+import { SearchUniversityToCompare } from "@/features/university-search";
 import { COMPARE_UNIVERSITY_TEXTS } from "@/pages/compare/text";
+import { usePageTitle } from "@/shared/hooks/usePageTitle";
+import { SEO } from "@/shared/ui/SEO";
 
 export const CompareUniversityPage = () => {
+  usePageTitle("대학교 비교");
   const {
     comparedUniversities,
     query,
@@ -22,8 +24,7 @@ export const CompareUniversityPage = () => {
     handleRemoveUniversity,
   } = useUniversityComparison();
   const [trendRows, setTrendRows] = useState<UniversityTrendRow[]>([]);
-  const u1Seq = comparedUniversities[0]?.id;
-  const u2Seq = comparedUniversities[1]?.id;
+  const [u1Seq, u2Seq] = comparedUniversities.slice(0, 2).map((u) => u.id);
   useEffect(() => {
     const load = async () => {
       if (!u1Seq) {
@@ -43,49 +44,57 @@ export const CompareUniversityPage = () => {
   }, [u1Seq, u2Seq]);
 
   return (
-    <div className="mx-auto max-w-4xl p-4 sm:p-8">
-      <header className="mb-8 text-center">
-        <h1
-          className="text-4xl md:text-5xl font-semibold tracking-tight text-white 
+    <>
+      <SEO
+        title="대학교 비교 - 대학 평가 비교"
+        description="여러 대학교의 평가를 한눈에 비교하세요. 평점, 시설, 교육 만족도 등을 시각화된 차트로 확인할 수 있습니다."
+        keywords="대학교 비교, 대학 평가 비교, 대학 평점, 대학 순위"
+        url="https://uniscope-git-develop-i3months-projects.vercel.app/compare/university"
+      />
+      <div className="mx-auto max-w-4xl p-4 sm:p-8">
+        <header className="mb-8 text-center">
+          <h1
+            className="text-4xl md:text-5xl font-semibold tracking-tight text-white 
           drop-shadow-[0_0_6px_#2b049f] drop-shadow-[0_0_12px_#6711e7]"
-        >
-          {COMPARE_UNIVERSITY_TEXTS.pageTitle}
-        </h1>
-        <p className="mt-2 text-slate-60">{COMPARE_UNIVERSITY_TEXTS.pageSubtitle}</p>
-      </header>
+          >
+            {COMPARE_UNIVERSITY_TEXTS.pageTitle}
+          </h1>
+          <p className="mt-2 text-slate-60">{COMPARE_UNIVERSITY_TEXTS.pageSubtitle}</p>
+        </header>
 
-      <div className="mt-16 space-y-8">
-        {/* 검색창 */}
-        <SearchUniversityToCompare
-          query={query}
-          setQuery={handleSearch}
-          results={results}
-          resultsOpen={resultsOpen}
-          setResultsOpen={setResultsOpen}
-          onPick={handlePick}
-        />
+        <div className="mt-16 space-y-8">
+          {/* 검색창 */}
+          <SearchUniversityToCompare
+            query={query}
+            setQuery={handleSearch}
+            results={results}
+            resultsOpen={resultsOpen}
+            setResultsOpen={setResultsOpen}
+            onPick={handlePick}
+          />
 
-        {comparedUniversities.length > 0 && (
-          <>
-            {/* 대학교 카드 (2개까지만) */}
-            <div className="flex flex-col sm:flex-row gap-8 justify-center">
-              {comparedUniversities.map((univ) => (
-                <UniversityCard
-                  key={univ.id}
-                  university={univ}
-                  onRemove={() => handleRemoveUniversity(univ.id)}
-                />
-              ))}
-            </div>
+          {comparedUniversities.length > 0 && (
+            <>
+              {/* 대학교 카드 (2개까지만) */}
+              <div className="flex flex-col sm:flex-row gap-8 justify-center">
+                {comparedUniversities.map((univ) => (
+                  <UniversityCard
+                    key={univ.id}
+                    university={univ}
+                    onRemove={() => handleRemoveUniversity(univ.id)}
+                  />
+                ))}
+              </div>
 
-            {/* 오각형 비교 차트 */}
-            <CompareUnivRaderChart universities={comparedUniversities} />
+              {/* 오각형 비교 차트 */}
+              <CompareUnivRaderChart universities={comparedUniversities} />
 
-            {/* 직선 비교 차트 */}
-            <CompareUnivBarChart universities={comparedUniversities} rows={trendRows} />
-          </>
-        )}
+              {/* 직선 비교 차트 */}
+              <CompareUnivBarChart universities={comparedUniversities} rows={trendRows} />
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };

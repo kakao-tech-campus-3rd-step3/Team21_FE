@@ -1,4 +1,5 @@
-import type { AxiosError } from "axios";
+import { useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { useCreateUnivReview } from "@/entities/univ-review";
@@ -6,6 +7,7 @@ import { EvalCard } from "@/features/eval";
 import { StarRatingField } from "@/features/rating-field";
 import type { UniversityEvalForm } from "@/features/university-review-form/model/schema";
 import { useUniversityEvalForm } from "@/features/university-review-form/model/useUniversityEvalForm";
+import { ROUTES } from "@/shared/config/routes";
 import { Button } from "@/shared/ui/button";
 import { Label } from "@/shared/ui/label";
 import { Textarea } from "@/shared/ui/textarea";
@@ -42,6 +44,7 @@ export function UniversityReviewForm<
   } = useUniversityEvalForm(text);
 
   const navigate = useNavigate();
+  const qc = useQueryClient();
   const { mutateAsync, isPending } = useCreateUnivReview();
 
   const onSubmit = async (data: UniversityEvalForm) => {
@@ -59,11 +62,17 @@ export function UniversityReviewForm<
 
     try {
       await mutateAsync(body);
-      navigate(-1);
+      await qc.invalidateQueries({
+        predicate: (q) => Array.isArray(q.queryKey) && q.queryKey.includes(univSeq),
+      });
+      navigate(ROUTES.UNIVERSITY_DETAIL(univSeq));
     } catch (err) {
-      const error = err as AxiosError<{ message?: string }>;
-      const msg = error.response?.data?.message ?? "학교 평가 등록에 실패했습니다.";
-      alert(msg);
+      if (err instanceof AxiosError) {
+        const msg = err.response?.data?.message ?? "학교 평가 등록에 실패했습니다.";
+        alert(msg);
+      } else {
+        alert("학교 평가 등록에 실패했습니다.");
+      }
     }
   };
 

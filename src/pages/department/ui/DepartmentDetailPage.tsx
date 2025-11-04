@@ -7,10 +7,12 @@ import { DepartmentContactCard } from "@/entities/department/ui/DepartmentContac
 import { DepartmentHero } from "@/entities/department/ui/DepartmentHero";
 import { DepartmentJobsCard } from "@/entities/department/ui/DepartmentJobsCard";
 import { ProfessorList } from "@/entities/professor/ui/ProfessorList";
-import { useBreadcrumbTrail } from "@/features/nav-trail";
+import { collegeCrumb, deptCrumb, univCrumb, useBreadcrumbTrail } from "@/features/nav-trail";
+import { usePageTitle } from "@/shared/hooks/usePageTitle";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { ErrorView } from "@/shared/ui/ErrorView";
 import { LoadingView } from "@/shared/ui/LoadingView";
+import { SEO } from "@/shared/ui/SEO";
 
 export function DepartmentDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -21,15 +23,15 @@ export function DepartmentDetailPage() {
 
   const { data, isLoading, isError, refetch } = useDepartmentDetail(deptSeq);
 
-  const crumbs = useMemo(() => {
-    if (!data) return [{ label: "학과" }];
-    return [
-      { label: data.universityName || "대학교" },
-      { label: data.collegeName || "단과대학" },
-      { label: data.departmentName || "학과" },
-    ];
-  }, [data]);
+  usePageTitle(data?.departmentName ?? "학과");
 
+  const crumbs = useMemo(() => {
+    return [
+      univCrumb(data?.universityName),
+      collegeCrumb(data?.collegeName),
+      deptCrumb(data?.departmentName, data?.id),
+    ];
+  }, [data?.universityName, data?.collegeName, data?.departmentName, data?.id]);
   useBreadcrumbTrail(crumbs);
 
   if (invalid) {
@@ -65,9 +67,8 @@ export function DepartmentDetailPage() {
     );
   }
 
-  const professorCount = Number.isFinite(data.professors)
-    ? (data.professors as number)
-    : (data.professorList?.length ?? 0);
+  const professorCount =
+    typeof data.professors === "number" ? data.professors : (data.professorList?.length ?? 0);
 
   const professorItems =
     data.professorList?.map((p) => ({
@@ -81,44 +82,47 @@ export function DepartmentDetailPage() {
       researchAreas: [],
     })) ?? [];
 
-  const foundedYear =
-    typeof data.foundedYear === "number" && Number.isFinite(data.foundedYear)
-      ? data.foundedYear
-      : 0;
-
-  const students =
-    typeof data.students === "number" && Number.isFinite(data.students) ? data.students : 0;
+  const foundedYear = data.foundedYear ?? 0;
+  const students = data.students ?? 0;
 
   return (
-    <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
-      <DepartmentHero
-        collegeName={data.collegeName}
-        departmentName={data.departmentName}
-        intro={data.intro ?? ""}
-        students={students}
-        professors={professorCount}
-        foundedYear={foundedYear}
-        logoUrl={data.logoUrl}
+    <>
+      <SEO
+        title={`${data.departmentName} - ${data.collegeName} | ${data.universityName}`}
+        description={`${data.universityName} ${data.collegeName} ${data.departmentName}의 교수진, 진로 정보를 확인하세요. 재학생: ${students}명, 교수: ${professorCount}명`}
+        keywords={`${data.departmentName}, ${data.collegeName}, ${data.universityName}, 학과 정보, 교수진, ${data.careerFields?.join(", ") ?? ""}`}
+        url={`https://uniscope-git-develop-i3months-projects.vercel.app/department/${data.id}`}
       />
+      <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
+        <DepartmentHero
+          collegeName={data.collegeName}
+          departmentName={data.departmentName}
+          intro={data.intro ?? ""}
+          students={students}
+          professors={professorCount}
+          foundedYear={foundedYear}
+          logoUrl={data.logoUrl}
+        />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          {professorItems.length > 0 ? (
-            <ProfessorList title="교수진" items={professorItems} />
-          ) : (
-            <EmptyState title="등록된 교수 정보가 없습니다" />
-          )}
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-6">
+            {professorItems.length > 0 ? (
+              <ProfessorList title="교수진" items={professorItems} />
+            ) : (
+              <EmptyState title="등록된 교수 정보가 없습니다" />
+            )}
+          </div>
 
-        <div className="space-y-6">
-          <DepartmentJobsCard title="학과/학부 키워드" tags={data.careerFields ?? []} />
-          <DepartmentContactCard
-            tel={data.tel ?? ""}
-            email={data.email ?? ""}
-            address={data.address ?? ""}
-          />
+          <div className="space-y-6">
+            <DepartmentJobsCard title="학과/학부 키워드" tags={data.careerFields ?? []} />
+            <DepartmentContactCard
+              tel={data.tel ?? ""}
+              email={data.email ?? ""}
+              address={data.address ?? ""}
+            />
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }

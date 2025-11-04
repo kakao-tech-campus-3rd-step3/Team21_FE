@@ -1,0 +1,23 @@
+export function toNumberOrUndef(s: string | undefined): number | undefined {
+  if (typeof s !== "string") return undefined;
+  const n = Number(s);
+  return Number.isFinite(n) ? n : undefined;
+}
+
+export function toUndefIfEmpty(s: string | undefined): string | undefined {
+  if (typeof s !== "string") return undefined;
+  const t = s.trim();
+  return t.length ? t : undefined;
+}
+
+export function isNonEmptyString(s: string | undefined | null): s is string {
+  return typeof s === "string" && s.trim().length > 0;
+}
+
+export function splitTags(s?: string): string[] {
+  if (!s) return [];
+  return s
+    .split(/[,\s/·|/]+/)
+    .map((t) => t.trim())
+    .filter(Boolean);
+}

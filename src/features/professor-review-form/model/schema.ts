@@ -11,8 +11,8 @@ export const createProfessorEvalSchema = <T extends { validate: { requiredStar: 
 ) => {
   const msg = text.validate.requiredStar;
   return z.object({
-    thesisPerf: z.number().refine((v) => v >= 0.5, { message: msg }),
-    labPerf: z.number().refine((v) => v >= 0.5, { message: msg }),
+    thesisPerf: z.number().refine((v) => v >= 0.25, { message: msg }),
+    labPerf: z.number().refine((v) => v >= 0.25, { message: msg }),
     thesisReview: z.string().optional(),
   });
 };

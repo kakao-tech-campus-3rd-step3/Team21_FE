@@ -1,5 +1,5 @@
-import type { ProfessorReview } from "./professor-reviews.domain";
-import type { ProfessorReviewsResponse } from "./professor-reviews.response";
+import type { ProfessorReview } from "@/entities/professor/model/professor-reviews.domain";
+import type { ProfessorReviewsResponse } from "@/entities/professor/model/professor-reviews.response";
 
 function arrayDateToISO(a: [number, number, number, number, number]): string {
   const [y, mon, d, h, m] = a;

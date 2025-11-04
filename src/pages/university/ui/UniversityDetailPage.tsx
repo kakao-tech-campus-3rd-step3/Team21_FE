@@ -10,13 +10,26 @@ import {
   UniversityReviewList,
 } from "@/entities/university";
 import { useUniversityDetail } from "@/entities/university/hooks/useUniversityDetail";
-import type { UniversityHeroData } from "@/entities/university/model/hero.vm";
-import type { UniversitySideContact } from "@/entities/university/model/university-contact.vm";
-import type { UniversityMainInfo } from "@/entities/university/model/university-maininfo.vm";
-import { useBreadcrumbTrail } from "@/features/nav-trail";
+import type { UniversityHeroData } from "@/entities/university/model/types";
+import { univCrumb, useBreadcrumbTrail } from "@/features/nav-trail";
+import { usePageTitle } from "@/shared/hooks/usePageTitle";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { ErrorView } from "@/shared/ui/ErrorView";
 import { LoadingView } from "@/shared/ui/LoadingView";
+import { SEO } from "@/shared/ui/SEO";
+
+type UniversityMainInfo = {
+  campuses: number;
+  colleges: number;
+  departments: number;
+  students: number;
+};
+
+type UniversitySideContact = {
+  tel?: string;
+  web?: string;
+  email?: string;
+};
 
 export function UniversityDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -27,7 +40,9 @@ export function UniversityDetailPage() {
 
   const { data, isLoading, isError, refetch } = useUniversityDetail(univSeq);
 
-  const crumbs = useMemo(() => [{ label: data?.name ?? "대학교" }], [data?.name]);
+  usePageTitle(data?.name ?? "대학교");
+
+  const crumbs = useMemo(() => [univCrumb(data?.name, data?.id)], [data?.name, data?.id]);
   useBreadcrumbTrail(crumbs);
 
   if (invalid) {
@@ -88,18 +103,26 @@ export function UniversityDetailPage() {
   };
 
   return (
-    <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
-      <UniversityHero data={heroData} />
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
-          <CollegeSection univId={data.id} />
-          <UniversityReviewList univSeq={data.id} />
+    <>
+      <SEO
+        title={`${data.name} - 대학 정보`}
+        description={`${data.name}의 캠퍼스, 단과대학, 학과 정보와 학생 리뷰를 확인하세요. 설립연도: ${data.foundedYear ?? "정보없음"}, 재학생: ${data.studentCount ?? 0}명`}
+        keywords={`${data.name}, 대학 정보, 대학 리뷰, 캠퍼스, 학과 정보`}
+        url={`https://uniscope-git-develop-i3months-projects.vercel.app/university/${data.id}`}
+      />
+      <main className="mx-auto max-w-screen-2xl px-4 md:px-6 py-6 space-y-6">
+        <UniversityHero data={heroData} />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-6">
+            <CollegeSection univId={data.id} />
+            <UniversityReviewList univSeq={data.id} />
+          </div>
+          <div className="space-y-6">
+            <UniversityMainInfoSide data={sideBarData} />
+            <UniversityContactSide data={contactData} />
+          </div>
         </div>
-        <div className="space-y-6">
-          <UniversityMainInfoSide data={sideBarData} />
-          <UniversityContactSide data={contactData} />
-        </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }
