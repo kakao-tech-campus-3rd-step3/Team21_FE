@@ -3,8 +3,6 @@ name: E2E Tests (Playwright)
 on:
   pull_request:
     branches: [develop, main]
-  push:
-    branches: [develop, main]
 
 concurrency:
   group: e2e-${{ github.workflow }}-${{ github.ref }}
@@ -35,12 +33,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: |
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install
-          fi
+        run: npm ci
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps ${{ matrix.browser }}
@@ -62,12 +55,4 @@ jobs:
         with:
           name: playwright-report-${{ matrix.browser }}
           path: playwright-report/
-          retention-days: 7
-
-      - name: Upload test screenshots
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-screenshots-${{ matrix.browser }}
-          path: test-results/
           retention-days: 7
