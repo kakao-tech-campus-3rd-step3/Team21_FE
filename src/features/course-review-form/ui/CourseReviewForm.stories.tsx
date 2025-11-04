@@ -48,7 +48,7 @@ const TEXT = {
   validate: {
     yearRequired: "연도를 입력해주세요.",
     yearInvalid: "연도는 정수여야 합니다.",
-    yearRange: "연도는 1900~2100 사이여야 합니다.",
+    yearRange: "연도는 2010~2100 사이여야 합니다.",
     termRequired: "학기를 입력해주세요.",
     termInvalid: "학기는 1 또는 2만 가능합니다.",
     requiredStar: "별점을 선택해주세요.",

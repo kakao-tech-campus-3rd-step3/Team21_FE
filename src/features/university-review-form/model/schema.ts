@@ -11,7 +11,7 @@ export const createUniversityEvalSchema = <T extends { validate: { requiredStar:
   text: T,
 ) => {
   const msg = text.validate.requiredStar;
-  const star = z.number().refine((v) => v >= 0.5, { message: msg });
+  const star = z.number().refine((v) => v >= 0.25, { message: msg });
   return z.object({
     food: star,
     dorm: star,

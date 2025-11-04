@@ -1,99 +1,77 @@
-/*
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import type { University } from "@/entities/university/model/university";
+import type { University } from "@/entities/university/model/university-compare.domain";
 
 import { CompareUnivBarChart } from "./CompareUnivBarChart";
 
-const makeUniv = (name: string) => ({ name }) as unknown as University;
-
 const meta: Meta<typeof CompareUnivBarChart> = {
-  title: "Features/ChartCompare/CompareUnivBarChart",
+  title: "Features/CompareUnivBarChart",
   component: CompareUnivBarChart,
-  tags: ["autodocs"],
-  parameters: {
-    layout: "centered",
-    backgrounds: { default: "dark" },
-    docs: {
-      description: {
-        component:
-          "두 대학의 연도별 지표를 세로 스택형 막대(bar)로 비교하는 차트 universities 배열의 앞 1~2개의 이름을 범례/툴팁 라벨로 사용, 내부 데이터는 `univChartData`를 사용",
-      },
-    },
-  },
-  args: {
-    universities: [makeUniv("충남대학교"), makeUniv("경북대학교")],
-  },
   decorators: [
-    (Story) => (
+    (S) => (
       <div
-        id="a11y-root"
-        className="w-[860px] h-[360px] max-w-[92vw] rounded-lg bg-black text-white p-4"
+        style={{
+          width: 900,
+          maxWidth: "95vw",
+          height: 420,
+          margin: "40px auto",
+          background: "#0b0f1a",
+        }}
       >
-        <Story />
+        <S />
       </div>
     ),
   ],
 };
-
 export default meta;
+
 type Story = StoryObj<typeof CompareUnivBarChart>;
 
-export const Playground: Story = {};
-Playground.parameters = {
-  backgrounds: { disable: true },
-  a11y: {
-    context: {
-      include: [["#a11y-root"]],
-      exclude: [["#a11y-root svg text"], ["#a11y-root svg tspan"]],
-    },
-  },
-};
+const universities: Array<Partial<University>> = [
+  { id: 1, name: "충남대학교", address: "대전", tel: "042-000-0000", rating: 4.2 },
+  { id: 2, name: "부산대학교", address: "부산", tel: "051-000-0000", rating: 4.0 },
+];
 
-export const SingleUniversity: Story = {
-  args: { universities: [makeUniv("충남대학교")] },
-  parameters: Playground.parameters,
-};
+const rows: Array<{ year: string; u1: number; u2: number }> = [
+  { year: "2019", u1: 1200, u2: 900 },
+  { year: "2020", u1: 1350, u2: 1100 },
+  { year: "2021", u1: 1500, u2: 1400 },
+  { year: "2022", u1: 1600, u2: 1550 },
+  { year: "2023", u1: 1700, u2: 1650 },
+];
 
-export const EmptyUniversities: Story = {
-  args: { universities: [] },
-  parameters: Playground.parameters,
-};
-
-export const LongNames: Story = {
+export const OneUniversity: Story = {
   args: {
-    universities: [
-      makeUniv("국립충남대학교-대전광역시유성구대학로-미래융합캠퍼스-매우매우긴대학명테스트"),
-      makeUniv("경북대학교-글로벌캠퍼스-초지능·초연결·초융합연구단-엄청긴이름테스트"),
-    ],
+    universities: universities as unknown as University[],
+    rows: rows.map((r) => ({ year: r.year, u1: r.u1 })) as Array<{ year: string; u1: number }>,
   },
-  parameters: Playground.parameters,
 };
 
-export const NarrowContainer: Story = {
+export const TwoUniversities: Story = {
+  args: {
+    universities: universities as unknown as University[],
+    rows,
+  },
+};
+
+export const TightContainer: Story = {
+  args: {
+    universities: universities as unknown as University[],
+    rows,
+  },
   decorators: [
-    (Story) => (
+    (S) => (
       <div
-        id="a11y-root"
-        className="w-[420px] h-[300px] max-w-[92vw] rounded-lg bg-black text-white p-4"
+        style={{
+          width: 420,
+          height: 360,
+          margin: "0 auto",
+          background: "#0b0f1a",
+          padding: 16,
+        }}
       >
-        <Story />
+        <S />
       </div>
     ),
   ],
-  parameters: Playground.parameters,
-};*/
-
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
-const meta: Meta = {
-  title: "Disabled/CompareUnivBarChart",
-  parameters: {
-    layout: "centered",
-    docs: { description: { component: "이 스토리는 임시 비활성화 상태입니다." } },
-  },
 };
-export default meta;
-
-type Story = StoryObj<Record<string, unknown>>;
-export const Disabled: Story = {};

@@ -7,7 +7,7 @@ import { DepartmentContactCard } from "@/entities/department/ui/DepartmentContac
 import { DepartmentHero } from "@/entities/department/ui/DepartmentHero";
 import { DepartmentJobsCard } from "@/entities/department/ui/DepartmentJobsCard";
 import { ProfessorList } from "@/entities/professor/ui/ProfessorList";
-import { useBreadcrumbTrail } from "@/features/nav-trail";
+import { collegeCrumb, deptCrumb, univCrumb, useBreadcrumbTrail } from "@/features/nav-trail";
 import { usePageTitle } from "@/shared/hooks/usePageTitle";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { ErrorView } from "@/shared/ui/ErrorView";
@@ -26,14 +26,12 @@ export function DepartmentDetailPage() {
   usePageTitle(data?.departmentName ?? "학과");
 
   const crumbs = useMemo(() => {
-    if (!data) return [{ label: "학과" }];
     return [
-      { label: data.universityName || "대학교" },
-      { label: data.collegeName || "단과대학" },
-      { label: data.departmentName || "학과" },
+      univCrumb(data?.universityName),
+      collegeCrumb(data?.collegeName),
+      deptCrumb(data?.departmentName, data?.id),
     ];
-  }, [data]);
-
+  }, [data?.universityName, data?.collegeName, data?.departmentName, data?.id]);
   useBreadcrumbTrail(crumbs);
 
   if (invalid) {

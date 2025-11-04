@@ -11,7 +11,7 @@ import {
 } from "@/entities/university";
 import { useUniversityDetail } from "@/entities/university/hooks/useUniversityDetail";
 import type { UniversityHeroData } from "@/entities/university/model/types";
-import { useBreadcrumbTrail } from "@/features/nav-trail";
+import { univCrumb, useBreadcrumbTrail } from "@/features/nav-trail";
 import { usePageTitle } from "@/shared/hooks/usePageTitle";
 import { EmptyState } from "@/shared/ui/EmptyState";
 import { ErrorView } from "@/shared/ui/ErrorView";
@@ -42,7 +42,7 @@ export function UniversityDetailPage() {
 
   usePageTitle(data?.name ?? "대학교");
 
-  const crumbs = useMemo(() => [{ label: data?.name ?? "대학교" }], [data?.name]);
+  const crumbs = useMemo(() => [univCrumb(data?.name, data?.id)], [data?.name, data?.id]);
   useBreadcrumbTrail(crumbs);
 
   if (invalid) {
