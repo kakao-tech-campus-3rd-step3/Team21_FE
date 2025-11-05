@@ -11,7 +11,7 @@ export type UniversityDetailResponse = {
     campusCnt: number;
     collegeCount: number;
     departmentCount: number;
-    averageRating: string;
+    averageRating: number;
     reviewCount: number;
   };
 };
