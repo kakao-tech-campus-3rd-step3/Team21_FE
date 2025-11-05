@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { fetchCompareProfessorsByIds, searchProfessorApi } from "@/entities/professor/api";
+import {
+  fetchCompareProfessorsByIds,
+  fetchProfessorDetail,
+  searchProfessorApi,
+} from "@/entities/professor/api";
 import { mapProfSearch } from "@/entities/professor/model/prof-search.map";
 import type { Professor } from "@/entities/professor/model/professors.domain";
 type ProfessorSearch = {
@@ -28,7 +32,18 @@ export const useProfessorComparison = () => {
     }
     (async () => {
       const profs = await fetchCompareProfessorsByIds(ids.map(Number));
-      setComparedProfessors(profs.filter(Boolean));
+      const enriched = await Promise.all(
+        profs.filter(Boolean).map(async (p) => {
+          try {
+            const detail = await fetchProfessorDetail(p.id);
+            const overall = detail?.professor?.overallRating;
+            return typeof overall === "number" ? { ...p, rating: Number(overall.toFixed(1)) } : p;
+          } catch {
+            return p;
+          }
+        }),
+      );
+      setComparedProfessors(enriched);
     })();
   }, [id, a, b, c]);
   const handleSearch = async (value: string) => {

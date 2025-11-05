@@ -13,14 +13,40 @@ function toSafeFixed1(x: number | undefined) {
   return typeof x === "number" ? Number(x.toFixed(1)) : undefined;
 }
 
+function toCompactYearSemester(label: string): string {
+  const ysem = /(\d{2,4})\s*(?:년|년도)?\s*[-/ ]?\s*(\d)\s*(?:학?기|기)?/.exec(label);
+  if (ysem) {
+    const yearStr = ysem[1];
+    const sem = ysem[2];
+    if (yearStr.length >= 2) {
+      const yy = yearStr.slice(-2);
+      return `${yy}년 ${sem}학기`;
+    }
+  }
+  const gradeSem = /(\d)\s*학?년\s*(\d)\s*학?기/.exec(label);
+  if (gradeSem) {
+    const grade = Number(gradeSem[1]);
+    const sem = gradeSem[2];
+    const yy = String(20 + (Number.isFinite(grade) ? grade : 0));
+    return `${yy}년 ${sem}학기`;
+  }
+  return label;
+}
 export function mapCompareItemToDomain(dto: CompareProfessor): Professor {
-  const thesis = dto.scores.theisPerformance;
-  const research = dto.scores.researchPerformance;
-  const rating = Number((((thesis ?? 0) + (research ?? 0)) / 2).toFixed(1));
-
+  const s = dto.scores;
+  const components = [
+    s.homework,
+    s.lectureDifficulty,
+    s.examDifficulty,
+    s.theisPerformance,
+    s.researchPerformance,
+  ];
+  const rating = Number(
+    (components.reduce((sum, v) => sum + (typeof v === "number" ? v : 0), 0) / 5).toFixed(1),
+  );
   const semesters = (dto.semesterDto ?? [])
     .map((s) => ({
-      label: s.semester,
+      label: toCompactYearSemester(s.semester),
       avg: Number(s.overallAvg.toFixed(2)),
       order: parseSemesterOrder(s.semester),
     }))
@@ -40,10 +66,8 @@ export function mapCompareItemToDomain(dto: CompareProfessor): Professor {
     semesters,
   };
 }
-
 export const mapCompareListToDomain = (list: CompareProfessor[]) =>
   list.map(mapCompareItemToDomain);
-
 export function buildSemesterLineChartData(professors: Professor[]) {
   const all = new Map<number, string>();
   professors.forEach((p) => (p.semesters ?? []).forEach((s) => all.set(s.order, s.label)));
