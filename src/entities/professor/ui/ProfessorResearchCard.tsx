@@ -77,9 +77,7 @@ export function ProfessorResearchCard({ profId, education, areas, lectures }: Pr
                           </span>
                         )}
                       </div>
-                      <div className="text-xs text-muted-foreground">
-                        {lec.semester ?? "학기 정보 없음"}
-                      </div>
+                      <div className="text-xs text-muted-foreground">{lec.semester ?? ""}</div>
                     </div>
 
                     <Button
