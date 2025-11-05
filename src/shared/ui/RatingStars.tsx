@@ -34,11 +34,16 @@ export function RatingStars({
         />
       ))}
       {Array.from({ length: half }).map((_, i) => (
-        <StarIcon
-          key={`h${i}`}
-          className="h-4 w-4 text-yellow-400"
-          style={{ width: size, height: size }}
-        />
+        <div key={`h${i}`} className="relative" style={{ width: size, height: size }}>
+          <StarIcon
+            className="h-4 w-4 text-zinc-600 absolute"
+            style={{ width: size, height: size }}
+          />
+          <StarIcon
+            className="h-4 w-4 fill-yellow-400 stroke-yellow-400 absolute"
+            style={{ width: size, height: size, clipPath: "inset(0 50% 0 0)" }}
+          />
+        </div>
       ))}
       {Array.from({ length: empty }).map((_, i) => (
         <StarIcon
