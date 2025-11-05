@@ -18,7 +18,6 @@ import { ErrorView } from "@/shared/ui/ErrorView";
 import {
   GlassCard,
   GlassCardContent,
-  GlassCardDescription,
   GlassCardFooter,
   GlassCardHeader,
   GlassCardTitle,
@@ -39,9 +38,6 @@ export const CompareLineChart = ({ professors }: CompareLineChartProps) => {
         <GlassCardTitle className="relative z-10 isolate inline-block rounded-md px-3 py-1.5 text-lg font-semibold text-white">
           {COMPARE_LINE_CHART_TEXTS.title}
         </GlassCardTitle>
-        <GlassCardDescription className="relative z-10 mt-2 inline-block rounded-md px-3 py-1 text-sm text-slate-200">
-          {COMPARE_LINE_CHART_TEXTS.description}
-        </GlassCardDescription>
       </GlassCardHeader>
 
       <GlassCardContent className="h-80">

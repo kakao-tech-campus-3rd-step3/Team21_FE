@@ -21,7 +21,7 @@ export function mapDetailResponseToDomain(r: UniversityDetailResponse): Universi
     campusCount: u.campusCnt ?? undefined,
     collegeCount: u.collegeCount ?? undefined,
     departmentCount: u.departmentCount ?? undefined,
-    averageRating: toNumberOrUndef(u.averageRating),
+    averageRating: u.averageRating ?? undefined,
     reviewCount: u.reviewCount ?? undefined,
   };
 }

@@ -53,7 +53,7 @@ export function UniversityHero({ data }: Props) {
           </div>
 
           <div className="mt-3 flex items-center text-sm">
-            <RatingStars rating={rating} showValue />
+            <RatingStars rating={rating} showValue allowHalf />
             <span className="ml-2 text-muted-foreground">
               ({formatNumber(ratingCount)} {UNIVERSITY_TEXT.ratingSuffix})
             </span>
