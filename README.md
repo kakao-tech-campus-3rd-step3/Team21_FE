@@ -46,9 +46,13 @@
 
 ## 🧩 아키텍처와 팀 규칙
 
+## 🧱 0. 전체 아키텍처
+
+![UniScope - Architecture](./public/README/Architecture.png)
+
 ### 1. ♾️ CI/CD 파이프라인
 
-![UniScope - CI-CD](./public/README/CI-CD.png)
+![UniScope - FE-Architecture](./public/README/FE-Architecture.png)
 
 코드는 **로컬 훅(Husky) → CI (GitHub Actions) → PR → Vercel 배포** 단계로 안정적으로 전달됩니다.
 
