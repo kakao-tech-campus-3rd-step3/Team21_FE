@@ -70,6 +70,10 @@
 
 [e2e Test](https://github.com/kakao-tech-campus-3rd-step3/Team21_FE/wiki/e2e-Test)
 
+### 5. SEO 최적화
+
+[SEO](https://github.com/kakao-tech-campus-3rd-step3/Team21_FE/wiki/Lighthouse)
+
 ## 🔧 기술 스택
 
 | 분야                           | 기술 스택                                                    |
