@@ -81,7 +81,7 @@
 | **Frontend**                   | React 19 · TypeScript · Vite · React Router · TanStack Query |
 | **UI / Design System**         | shadcn/ui · Tailwind CSS · Lucide Icons                      |
 | **Form & Validation**          | React Hook Form · Zod                                        |
-| **Chart / Data Visualization** | Recharts(shadcn)                                             |
+| **Chart / Data Visualization** | shadcn/ui(RadixUI)                                           |
 | **Code Quality / Test**        | ESLint · Prettier · Vitest(Unit) · Playwright(E2E)           |
-| **Docs / Collaboration**       | Storybook · Chromatic · Husky · lint-staged                  |
+| **Docs / Collaboration**       | Storybook · Husky · lint-staged                              |
 | **CI / CD**                    | GitHub Actions · Vercel (Preview & Production Deploy)        |
